@@ -1,0 +1,6 @@
+br\com\clinicalresearch\domain\Person.class
+br\com\clinicalresearch\domain\PersonType.class
+br\com\clinicalresearch\resource\PersonResource.class
+META-INF\panache-archive.marker
+br\com\clinicalresearch\service\PersonService.class
+br\com\clinicalresearch\repository\PersonRepository.class

@@ -1,10 +1,16 @@
 # clinical-research
 
-Started Keycloak in Docker : docker run --name keycloak -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8180:8080 quay.io/keycloak/keycloak:17.0.0 start-dev
+#### Keycloak in Docker : 
 
+docker run --name keycloak -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8180:8080 quay.io/keycloak/keycloak:17.0.0 start-dev
 
 Use this archive: quarkus-realm.json
 Or Download in : https://github.com/quarkusio/quarkus-quickstarts/blob/main/security-keycloak-authorization-quickstart/config/quarkus-realm.json
+
+
+#### Postgres in Docker :
+
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
