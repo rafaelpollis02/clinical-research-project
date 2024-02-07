@@ -14,7 +14,7 @@ public class PersonType {
     private Long id;
     private String type;
 
-    @ManyToMany(mappedBy = "personTypes")
+    @ManyToMany
     private List<Person> person;
     public Long getId() {
         return id;

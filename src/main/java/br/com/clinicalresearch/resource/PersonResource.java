@@ -1,6 +1,7 @@
 package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.Person;
+import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.service.PersonService;
 import br.com.clinicalresearch.service.PersonTypeService;
 import jakarta.inject.Inject;
@@ -28,6 +29,13 @@ public class PersonResource {
     public Person savePerson(Person person) {
         personService.savePerson(person);
         return person;
+    }
+
+    @POST
+    @Path("/{personId}/addPersonType")
+    @Transactional
+    public Person addPersonType(@PathParam("personId") Long personId, PersonType personType) {
+        return personService.addPersonType(personId, personType);
     }
 
 }
