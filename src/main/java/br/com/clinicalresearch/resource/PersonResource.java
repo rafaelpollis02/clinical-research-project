@@ -38,4 +38,18 @@ public class PersonResource {
         return personService.addPersonType(personId, personType);
     }
 
+    @PUT
+    @Path("/{id}")
+    @Transactional
+    public Person updatePerson(@PathParam("id") Long id, Person person) {
+        return personService.updatePerson(id, person);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Transactional
+    public void deletePerson(@PathParam("id") Long id) {
+        personService.deletePerson(id);
+    }
+
 }

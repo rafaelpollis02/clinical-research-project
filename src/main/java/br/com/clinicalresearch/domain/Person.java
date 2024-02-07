@@ -27,7 +27,7 @@ public class Person {
     @JsonbDateFormat("dd/MM/yyyy")
     private LocalDate birthDate;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_person_type",
             joinColumns = @JoinColumn(name = "person_id"),

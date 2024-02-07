@@ -22,5 +22,21 @@ public class PersonTypeService {
         return personType;
     }
 
+    public PersonType updatePersonTasy(Long idPersonType, PersonType personType) {
+        PersonType existingPersonType = personTypeRepository.findById(idPersonType);
+        if (existingPersonType != null) {
+            existingPersonType.setType(personType.getType());
+            personTypeRepository.persist(existingPersonType);
+        }
+        return existingPersonType;
+    }
+
+    public void deletePersonType(Long idPersonType) {
+        PersonType existingPersonType = personTypeRepository.findById(idPersonType);
+        if (existingPersonType != null) {
+            personTypeRepository.delete(existingPersonType);
+        }
+    }
+
 
 }

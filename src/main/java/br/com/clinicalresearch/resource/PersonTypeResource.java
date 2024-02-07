@@ -29,5 +29,17 @@ public class PersonTypeResource {
         return personType;
     }
 
+    @PUT
+    @Transactional
+    @Path("/{idPersonType}")
+    public PersonType updatePersonType(@PathParam("idPersonType") Long idPersonType, PersonType personType) {
+        return personTypeService.updatePersonTasy(idPersonType, personType);
+    }
 
+    @DELETE
+    @Transactional
+    @Path("/{idPersonType}")
+    public void deletePersonType(@PathParam("idPersonType") Long idPersonType) {
+        personTypeService.deletePersonType(idPersonType);
+    }
 }
