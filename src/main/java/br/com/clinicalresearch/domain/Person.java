@@ -39,7 +39,7 @@ public class Person {
     private LocalDate birthDate;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "person_person_type",
+            name = "person_persontype",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "person_type_id")
               )

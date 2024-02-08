@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class PersonService {
@@ -25,14 +26,19 @@ public class PersonService {
 
     public Person getPersonById(Long idPerson) throws BusinessException {
         Person existingPerson = personRepository.findById(idPerson);
-        if (existingPerson == null){
+        if (existingPerson == null) {
             throw new BusinessException("Person not registered with the ID " + idPerson);
         }
         return existingPerson;
     }
 
-    public Person savePerson(Person person) {
-        personRepository.persist(person);
+    public Person savePerson(Person person) throws BusinessException {
+        Optional<Person> existingPerson = personRepository.findPersonByCpf(person.getCpf());
+        if (existingPerson.isPresent()) {
+            throw new BusinessException("Person duplicate by cpf " + person.getCpf());
+        } else {
+            personRepository.persist(person);
+        }
         return person;
     }
 

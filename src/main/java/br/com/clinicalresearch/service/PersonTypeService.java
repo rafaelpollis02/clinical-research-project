@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class PersonTypeService {
@@ -25,11 +26,15 @@ public class PersonTypeService {
         } else {
             return existingPersonType;
         }
-
     }
 
-    public PersonType savePersonType(PersonType personType) {
-        personTypeRepository.persist(personType);
+    public PersonType savePersonType(PersonType personType) throws BusinessException {
+        Optional<PersonType> existingPersonType = personTypeRepository.findPersonTypeByType(personType.getType());
+        if (existingPersonType.isPresent()) {
+            throw new BusinessException("PersonType duplicate by type " + personType.getType());
+        } else {
+            personTypeRepository.persist(personType);
+        }
         return personType;
     }
 

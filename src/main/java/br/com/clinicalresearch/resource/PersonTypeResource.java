@@ -37,7 +37,7 @@ public class PersonTypeResource {
     @POST
     @Transactional
     @Operation(summary = "Salvar um tipo de pessoa", description = "Salva um tipo de pessoa no banco de dados")
-    public Response savePersonType(@Valid PersonType personType) {
+    public Response savePersonType(@Valid PersonType personType) throws BusinessException {
         personTypeService.savePersonType(personType);
         return Response.status(Response.Status.CREATED).entity(personType).build();
     }
