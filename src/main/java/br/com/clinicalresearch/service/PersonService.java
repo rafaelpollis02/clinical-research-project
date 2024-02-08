@@ -2,6 +2,7 @@ package br.com.clinicalresearch.service;
 
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
+import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.repository.PersonRepository;
 import br.com.clinicalresearch.repository.PersonTypeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,14 +23,24 @@ public class PersonService {
         return personRepository.listAll();
     }
 
+    public Person getPersonById(Long idPerson) throws BusinessException {
+        Person existingPerson = personRepository.findById(idPerson);
+        if (existingPerson == null){
+            throw new BusinessException("Person not registered with the ID " + idPerson);
+        }
+        return existingPerson;
+    }
+
     public Person savePerson(Person person) {
         personRepository.persist(person);
         return person;
     }
 
-    public Person updatePerson(Long id, Person person) {
+    public Person updatePerson(Long id, Person person) throws BusinessException {
         Person existingPerson = personRepository.findById(id);
-        if (existingPerson != null) {
+        if (existingPerson == null) {
+            throw new BusinessException("Person not registered with the ID " + id);
+        } else {
             existingPerson.setFullName(person.getFullName());
             existingPerson.setCpf(person.getCpf());
             existingPerson.setRg(person.getRg());
@@ -48,14 +59,22 @@ public class PersonService {
         }
     }
 
-    public Person addPersonType(Long personId, PersonType personType) {
-        Person person = personRepository.findById(personId);
+    public Person addPersonType(Long personId, PersonType personType) throws BusinessException {
+
+        Person existingPerson = personRepository.findById(personId);
+        PersonType existingPersonType = personTypeRepository.findById(personId);
         Long personTypeId = personType.getId();
-        if (person != null && personType != null) {
-            person.getPersonTypes().add(personType);
-            personRepository.persist(person);
+
+        if (existingPerson == null) {
+            throw new BusinessException("Person not registered with the ID " + personTypeId);
         }
-        return person;
+        if (existingPersonType == null) {
+            throw new BusinessException("PersonType not registered with the ID " + personId);
+        } else {
+            existingPerson.getPersonTypes().add(personType);
+            personRepository.persist(existingPerson);
+        }
+        return existingPerson;
     }
 
 }

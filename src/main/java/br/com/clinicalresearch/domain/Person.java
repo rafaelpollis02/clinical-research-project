@@ -3,14 +3,12 @@ package br.com.clinicalresearch.domain;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import jakarta.validation.constraints.*;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "personType"})
@@ -18,15 +16,27 @@ public class Person {
 
     @Id
     @GeneratedValue
+    @Schema(description = "ID da pessoa", example = "1")
     private Long id;
+    @NotBlank
+    @Schema(description = "Nome completo da pessoa", example = "João da Silva")
     private String fullName;
+    @NotBlank
+    @Schema(description = "CPF da pessoa", example = "12345678900")
     private String cpf;
+    @NotBlank
+    @Schema(description = "RG da pessoa", example = "45938094983")
     private String rg;
+    @NotBlank
+    @Schema(description = "Celular da pessoa", example = "11964537847")
     private String phoneNumber;
+    @Email
+    @NotBlank
+    @Schema(description = "Email da pessoa", example = "teste@gmail.com")
     private String email;
     @JsonbDateFormat("dd/MM/yyyy")
+    @Schema(description = "Data de Nascimento da pessoa", example = "01/01/2000")
     private LocalDate birthDate;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_person_type",
