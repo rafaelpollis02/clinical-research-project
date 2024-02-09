@@ -1,11 +1,11 @@
 package br.com.clinicalresearch.domain;
 
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import java.util.List;
 
 @Entity
 @JsonbPropertyOrder({"idPersonType", "name"})
@@ -19,8 +19,6 @@ public class PersonType {
     @Schema(description = "Tipo de Pessoa", example = "ADMINISTRATOR")
     private String type;
 
-    @ManyToMany
-    private List<Person> person;
     public Long getId() {
         return id;
     }

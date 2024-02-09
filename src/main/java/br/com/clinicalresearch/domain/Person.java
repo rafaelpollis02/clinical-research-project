@@ -43,7 +43,15 @@ public class Person {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "person_type_id")
               )
-    private List<PersonType> personTypes;
+    private List<PersonType> personType;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "person_establishment",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "establishment_id")
+    )
+    private List<Establishment> establishment;
 
     public Long getId() {
         return id;
@@ -100,11 +108,19 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public List<PersonType> getPersonTypes() {
-        return personTypes;
+    public List<PersonType> getPersonType() {
+        return personType;
     }
 
-    public void setPersonTypes(List<PersonType> personTypes) {
-        this.personTypes = personTypes;
+    public void setPersonType(List<PersonType> personType) {
+        this.personType = personType;
+    }
+
+    public List<Establishment> getEstablishment() {
+        return establishment;
+    }
+
+    public void setEstablishmentLis(List<Establishment> establishment) {
+        this.establishment = establishment;
     }
 }

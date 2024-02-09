@@ -1,5 +1,6 @@
 package br.com.clinicalresearch.resource;
 
+import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
@@ -44,27 +45,35 @@ public class PersonResource {
     }
 
     @POST
-    @Path("/{personId}/addPersonType")
+    @Path("/{idPerson}/addPersonType")
     @Transactional
     @Operation(summary = "Adicionar um tipo de pessoa na pessoa", description = "Adicionar um tipo de pessoa em uma pessoa específica")
-    public Person addPersonType(@PathParam("personId") Long personId, PersonType personType) throws BusinessException {
-        return personService.addPersonType(personId, personType);
+    public Person addPersonType(@PathParam("idPerson") Long idPerson, PersonType personType) throws BusinessException {
+        return personService.addPersonType(idPerson, personType);
+    }
+
+    @POST
+    @Path("/{idPerson}/addEstablishment")
+    @Transactional
+    @Operation(summary = "Adicionar um estabelecimento na pessoa", description = "Adicionar um estabelecimento em uma pessoa específica")
+    public Person addEstablishment(@PathParam("idPerson") Long idPerson, Establishment establishment) throws BusinessException {
+        return personService.addEstablishment(idPerson, establishment);
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{idPerson}")
     @Transactional
     @Operation(summary = "Atualizar uma pessoa", description = "Atualiza dados de uma pessoa específica")
-    public Person updatePerson(@PathParam("id") Long id, @Valid Person person) throws BusinessException {
-        return personService.updatePerson(id, person);
+    public Person updatePerson(@PathParam("idPerson") Long idPerson, @Valid Person person) throws BusinessException {
+        return personService.updatePerson(idPerson, person);
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/{idPerson}")
     @Transactional
     @Operation(summary = "Remover uma pessoa", description = "Remove uma pessoa específica do banco de dados")
-    public void deletePerson(@PathParam("id") Long id) {
-        personService.deletePerson(id);
+    public void deletePerson(@PathParam("idPerson") Long idPerson) {
+        personService.deletePerson(idPerson);
     }
 
 }
