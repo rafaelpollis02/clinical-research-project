@@ -1,7 +1,10 @@
+br\com\clinicalresearch\service\AutenticateService.class
 br\com\clinicalresearch\domain\Establishment.class
 br\com\clinicalresearch\service\PersonService.class
 br\com\clinicalresearch\domain\Enterprise.class
 br\com\clinicalresearch\repository\PersonTypeRepository.class
+br\com\clinicalresearch\repository\TokenRepository.class
+br\com\clinicalresearch\domain\Token.class
 br\com\clinicalresearch\service\EstablishmentService.class
 br\com\clinicalresearch\repository\EstablishmentRepository.class
 br\com\clinicalresearch\domain\PersonType.class
@@ -16,6 +19,9 @@ br\com\clinicalresearch\collection\StatusObject.class
 br\com\clinicalresearch\resource\EnterpriseResource.class
 br\com\clinicalresearch\service\EnterpriseService.class
 br\com\clinicalresearch\resource\EstablishmentResource.class
+br\com\clinicalresearch\repository\AutenticateRepository.class
+br\com\clinicalresearch\domain\Autenticate.class
 br\com\clinicalresearch\repository\EnterpriseRepository.class
 br\com\clinicalresearch\service\PersonTypeService.class
 br\com\clinicalresearch\exceptions\Message.class
+br\com\clinicalresearch\service\TokenService.class

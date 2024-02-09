@@ -3,7 +3,8 @@ package br.com.clinicalresearch.domain;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Entity
-@JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "personType"})
+@JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "status", "establishment", "personType"})
 public class Person {
 
     @Id
@@ -34,6 +35,7 @@ public class Person {
     @NotBlank
     @Schema(description = "Email da pessoa", example = "teste@gmail.com")
     private String email;
+
     @JsonbDateFormat("dd/MM/yyyy")
     @Schema(description = "Data de Nascimento da pessoa", example = "01/01/2000")
     private LocalDate birthDate;
@@ -42,7 +44,7 @@ public class Person {
             name = "person_persontype",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "person_type_id")
-              )
+    )
     private List<PersonType> personType;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -88,6 +90,7 @@ public class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

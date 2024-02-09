@@ -1,8 +1,6 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.domain.Establishment;
-import br.com.clinicalresearch.domain.Person;
-import br.com.clinicalresearch.domain.PersonType;
+import br.com.clinicalresearch.domain.*;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import br.com.clinicalresearch.repository.PersonRepository;
@@ -25,6 +23,8 @@ public class PersonService {
     @Inject
     EstablishmentRepository establishmentRepository;
 
+    @Inject
+    AutenticateService autenticateService;
 
     public List<Person> getAllPerson() {
         return personRepository.listAll();
@@ -44,7 +44,11 @@ public class PersonService {
             throw new BusinessException("Person duplicate by cpf " + person.getCpf());
         } else {
             personRepository.persist(person);
-        }
+            Autenticate autenticate = new Autenticate();
+            autenticate.setCpf(person.getCpf());
+            autenticate.setEmail(person.getEmail());
+            autenticateService.saveAutenticate(autenticate);
+      }
         return person;
     }
 
@@ -83,7 +87,6 @@ public class PersonService {
         }
         return existingPerson;
     }
-
 
     public Person updatePerson(Long idPerson, Person person) throws BusinessException {
         Person existingPerson = personRepository.findById(idPerson);
