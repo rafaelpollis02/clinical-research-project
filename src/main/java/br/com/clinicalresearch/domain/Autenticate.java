@@ -7,9 +7,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-@JsonbPropertyOrder({"id", "cpf", "email", "status", "createDate", "updateDate"})
+@JsonbPropertyOrder({"id", "cpf", "email", "password", "status", "createDate", "updateDate"})
 public class Autenticate {
 
     @Id
@@ -17,6 +18,8 @@ public class Autenticate {
     private Long id;
     private String cpf;
     private String email;
+
+    private String password;
     private boolean firstAcess = true;
 
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
@@ -25,8 +28,13 @@ public class Autenticate {
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 
-
     private StatusObject status = StatusObject.ACTIVE;
+
+    @OneToMany(mappedBy = "autenticate")
+    private List<AutenticateToken> autenticateTokens;
+
+    @OneToOne
+    private Person person;
 
     public Long getId() {
         return id;
@@ -50,6 +58,14 @@ public class Autenticate {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public StatusObject getStatus() {
@@ -84,4 +100,19 @@ public class Autenticate {
         this.updateDate = updateDate;
     }
 
+    public List<AutenticateToken> getAutenticateTokens() {
+        return autenticateTokens;
+    }
+
+    public void setAutenticateTokens(List<AutenticateToken> autenticateTokens) {
+        this.autenticateTokens = autenticateTokens;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }

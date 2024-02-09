@@ -1,9 +1,7 @@
 package br.com.clinicalresearch.domain;
 
 import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -15,10 +13,14 @@ public class AutenticateToken {
     private Long id;
     private int token;
 
-    private Long idAutenticate;
+    @ManyToOne
+    private Autenticate autenticate;
 
     @JsonbDateFormat("dd/MM/yy hh:MM:ss")
     private LocalDateTime createDate = LocalDateTime.now();
+
+    @JsonbDateFormat("dd/MM/yy hh:MM:ss")
+    private LocalDateTime expireDate = LocalDateTime.now().plusMinutes(2);
 
     public Long getId() {
         return id;
@@ -44,11 +46,19 @@ public class AutenticateToken {
         this.createDate = createDate;
     }
 
-    public Long getIdAutenticate() {
-        return idAutenticate;
+    public LocalDateTime getExpireDate() {
+        return expireDate;
     }
 
-    public void setIdAutenticate(Long idAutenticate) {
-        this.idAutenticate = idAutenticate;
+    public void setExpireDate(LocalDateTime expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public Autenticate getAutenticate() {
+        return autenticate;
+    }
+
+    public void setAutenticate(Autenticate autenticate) {
+        this.autenticate = autenticate;
     }
 }

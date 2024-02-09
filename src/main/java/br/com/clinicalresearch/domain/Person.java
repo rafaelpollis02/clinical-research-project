@@ -55,6 +55,9 @@ public class Person {
     )
     private List<Establishment> establishment;
 
+    @OneToOne(mappedBy = "person")
+    private Autenticate autenticate;
+
     public Long getId() {
         return id;
     }
@@ -123,7 +126,15 @@ public class Person {
         return establishment;
     }
 
-    public void setEstablishmentLis(List<Establishment> establishment) {
+    public void setEstablishment(List<Establishment> establishment) {
         this.establishment = establishment;
+    }
+
+    public Autenticate getAutenticate() {
+        return autenticate;
+    }
+
+    public void setAutenticate(Autenticate autenticate) {
+        this.autenticate = autenticate;
     }
 }
