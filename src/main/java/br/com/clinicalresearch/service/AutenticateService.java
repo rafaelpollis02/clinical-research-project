@@ -30,10 +30,8 @@ public class AutenticateService {
         return autenticateRepository.listAll();
     }
 
-    public Autenticate saveAutenticate(Autenticate autenticate, Person person) {
+    public Autenticate saveAutenticate(Autenticate autenticate) {
 
-        autenticate.setPerson(person);
-        autenticate.setPassword(gerarPassword());
         autenticateRepository.persist(autenticate);
 
         AutenticateToken autenticateToken = new AutenticateToken();
