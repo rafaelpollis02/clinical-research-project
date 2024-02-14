@@ -1,5 +1,6 @@
 package br.com.clinicalresearch.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
@@ -56,6 +57,7 @@ public class Person {
     private List<Establishment> establishment;
 
     @OneToOne(mappedBy = "person")
+    @Transient
     private Autenticate autenticate;
 
     public Long getId() {

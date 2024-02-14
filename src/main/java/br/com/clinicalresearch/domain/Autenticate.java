@@ -1,6 +1,7 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
@@ -31,6 +32,7 @@ public class Autenticate {
     private StatusObject status = StatusObject.ACTIVE;
 
     @OneToMany(mappedBy = "autenticate")
+    @Transient
     private List<AutenticateToken> autenticateTokens;
 
     @OneToOne

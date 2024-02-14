@@ -26,7 +26,7 @@ public class EnterpriseResource {
 
     @GET
     @Path("/{idEnterprise}")
-    public Enterprise getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) {
+    public Enterprise getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
         return enterpriseService.getEnterpriseById(idEnterprise);
     }
 
@@ -40,21 +40,29 @@ public class EnterpriseResource {
     @POST
     @Path("/{idEnterprise}/addEstablishment")
     @Transactional
-    public Enterprise addEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) {
+    public Enterprise addEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
         return enterpriseService.addEstablishment(idEnterprise, establishment);
     }
+
+    @DELETE
+    @Path("/{idEnterprise}/removeEstablishment")
+    @Transactional
+    public Enterprise removeEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
+        return enterpriseService.removeEstablishment(idEnterprise, establishment);
+    }
+
 
     @PUT
     @Path("/{idEnterprise}")
     @Transactional
-    public Enterprise updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) {
+    public Enterprise updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) throws BusinessException {
         return enterpriseService.updateEnterprise(idEnterprise, enterprise);
     }
 
     @DELETE
     @Path("/{idEnterprise}")
     @Transactional
-    public void deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) {
+    public void deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
         enterpriseService.deleteEnterprise(idEnterprise);
     }
 

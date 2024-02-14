@@ -1,5 +1,6 @@
 package br.com.clinicalresearch.resource;
 
+import br.com.clinicalresearch.domain.Enterprise;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
@@ -52,12 +53,27 @@ public class PersonResource {
         return personService.addPersonType(idPerson, personType);
     }
 
+    @DELETE
+    @Path("/{idPerson}/removePersonType")
+    @Transactional
+    public Person removePersonType(@PathParam("idPerson") Long idPerson, PersonType personType) throws BusinessException {
+        return personService.removePersonType(idPerson, personType);
+    }
+
+
     @POST
     @Path("/{idPerson}/addEstablishment")
     @Transactional
     @Operation(summary = "Adicionar um estabelecimento na pessoa", description = "Adicionar um estabelecimento em uma pessoa específica")
     public Person addEstablishment(@PathParam("idPerson") Long idPerson, Establishment establishment) throws BusinessException {
         return personService.addEstablishment(idPerson, establishment);
+    }
+
+    @DELETE
+    @Path("/{idPerson}/removeEstablishment")
+    @Transactional
+    public Person removeEstablishment(@PathParam("idPerson") Long idPerson, Establishment establishment) throws BusinessException {
+        return personService.removeEstablishment(idPerson, establishment);
     }
 
     @PUT
@@ -72,7 +88,7 @@ public class PersonResource {
     @Path("/{idPerson}")
     @Transactional
     @Operation(summary = "Remover uma pessoa", description = "Remove uma pessoa específica do banco de dados")
-    public void deletePerson(@PathParam("idPerson") Long idPerson) {
+    public void deletePerson(@PathParam("idPerson") Long idPerson) throws BusinessException {
         personService.deletePerson(idPerson);
     }
 

@@ -7,6 +7,7 @@ import br.com.clinicalresearch.repository.EnterpriseRepository;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,13 @@ public class EnterpriseService {
         return enterpriseRepository.listAll();
     }
 
-    public Enterprise getEnterpriseById(Long idEnterprise) {
+    public Enterprise getEnterpriseById(Long idEnterprise) throws BusinessException {
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
+
+        if (existingEnterprise == null) {
+            throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
+        }
+
         return existingEnterprise;
     }
 
@@ -38,32 +44,66 @@ public class EnterpriseService {
         return enterprise;
     }
 
-    public Enterprise addEstablishment(Long idEnterprise, Establishment establishment){
+    public Enterprise addEstablishment(Long idEnterprise, Establishment establishment) throws BusinessException {
 
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
-        Establishment existingEstablishment = establishmentRepository.findById(idEnterprise);
         Long idEstablishment = establishment.getId();
+        Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
-        existingEnterprise.getEstablishment().add(establishment);
-        enterpriseRepository.persist(existingEnterprise);
 
+        if (existingEnterprise == null) {
+            throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
+        }
+
+        if (existingEstablishment == null) {
+            throw new BusinessException("Establisment not registered with the ID " + idEstablishment);
+        } else {
+
+            existingEnterprise.getEstablishment().add(establishment);
+            enterpriseRepository.persist(existingEnterprise);
+        }
         return existingEnterprise;
     }
 
-    public Enterprise updateEnterprise(Long idEnterprise, Enterprise enterprise) {
-        Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
+    public Enterprise removeEstablishment(Long idEnterprise, Establishment establishment) throws BusinessException {
 
-        existingEnterprise.setCnpj(enterprise.getCnpj());
-        existingEnterprise.setName(enterprise.getName());
+        Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
+        Long idEstablishment = establishment.getId();
+
+        if (existingEnterprise == null) {
+            throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
+        }
+
+        if (!existingEnterprise.getEstablishment().removeIf(estab -> estab.getId().equals(idEstablishment))) {
+            throw new BusinessException("Establishment with ID " + idEstablishment + " is not associated with the enterprise.");
+        }
 
         enterpriseRepository.persist(existingEnterprise);
-
-        return enterprise;
+        return existingEnterprise;
     }
 
-    public void deleteEnterprise(Long idEnterprise) {
+
+    public Enterprise updateEnterprise(Long idEnterprise, Enterprise enterprise) throws BusinessException {
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
-        enterpriseRepository.delete(existingEnterprise);
+
+        if (existingEnterprise == null) {
+            throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
+        } else {
+            existingEnterprise.setCnpj(enterprise.getCnpj());
+            existingEnterprise.setName(enterprise.getName());
+            enterpriseRepository.persist(existingEnterprise);
+        }
+        return existingEnterprise;
+    }
+
+    public void deleteEnterprise(Long idEnterprise) throws BusinessException {
+        Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
+
+        if (existingEnterprise == null) {
+            throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
+        } else {
+            enterpriseRepository.delete(existingEnterprise);
+        }
     }
 
 }

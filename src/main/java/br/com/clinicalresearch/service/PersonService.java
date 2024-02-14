@@ -1,9 +1,6 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.domain.Autenticate;
-import br.com.clinicalresearch.domain.Establishment;
-import br.com.clinicalresearch.domain.Person;
-import br.com.clinicalresearch.domain.PersonType;
+import br.com.clinicalresearch.domain.*;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import br.com.clinicalresearch.repository.PersonRepository;
@@ -50,7 +47,7 @@ public class PersonService {
             Autenticate autenticate = new Autenticate();
             autenticate.setCpf(person.getCpf());
             autenticate.setEmail(person.getEmail());
-            autenticateService.saveAutenticate(autenticate);
+            autenticateService.saveAutenticate(autenticate, person);
         }
         return person;
     }
@@ -58,8 +55,8 @@ public class PersonService {
     public Person addPersonType(Long idPerson, PersonType personType) throws BusinessException {
 
         Person existingPerson = personRepository.findById(idPerson);
-        PersonType existingPersonType = personTypeRepository.findById(idPerson);
         Long personTypeId = personType.getId();
+        PersonType existingPersonType = personTypeRepository.findById(personTypeId);
 
         if (existingPerson == null) {
             throw new BusinessException("Person not registered with the ID " + personTypeId);
@@ -73,11 +70,28 @@ public class PersonService {
         return existingPerson;
     }
 
+    public Person removePersonType(Long idPerson, PersonType personType) throws BusinessException {
+
+        Person existingPerson = personRepository.findById(idPerson);
+        Long idPersonType = personType.getId();
+
+        if (existingPerson == null) {
+            throw new BusinessException("Person not registered with the ID " + idPersonType);
+        }
+
+        if (!existingPerson.getPersonType().removeIf(estab -> estab.getId().equals(idPersonType))) {
+            throw new BusinessException("PersonType with ID " + idPersonType + " is not associated with the Person.");
+        }
+
+        personRepository.persist(existingPerson);
+        return existingPerson;
+    }
+
     public Person addEstablishment(Long idPerson, Establishment establishment) throws BusinessException {
 
         Person existingPerson = personRepository.findById(idPerson);
-        Establishment existingEstablishment = establishmentRepository.findById(idPerson);
         Long idEstablishment = establishment.getId();
+        Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
         if (existingPerson == null) {
             throw new BusinessException("Person not registered with the ID " + idPerson);
@@ -90,6 +104,24 @@ public class PersonService {
         }
         return existingPerson;
     }
+
+    public Person removeEstablishment(Long idPerson, Establishment establishment) throws BusinessException {
+
+        Person existingPerson = personRepository.findById(idPerson);
+        Long idEstablishment = establishment.getId();
+
+        if (existingPerson == null) {
+            throw new BusinessException("Person not registered with the ID " + idEstablishment);
+        }
+
+        if (!existingPerson.getEstablishment().removeIf(estab -> estab.getId().equals(idEstablishment))) {
+            throw new BusinessException("Establishment with ID " + idEstablishment + " is not associated with the Person.");
+        }
+
+        personRepository.persist(existingPerson);
+        return existingPerson;
+    }
+
 
     public Person updatePerson(Long idPerson, Person person) throws BusinessException {
         Person existingPerson = personRepository.findById(idPerson);
@@ -107,9 +139,11 @@ public class PersonService {
         return existingPerson;
     }
 
-    public void deletePerson(Long idPerson) {
+    public void deletePerson(Long idPerson) throws BusinessException {
         Person existingPerson = personRepository.findById(idPerson);
-        if (existingPerson != null) {
+        if (existingPerson == null) {
+            throw new BusinessException("Person not registered with the ID " + idPerson);
+        } else {
             personRepository.delete(existingPerson);
         }
     }

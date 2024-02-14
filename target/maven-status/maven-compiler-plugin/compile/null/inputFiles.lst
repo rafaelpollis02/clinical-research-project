@@ -5,6 +5,7 @@ C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\domain\Establishment.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\domain\Person.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\domain\PersonType.java
+C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\dto\AutenticateRequest.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\exceptions\BusinessException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\exceptions\GeneralException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\exceptions\Message.java
@@ -14,6 +15,7 @@ C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\repository\EstablishmentRepository.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\repository\PersonRepository.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\repository\PersonTypeRepository.java
+C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\resource\AutenticateResource.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\resource\EnterpriseResource.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\resource\EstablishmentResource.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\src\main\java\br\com\clinicalresearch\resource\PersonResource.java
