@@ -1,7 +1,11 @@
 package br.com.clinicalresearch.domain;
 
 import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.LocalDateTime;
 
