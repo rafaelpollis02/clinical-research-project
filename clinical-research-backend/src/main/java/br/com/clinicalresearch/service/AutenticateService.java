@@ -10,6 +10,7 @@ import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Random;
 
@@ -70,6 +71,8 @@ public class AutenticateService {
     public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate){
         Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
         existingAutenticate.setPassword(autenticate.getPassword());
+        existingAutenticate.setUpdateDate(LocalDateTime.now());
+        existingAutenticate.setFirstAcess(false);
         autenticateRepository.persist(existingAutenticate);
         return existingAutenticate;
     }

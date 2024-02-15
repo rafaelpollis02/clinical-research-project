@@ -1,6 +1,7 @@
 package br.com.clinicalresearch.service;
 
 import br.com.clinicalresearch.domain.Enterprise;
+import br.com.clinicalresearch.relational.EnterpriseEstablishment;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.repository.EnterpriseRepository;
@@ -8,8 +9,10 @@ import br.com.clinicalresearch.repository.EstablishmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class EnterpriseService {
@@ -47,22 +50,28 @@ public class EnterpriseService {
     public Enterprise addEstablishment(Long idEnterprise, Establishment establishment) throws BusinessException {
 
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
-        Long idEstablishment = establishment.getId();
-        Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
-
 
         if (existingEnterprise == null) {
             throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
         }
 
-        if (existingEstablishment == null) {
-            throw new BusinessException("Establisment not registered with the ID " + idEstablishment);
-        } else {
+        Long idEstablishment = establishment.getId();
+        Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
-            existingEnterprise.getEstablishment().add(establishment);
-            enterpriseRepository.persist(existingEnterprise);
+        if (existingEstablishment == null) {
+            throw new BusinessException("Establishment not registered with the ID " + idEstablishment);
         }
+
+        EnterpriseEstablishment enterpriseEstablishment = new EnterpriseEstablishment();
+        enterpriseEstablishment.setEnterprise(existingEnterprise);
+        enterpriseEstablishment.setEstablishment(existingEstablishment);
+
+        existingEnterprise.getEnterpriseEstablishments().add(enterpriseEstablishment);
+
+        enterpriseRepository.persist(existingEnterprise);
+
         return existingEnterprise;
+
     }
 
     public Enterprise removeEstablishment(Long idEnterprise, Establishment establishment) throws BusinessException {
@@ -74,7 +83,7 @@ public class EnterpriseService {
             throw new BusinessException("Enterprise not registered with the ID " + idEnterprise);
         }
 
-        if (!existingEnterprise.getEstablishment().removeIf(estab -> estab.getId().equals(idEstablishment))) {
+        if (!existingEnterprise.getEnterpriseEstablishments().removeIf(estab -> estab.getId().equals(idEstablishment))) {
             throw new BusinessException("Establishment with ID " + idEstablishment + " is not associated with the enterprise.");
         }
 
@@ -91,6 +100,8 @@ public class EnterpriseService {
         } else {
             existingEnterprise.setCnpj(enterprise.getCnpj());
             existingEnterprise.setName(enterprise.getName());
+            existingEnterprise.setStatus(enterprise.getStatus());
+            existingEnterprise.setUpdateDate(LocalDateTime.now());
             enterpriseRepository.persist(existingEnterprise);
         }
         return existingEnterprise;

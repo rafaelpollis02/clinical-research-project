@@ -6,6 +6,7 @@ import br.com.clinicalresearch.repository.PersonTypeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,8 @@ public class PersonTypeService {
         PersonType existingPersonType = personTypeRepository.findById(idPersonType);
         if (existingPersonType != null) {
             existingPersonType.setType(personType.getType());
+            existingPersonType.setStatus(personType.getStatus());
+            existingPersonType.setUpdateDate(LocalDateTime.now());
             personTypeRepository.persist(existingPersonType);
         }
         return existingPersonType;

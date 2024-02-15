@@ -9,11 +9,12 @@ import jakarta.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Entity
-@JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "status", "establishment", "personType"})
+@JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "establishment", "personType"})
 public class Person {
 
     @Id
@@ -40,6 +41,13 @@ public class Person {
     @JsonbDateFormat("dd/MM/yyyy")
     @Schema(description = "Data de Nascimento da pessoa", example = "01/01/2000")
     private LocalDate birthDate;
+
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    LocalDateTime createDate = LocalDateTime.now();
+
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    LocalDateTime updateDate = LocalDateTime.now();
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_persontype",
@@ -114,6 +122,21 @@ public class Person {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
     }
 
     public List<PersonType> getPersonType() {

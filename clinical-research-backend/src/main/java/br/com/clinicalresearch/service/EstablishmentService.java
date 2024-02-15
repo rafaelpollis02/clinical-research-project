@@ -42,6 +42,7 @@ public class EstablishmentService {
         } else {
             existingEstablishment.setName(establishment.getName());
             existingEstablishment.setLogoFile(establishment.getLogoFile());
+            existingEstablishment.setStatus(establishment.getStatus());
             existingEstablishment.setUpdateDate(LocalDateTime.now());
             establishmentRepository.persist(existingEstablishment);
         }

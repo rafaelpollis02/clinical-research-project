@@ -6,11 +6,9 @@ import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @Entity
-@JsonbPropertyOrder({"id", "name", "status", "createDate", "updateDate", "logoFile"})
+@JsonbPropertyOrder({"id", "name", "logoFile", "status", "createDate", "updateDate"})
 public class Establishment {
 
     @Id

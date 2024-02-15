@@ -8,6 +8,7 @@ import br.com.clinicalresearch.repository.PersonTypeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,6 +135,7 @@ public class PersonService {
             existingPerson.setPhoneNumber(person.getPhoneNumber());
             existingPerson.setEmail(person.getEmail());
             existingPerson.setBirthDate(person.getBirthDate());
+            existingPerson.setUpdateDate(LocalDateTime.now());
             personRepository.persist(existingPerson);
         }
         return existingPerson;

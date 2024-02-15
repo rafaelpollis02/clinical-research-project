@@ -1,12 +1,17 @@
 package br.com.clinicalresearch.domain;
 
+import br.com.clinicalresearch.collection.StatusObject;
+import br.com.clinicalresearch.relational.EnterpriseEstablishment;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonbPropertyOrder({"id", "cnpj", "name", "establishment"})
+@JsonbPropertyOrder({"id", "cnpj", "name", "status","createDate","updateDate","establishment"})
 public class Enterprise {
 
     @Id
@@ -15,12 +20,17 @@ public class Enterprise {
     private String name;
     private String cnpj;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "enterprise_establishment",
-            joinColumns = @JoinColumn(name = "enterprise_id"),
-            inverseJoinColumns = @JoinColumn(name = "establishment_id"))
-    private List<Establishment> establishment;
+    StatusObject status = StatusObject.ACTIVE;
+
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    LocalDateTime createDate = LocalDateTime.now();
+
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    LocalDateTime updateDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -46,11 +56,37 @@ public class Enterprise {
         this.cnpj = cnpj;
     }
 
-    public List<Establishment> getEstablishment() {
-        return establishment;
+    public StatusObject getStatus() {
+        return status;
     }
 
-    public void setEstablishment(List<Establishment> establishment) {
-        this.establishment = establishment;
+    public void setStatus(StatusObject status) {
+        this.status = status;
     }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public List<EnterpriseEstablishment> getEnterpriseEstablishments() {
+        return enterpriseEstablishments;
+    }
+
+    public void setEnterpriseEstablishments(List<EnterpriseEstablishment> enterpriseEstablishments) {
+        this.enterpriseEstablishments = enterpriseEstablishments;
+    }
+
+
 }
