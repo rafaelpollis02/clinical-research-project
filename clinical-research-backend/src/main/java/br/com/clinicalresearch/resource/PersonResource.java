@@ -1,6 +1,5 @@
 package br.com.clinicalresearch.resource;
 
-import br.com.clinicalresearch.domain.Enterprise;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
@@ -60,7 +59,6 @@ public class PersonResource {
         return personService.removePersonType(idPerson, personType);
     }
 
-
     @POST
     @Path("/{idPerson}/addEstablishment")
     @Transactional
@@ -91,5 +89,4 @@ public class PersonResource {
     public void deletePerson(@PathParam("idPerson") Long idPerson) throws BusinessException {
         personService.deletePerson(idPerson);
     }
-
 }
