@@ -2,8 +2,10 @@ package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -31,8 +33,7 @@ public class Autenticate {
 
     private StatusObject status = StatusObject.ACTIVE;
 
-    @OneToMany(mappedBy = "autenticate")
-    @Transient
+    @OneToMany(mappedBy = "autenticate", cascade = CascadeType.ALL)
     private List<AutenticateToken> autenticateTokens;
 
     @OneToOne
@@ -110,6 +111,7 @@ public class Autenticate {
         this.autenticateTokens = autenticateTokens;
     }
 
+    @JsonbTransient
     public Person getPerson() {
         return person;
     }

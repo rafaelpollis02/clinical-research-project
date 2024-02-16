@@ -1,8 +1,8 @@
 package br.com.clinicalresearch.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -64,8 +64,7 @@ public class Person {
     )
     private List<Establishment> establishment;
 
-    @OneToOne(mappedBy = "person")
-    @Transient
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Autenticate autenticate;
 
     public Long getId() {
@@ -155,6 +154,7 @@ public class Person {
         this.establishment = establishment;
     }
 
+    @JsonbTransient
     public Autenticate getAutenticate() {
         return autenticate;
     }
