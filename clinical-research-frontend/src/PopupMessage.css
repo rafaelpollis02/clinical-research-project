@@ -1,0 +1,41 @@
+/* PopupMessage.css */
+.popup-message {
+    position: fixed;
+    top: 5px;
+    right: 15px;
+    padding: 10px;
+    background-color: white; /* Cor de fundo verde claro */
+    color: rgb(32, 240, 32); /* Cor do texto verde escuro */
+    border-radius: 10px;
+    border: 2px solid green; /* Borda com linha verde */
+    font-size: 8px;
+    width: 225px;
+    height: 25px; /* Altura ajustada para 50px */
+    animation: fadeInOut 3s forwards; /* Adiciona um efeito de transição */
+    text-align: justify;
+  }
+  
+  .popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 2px;
+    right: 2px; /* Ajuste a posição conforme necessário */
+    font-size: 10px; /* Ajuste o tamanho da fonte conforme necessário */
+    cursor: pointer;
+  }
+  
+  /* Adiciona um efeito de transição para o aparecimento/desaparecimento da caixa */
+  @keyframes fadeInOut {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
