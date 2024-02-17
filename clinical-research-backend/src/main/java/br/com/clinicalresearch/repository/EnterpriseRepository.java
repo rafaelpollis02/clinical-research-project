@@ -13,4 +13,8 @@ public class EnterpriseRepository implements PanacheRepository<Enterprise> {
         return find("cnpj", cnpj).singleResultOptional();
     }
 
+    public Optional<Enterprise> findEnterpriseByName(String name) {
+        return find("name", name).singleResultOptional();
+    }
+
 }

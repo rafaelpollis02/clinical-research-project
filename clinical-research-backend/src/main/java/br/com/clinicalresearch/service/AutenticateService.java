@@ -28,7 +28,7 @@ public class AutenticateService {
 
     private final Random random = new Random();
 
-    public void getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws BusinessException {
+    public String getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws BusinessException {
 
         String user = autenticateRequest.user();
         String password = autenticateRequest.password();
@@ -47,9 +47,9 @@ public class AutenticateService {
         }
 
         if (existingPassword != null && existingPassword.equals(password)) {
-            throw new BusinessException("Login Success");
+            return "Login Success";
         } else {
-            throw new BusinessException("Invalid user or password");
+            return "Invalid user or password";
         }
     }
 
