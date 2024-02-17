@@ -1,4 +1,5 @@
 package br.com.clinicalresearch.dto;
 
-public record AutenticateRequest(String user, String password) {
+public record AutenticateRequest(String user,
+                                 String password) {
 }

@@ -1,8 +1,6 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
 import jakarta.json.bind.annotation.JsonbTransient;
@@ -10,7 +8,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @JsonbPropertyOrder({"id", "cpf", "email", "password", "status", "createDate", "updateDate"})

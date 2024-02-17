@@ -9,7 +9,7 @@ const AutenticateForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('localhost:8080/api/v1/autenticate', {
+      const response = await fetch('http://localhost:8080/api/v1/autenticate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

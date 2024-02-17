@@ -18,8 +18,8 @@ public class AutenticateResource {
     AutenticateService autenticateService;
 
     @POST
-    public void getAutenticateByCpfOrEmail (AutenticateRequest autenticateRequest) throws BusinessException {
-        autenticateService.getAutenticateByCpfOrEmail(autenticateRequest);
+    public String getAutenticateByCpfOrEmail (AutenticateRequest autenticateRequest) throws BusinessException {
+        return autenticateService.getAutenticateByCpfOrEmail(autenticateRequest);
     }
 
     @PUT

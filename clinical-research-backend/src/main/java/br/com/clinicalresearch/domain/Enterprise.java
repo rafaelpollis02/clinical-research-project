@@ -3,7 +3,9 @@ package br.com.clinicalresearch.domain;
 import br.com.clinicalresearch.collection.StatusObject;
 import br.com.clinicalresearch.relational.EnterpriseEstablishment;
 import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -29,6 +31,7 @@ public class Enterprise {
     LocalDateTime updateDate = LocalDateTime.now();
 
     @OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonbTransient
     private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
 
 
@@ -88,5 +91,13 @@ public class Enterprise {
         this.enterpriseEstablishments = enterpriseEstablishments;
     }
 
+    @JsonbProperty("establishments")
+    public List<Establishment> getEstablishments() {
+        List<Establishment> establishments = new ArrayList<>();
+        for (EnterpriseEstablishment ee : enterpriseEstablishments) {
+            establishments.add(ee.getEstablishment());
+        }
+        return establishments;
+    }
 
 }
