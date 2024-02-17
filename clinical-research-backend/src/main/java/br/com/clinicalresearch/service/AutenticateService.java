@@ -9,6 +9,7 @@ import br.com.clinicalresearch.repository.AutenticateRepository;
 import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -47,9 +48,9 @@ public class AutenticateService {
         }
 
         if (existingPassword != null && existingPassword.equals(password)) {
-            return "Login Success";
+            return "Sucessful";
         } else {
-            return "Invalid user or password";
+            throw new BusinessException("Login or Password Invalid");
         }
     }
 
