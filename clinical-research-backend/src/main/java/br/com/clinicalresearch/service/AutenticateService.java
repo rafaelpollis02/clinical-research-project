@@ -68,7 +68,7 @@ public class AutenticateService {
         return autenticate;
     }
 
-    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate){
+    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate) {
         Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
         existingAutenticate.setPassword(autenticate.getPassword());
         existingAutenticate.setUpdateDate(LocalDateTime.now());
