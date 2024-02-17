@@ -1,10 +1,12 @@
 import React from 'react';
-import PersonCrud from './components/PersonCrud';
+import AutenticateCrudCrud from './components/AutenticateCrud';
+import AutenticateForm from './components/AutenticateCrud';
+
 
 function App() {
   return (
     <div>
-      <PersonCrud />
+      <AutenticateForm />
     </div>
   );
 }
