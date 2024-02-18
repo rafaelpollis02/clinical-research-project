@@ -4,14 +4,15 @@ import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.domain.AutenticateToken;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.dto.AutenticateRequest;
-import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.InvalidLoginException;
+import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.repository.AutenticateRepository;
 import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.Response;
 
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Random;
 
@@ -29,29 +30,43 @@ public class AutenticateService {
 
     private final Random random = new Random();
 
-    public String getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws BusinessException {
+    public String getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws NotFoundException {
+
+        String user = autenticateRequest.user();
+
+        if (validateAutenticateByCpf(user) || validateAutenticateByEmail(user)) {
+            return Response.ok("Successful").build().toString();
+        } else {
+            throw new NotFoundException("User not found");
+        }
+    }
+
+    public String getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException {
 
         String user = autenticateRequest.user();
         String password = autenticateRequest.password();
 
-        Autenticate existingAutenticateCpf = autenticateRepository.findAutenticateByCpf(user);
-        Autenticate existingAutenticateEmail = null;
-        String existingPassword = null;
+        if (validateAutenticateByCpf(user)) {
+            String existingPassword = autenticateRepository.findPasswordByCpf(user);
+            if (password.equals(existingPassword)) {
+                return Response.ok("Successful").build().toString();
+            } else {
+                throw new InvalidLoginException("User or Password Invalid");
+            }
 
-        if (existingAutenticateCpf != null) {
-            existingPassword = autenticateRepository.findPasswordByCpf(user);
-        } else {
-            existingAutenticateEmail = autenticateRepository.findAutenticateByEmail(user);
-            if (existingAutenticateEmail != null) {
-                existingPassword = autenticateRepository.findPasswordByEmail(user);
+        } else if (validateAutenticateByEmail(user)) {
+            String existingPassword = autenticateRepository.findPasswordByEmail(user);
+            if (password.equals(existingPassword)) {
+                return Response.ok("Successful").build().toString();
+            } else {
+                throw new InvalidLoginException("User or Password Invalid");
             }
         }
 
-        if (existingPassword != null && existingPassword.equals(password)) {
-            return "Sucessful";
-        } else {
-            throw new BusinessException("Login or Password Invalid");
+        if (validateAutenticateByCpf(user) == false && validateAutenticateByEmail(user) == false) {
+            throw new InvalidLoginException("User or Password Invalid");
         }
+        return user;
     }
 
     public Autenticate saveAutenticate(Autenticate autenticate, Person person) {
@@ -63,19 +78,59 @@ public class AutenticateService {
         AutenticateToken autenticateToken = new AutenticateToken();
         autenticateToken.setToken(autenticateTokenService.gerarToken());
         autenticateToken.setAutenticate(autenticate);
-
         autenticateTokenRepository.persist(autenticateToken);
 
         return autenticate;
     }
 
-    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate) {
-        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
-        existingAutenticate.setPassword(autenticate.getPassword());
-        existingAutenticate.setUpdateDate(LocalDateTime.now());
-        existingAutenticate.setFirstAcess(false);
-        autenticateRepository.persist(existingAutenticate);
-        return existingAutenticate;
+    public String generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
+
+        String user = autenticateRequest.user();
+
+        if (validateAutenticateByCpf(user)) {
+            Autenticate autenticate = autenticateRepository.findAutenticateByCpf(user);
+            return generateTokenForAutenticate(autenticate);
+        }
+
+        if (validateAutenticateByEmail(user)) {
+            Autenticate autenticate = autenticateRepository.findAutenticateByEmail(user);
+            return generateTokenForAutenticate(autenticate);
+        }
+        throw new NotFoundException("User not found");
+    }
+
+    public Autenticate updatePasswordAutenticate(AutenticateRequest autenticateRequest) {
+
+        //Passar recuperar o Token para passar junto no Body (user, password, e token), se token expirado cancela.
+
+        String user = autenticateRequest.user();
+        String password = autenticateRequest.password();
+
+        System.out.println(validateAutenticateByCpf(user));
+        System.out.println(validateAutenticateByEmail(user));
+
+        return null;
+    }
+
+
+    public boolean validateAutenticateByCpf(String cpf) {
+
+        Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
+        if (existingAutenticate == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean validateAutenticateByEmail(String email) {
+
+        Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(email);
+        if (existingAutenticate == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String gerarPasswordEncoder() {
@@ -86,5 +141,13 @@ public class AutenticateService {
     public String decodificarPassword(String passwordCodificada) {
         byte[] decodedBytes = Base64.getDecoder().decode(passwordCodificada);
         return new String(decodedBytes);
+    }
+
+    public String generateTokenForAutenticate(Autenticate autenticate) {
+        AutenticateToken autenticateToken = new AutenticateToken();
+        autenticateToken.setToken(autenticateTokenService.gerarToken());
+        autenticateToken.setAutenticate(autenticate);
+        autenticateTokenRepository.persist(autenticateToken);
+        return Response.ok("Successful").build().toString();
     }
 }

@@ -1,29 +1,23 @@
 package br.com.clinicalresearch.domain;
 
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "AUTENTICATE_TOKEN")
 public class AutenticateToken {
 
     @Id
     @GeneratedValue
     private Long id;
     private int token;
-
     @ManyToOne
     private Autenticate autenticate;
-
-    @JsonbDateFormat("dd/MM/yy hh:MM:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime createDate = LocalDateTime.now();
-
-    @JsonbDateFormat("dd/MM/yy hh:MM:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime expireDate = LocalDateTime.now().plusMinutes(2);
 
     public Long getId() {

@@ -3,7 +3,6 @@ package br.com.clinicalresearch.resource;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.service.EstablishmentService;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
