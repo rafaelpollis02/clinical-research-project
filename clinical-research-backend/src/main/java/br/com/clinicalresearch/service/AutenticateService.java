@@ -10,9 +10,9 @@ import br.com.clinicalresearch.repository.AutenticateRepository;
 import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.Response;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Random;
 
@@ -83,7 +83,6 @@ public class AutenticateService {
         return autenticate;
     }
 
-<<<<<<< HEAD
     public String generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
 
         String user = autenticateRequest.user();
@@ -132,32 +131,32 @@ public class AutenticateService {
         } else {
             return true;
         }
-=======
-    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate){
-        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
-        existingAutenticate.setPassword(autenticate.getPassword());
-        existingAutenticate.setUpdateDate(LocalDateTime.now());
-        existingAutenticate.setFirstAcess(false);
-        autenticateRepository.persist(existingAutenticate);
-        return existingAutenticate;
->>>>>>> cb39bb5d705d15dfb5be98454b4a552797118ac8
     }
 
-    public String gerarPasswordEncoder() {
-        int password = 100000 + random.nextInt(900000);
-        return Base64.getEncoder().encodeToString(String.valueOf(password).getBytes());
-    }
+        public Autenticate updatePasswordAutenticate (Long idAutenticate, Autenticate autenticate){
+            Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+            existingAutenticate.setPassword(autenticate.getPassword());
+            existingAutenticate.setUpdateDate(LocalDateTime.now());
+            existingAutenticate.setFirstAcess(false);
+            autenticateRepository.persist(existingAutenticate);
+            return existingAutenticate;
+        }
 
-    public String decodificarPassword(String passwordCodificada) {
-        byte[] decodedBytes = Base64.getDecoder().decode(passwordCodificada);
-        return new String(decodedBytes);
-    }
+        public String gerarPasswordEncoder () {
+            int password = 100000 + random.nextInt(900000);
+            return Base64.getEncoder().encodeToString(String.valueOf(password).getBytes());
+        }
 
-    public String generateTokenForAutenticate(Autenticate autenticate) {
-        AutenticateToken autenticateToken = new AutenticateToken();
-        autenticateToken.setToken(autenticateTokenService.gerarToken());
-        autenticateToken.setAutenticate(autenticate);
-        autenticateTokenRepository.persist(autenticateToken);
-        return Response.ok("Successful").build().toString();
+        public String decodificarPassword (String passwordCodificada){
+            byte[] decodedBytes = Base64.getDecoder().decode(passwordCodificada);
+            return new String(decodedBytes);
+        }
+
+        public String generateTokenForAutenticate (Autenticate autenticate){
+            AutenticateToken autenticateToken = new AutenticateToken();
+            autenticateToken.setToken(autenticateTokenService.gerarToken());
+            autenticateToken.setAutenticate(autenticate);
+            autenticateTokenRepository.persist(autenticateToken);
+            return Response.ok("Successful").build().toString();
+        }
     }
-}
