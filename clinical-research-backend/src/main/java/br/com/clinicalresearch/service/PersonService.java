@@ -48,7 +48,7 @@ public class PersonService {
             Autenticate autenticate = new Autenticate();
             autenticate.setCpf(person.getCpf());
             autenticate.setEmail(person.getEmail());
-            autenticateService.saveAutenticate(autenticate, person);
+            autenticateService.createAutenticate(autenticate, person);
         }
         return person;
     }

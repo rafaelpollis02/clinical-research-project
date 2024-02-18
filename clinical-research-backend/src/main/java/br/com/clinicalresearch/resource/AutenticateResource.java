@@ -1,14 +1,16 @@
 package br.com.clinicalresearch.resource;
 
-import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.dto.AutenticateRequest;
-import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.BadRequestException;
 import br.com.clinicalresearch.exceptions.InvalidLoginException;
 import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.service.AutenticateService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 
 @Path("api/v1/autenticate")
@@ -37,11 +39,11 @@ public class AutenticateResource {
         return Response.status(Response.Status.OK).build();
     }
 
-
     @PUT
     @Transactional
-    public Autenticate updatePasswordAutenticate(AutenticateRequest autenticateRequest) throws NotFoundException {
-       return autenticateService.updatePasswordAutenticate(autenticateRequest);
+    public Response updatePasswordAutenticate(AutenticateRequest autenticateRequest) throws BadRequestException {
+        autenticateService.updatePasswordAutenticate(autenticateRequest);
+        return Response.status(Response.Status.OK).build();
     }
 
 }

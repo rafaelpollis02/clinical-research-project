@@ -15,6 +15,15 @@ public class AutenticateTokenService {
 
     private final Random random = new Random();
 
+    public AutenticateToken findTokenByAutenticateId(Long idAutenticate){
+        return autenticateTokenRepository.findTokenByAutenticateId(idAutenticate);
+    }
+
+    public AutenticateToken createAutenticateToken(AutenticateToken autenticateToken){
+        autenticateTokenRepository.persist(autenticateToken);
+        return autenticateToken;
+    }
+
     public AutenticateToken saveToken(AutenticateToken autenticateToken) {
         autenticateTokenRepository.persist(autenticateToken);
         return autenticateToken;
