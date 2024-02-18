@@ -83,6 +83,7 @@ public class AutenticateService {
         return autenticate;
     }
 
+<<<<<<< HEAD
     public String generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
 
         String user = autenticateRequest.user();
@@ -131,6 +132,15 @@ public class AutenticateService {
         } else {
             return true;
         }
+=======
+    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate){
+        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+        existingAutenticate.setPassword(autenticate.getPassword());
+        existingAutenticate.setUpdateDate(LocalDateTime.now());
+        existingAutenticate.setFirstAcess(false);
+        autenticateRepository.persist(existingAutenticate);
+        return existingAutenticate;
+>>>>>>> cb39bb5d705d15dfb5be98454b4a552797118ac8
     }
 
     public String gerarPasswordEncoder() {

@@ -4,7 +4,91 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d885681-f968-4856-b2c8-f2491260947c" name="Changes" comment="" />
+    <list default="true" id="2d885681-f968-4856-b2c8-f2491260947c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/docker/Dockerfile.jvm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/docker/Dockerfile.legacy-jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/docker/Dockerfile.native" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/docker/Dockerfile.native-micro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/collection/StatusObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/Autenticate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/AutenticateToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/Enterprise.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/Establishment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/domain/PersonType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/dto/AutenticateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/exceptions/BusinessException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/exceptions/GeneralException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/exceptions/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/AutenticateRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/AutenticateTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/EnterpriseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/EstablishmentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/PersonRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/repository/PersonTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/resource/AutenticateResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/resource/EnterpriseResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/resource/EstablishmentResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/resource/PersonResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/resource/PersonTypeResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/AutenticateService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/AutenticateTokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/EnterpriseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/EstablishmentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/PersonService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/clinicalresearch/service/PersonTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/resources/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/build-analytics-event.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/build-metrics.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/panache-archive.marker" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/resources/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/collection/StatusObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/Autenticate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/AutenticateToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/Enterprise.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/Establishment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/Person.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/domain/PersonType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/dto/AutenticateRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/exceptions/BusinessException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/exceptions/GeneralException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/exceptions/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/AutenticateRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/AutenticateTokenRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/EnterpriseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/EstablishmentRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/PersonRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/repository/PersonTypeRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/resource/AutenticateResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/resource/EnterpriseResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/resource/EstablishmentResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/resource/PersonResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/resource/PersonTypeResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/AutenticateService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/AutenticateTokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/EnterpriseService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/EstablishmentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/PersonService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/br/com/clinicalresearch/service/PersonTypeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/null/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/null/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/null/inputFiles.lst" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,13 +112,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/4960013753/IntelliJIdea/clinical-research-project/clinical-research-backend&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/4960013753/IntelliJIdea/clinical-research-project/clinical-research-backend"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

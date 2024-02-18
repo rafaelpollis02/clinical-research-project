@@ -1,13 +1,18 @@
 import React from 'react';
-import AutenticateCrudCrud from './components/AutenticateCrud';
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import AutenticateForm from './components/AutenticateCrud';
-
+import PasswordRecovery from './PasswordRecovery/PasswordRecovery';
 
 function App() {
   return (
-    <div>
-      <AutenticateForm />
-    </div>
+    <Router>
+      
+        <Routes>
+          <Route path="/" element={<AutenticateForm />} />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
+        </Routes>
+      
+    </Router>
   );
 }
 
