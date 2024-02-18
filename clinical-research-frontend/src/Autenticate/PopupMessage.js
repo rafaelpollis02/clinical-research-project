@@ -1,6 +1,6 @@
 // PopupMessage.js
 import React, { useEffect } from 'react';
-import './PopupMessage.css';
+import '../Autenticate/PopupMessage.css';
 
 const PopupMessage = ({ message, onClose }) => {
   useEffect(() => {

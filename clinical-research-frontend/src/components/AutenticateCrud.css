@@ -1,51 +1,111 @@
-/* AutenticateForm.css */
+/* AutenticateCrud.css */
 
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: white; 
+body.login-page  {
+  margin: 0; 
 }
 
-.container {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
+.login {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.login-container {
+  flex: 1;
+  text-align: left;
+  padding: 50px; /* Corrigido: unidade de medida px */
+  border: 1px solid #ccc;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-width: 30%; /* Ajustado para 50% da largura da tela */
+  color: #381ae2;
 }
 
 h1 {
+  color: #381ae2;
   text-align: center;
-  color: #333;
 }
 
 label {
   display: block;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 input {
-  width: 100%;
+  width: 100%; /* Ajustado para ocupar 100% da largura do container */
   padding: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4caf50; /* Cor verde para o botão */
+  background-color:  #381ae2;
   color: white;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  width: 100%;
 }
 
 button:hover {
-  background-color: #45a049; /* Cor verde mais escura ao passar o mouse */
+  background-color: #45a049;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 5px;
+  display: block;
+  text-align: right;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.image-container {
+  background-image: url(Logo.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 67%; /* Ajustado para 50% da largura da tela */
+  height: 100vh;
+}
+
+/* Media query para tornar o layout responsivo */
+@media (max-width: 768px) {
+  .login {
+    flex-direction: column;
+  }
+
+  .image-container {
+    height: 200px; /* Ajuste a altura conforme necessário para a versão responsiva */
+    width: 100%; /* Ajustado para ocupar 100% da largura do container na versão responsiva */
+  }
+}
+
+.password-label {
+  display: flex;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Adicione estas regras para ajustar o ícone do olho */
+.eye-icon {
+  cursor: pointer;
+  margin-left: 310px;
+  top: -44px; 
+  position: relative;
+  width: 25px; 
+  height: 25px; 
 }

@@ -1,6 +1,6 @@
 // LoggedInScreen.js
 import React, { useState } from 'react';
-import PopupMessage from './PopupMessage';
+import PopupMessage from '../Autenticate/PopupMessage';
 
 const LoggedInScreen = () => {
   const [showPopup, setShowPopup] = useState(true);
