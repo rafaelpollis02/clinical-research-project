@@ -1,0 +1,60 @@
+/* HomeScreen.css */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.top-bar {
+  background-color: #007bff;
+  height: 70px;
+  width: 100%;
+  position: relative; /* Remova 'absolute' para manter a tarja no fluxo normal */
+  text-align: center;
+  color: white;
+}
+
+.menu-container {
+  display: flex;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #faf7f7;
+  width: 200px; /* Ajuste a largura do menu conforme necessário */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Altere para 'fixed' para manter o menu fixo na tela */
+  height: calc(100% - 70px); /* Ajuste a altura para ocupar o restante da tela */
+  
+}
+
+.menu-item {
+  margin-bottom: 10px;
+  height: 5%;
+}
+
+.logout-button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 5%; /* Ajuste a largura para ocupar todo o menu */
+  position: relative;
+  left: 550px;
+  top: -50px;
+  
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.content {
+  padding: 70px 20px 20px;
+  margin-left: 200px; /* Ajuste a margem esquerda para a largura do menu */
+}

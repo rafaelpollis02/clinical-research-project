@@ -12,7 +12,7 @@ const LoggedInScreen = () => {
   return (
     <div>
       {showPopup && <PopupMessage message="" onClose={closePopup} />}
-      {/* O restante do seu conteúdo permanece o mesmo */}
+    
     </div>
   );
 };

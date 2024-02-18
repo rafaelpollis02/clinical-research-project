@@ -1,16 +1,20 @@
 // PopupMessage.js
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../Autenticate/PopupMessage.css';
 
 const PopupMessage = ({ message, onClose }) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onClose();
-    }, 5000); // 5000 milissegundos = 5 segundos
+      navigate('/home');
+    }, 2000); // 5000 milissegundos = 5 segundos
 
     // Limpe o timeout quando o componente for desmontado
     return () => clearTimeout(timeoutId);
-  }, [onClose]);
+  }, [onClose, navigate]);
 
   return (
     <div className="popup-message">

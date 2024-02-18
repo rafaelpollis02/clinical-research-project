@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import LoggedInScreen from '../Autenticate/LoggedInScreen';
+import { Link } from 'react-router-dom';
 import './AutenticateCrud.css';
 import eyeOpen from './olho aberto.png';
 import eyeClosed from './olho fechado.png';
-import { Link } from 'react-router-dom';
 import './AutenticateCrud.css';
-
 
 const AutenticateForm = () => {
   const [user, setUser] = useState('');
@@ -13,7 +12,6 @@ const AutenticateForm = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
 
   const handleLogin = async () => {
     try {
@@ -57,7 +55,6 @@ const AutenticateForm = () => {
       <div className="login-container">
         <h1>Faça seu login</h1>
         <label>
-        
           <input
             type="text"
             value={user}
@@ -68,7 +65,6 @@ const AutenticateForm = () => {
         </label>
 
         <label>
-          
           <input
             type={showPassword ? 'text' : 'password'}
             value={password}
@@ -76,11 +72,11 @@ const AutenticateForm = () => {
             onKeyPress={handleKeyPress}
             placeholder="Senha"
           />
-          <img  className="eye-icon"
+          <img
+            className="eye-icon"
             src={showPassword ? eyeOpen : eyeClosed}
             alt={showPassword ? 'Olho aberto' : 'Olho fechado'}
             onClick={handleTogglePassword}
-            
           />
         </label>
 
@@ -93,7 +89,6 @@ const AutenticateForm = () => {
         <br />
       </div>
       <div className="image-container">
-       
         <img src="Logo.png" alt="" />
       </div>
     </div>
