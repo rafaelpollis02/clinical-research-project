@@ -1,8 +1,7 @@
 package br.com.clinicalresearch.domain;
 
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
-import jakarta.json.bind.annotation.JsonbTransient;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,9 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
-@JsonbPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "establishment", "personType"})
+@Table(name = "PERSON")
+@JsonPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "establishment", "personType"})
 public class Person {
 
     @Id
@@ -38,14 +37,12 @@ public class Person {
     @Schema(description = "Email da pessoa", example = "teste@gmail.com")
     private String email;
 
-    @JsonbDateFormat("dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Schema(description = "Data de Nascimento da pessoa", example = "01/01/2000")
     private LocalDate birthDate;
-
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime createDate = LocalDateTime.now();
-
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -64,7 +61,7 @@ public class Person {
     )
     private List<Establishment> establishment;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Autenticate autenticate;
 
     public Long getId() {
@@ -126,6 +123,7 @@ public class Person {
     public LocalDateTime getCreateDate() {
         return createDate;
     }
+
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
@@ -153,8 +151,7 @@ public class Person {
     public void setEstablishment(List<Establishment> establishment) {
         this.establishment = establishment;
     }
-
-    @JsonbTransient
+    
     public Autenticate getAutenticate() {
         return autenticate;
     }

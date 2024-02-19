@@ -57,9 +57,9 @@ button:hover {
 }
 
 a {
-  color: #007bff;
+  color: #008cff;
   text-decoration: none;
-  margin-top: 5px;
+  margin-top: -50px;
   display: block;
   text-align: right;
 }
@@ -69,7 +69,7 @@ a:hover {
 }
 
 .image-container {
-  background-image: url(Logo.png);
+  background-image: url(Logo.jpeg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

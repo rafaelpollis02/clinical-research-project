@@ -1,30 +1,30 @@
-package br.com.clinicalresearch.relational;
+package br.com.clinicalresearch.domain;
 
-import br.com.clinicalresearch.domain.Enterprise;
-import br.com.clinicalresearch.domain.Establishment;
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@JsonbPropertyOrder({"id", "establishment", "createDate"})
-@Table(name = "enterprise_establishment")
+@Table(name = "ENTERPRISE_ESTABLISHMENT")
+@JsonPropertyOrder({"id", "createDate", "enterprise", "establishment"})
 public class EnterpriseEstablishment {
-
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Long id;
-
-    @ManyToOne
-    private Enterprise enterprise;
-
-    @ManyToOne
-    private Establishment establishment;
-
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @JsonIgnore
     private LocalDateTime createDate = LocalDateTime.now();
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "enterprise_id")
+    private Enterprise enterprise;
+    @ManyToOne
+    @JoinColumn(name = "establishment_id")
+    private Establishment establishment;
 
     public Long getId() {
         return id;

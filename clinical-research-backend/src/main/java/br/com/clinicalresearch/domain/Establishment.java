@@ -1,28 +1,45 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@JsonbPropertyOrder({"id", "name", "logoFile", "status", "createDate", "updateDate"})
+@Table(name = "ESTABLISHMENT")
+@JsonPropertyOrder({"id", "name", "logoFile", "status", "createDate", "updateDate"})
 public class Establishment {
 
     @Id
     @GeneratedValue
-    Long id;
-    String name;
-    StatusObject status = StatusObject.ACTIVE;
+    @Column(name = "ID")
+    private Long id;
 
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
-    LocalDateTime createDate = LocalDateTime.now();
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
-    LocalDateTime updateDate = LocalDateTime.now();
+    @Column(name = "NAME")
+    private String name;
 
-    String logoFile;
+    @Column(name = "LOGO_FILE")
+    private String logoFile;
+
+    @Column(name = "STATUS")
+    private StatusObject status = StatusObject.ACTIVE;
+
+    @Column(name = "CREATE_DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    private LocalDateTime createDate = LocalDateTime.now();
+
+    @Column(name = "UPDATE_DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    private LocalDateTime updateDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -72,4 +89,11 @@ public class Establishment {
         this.logoFile = logoFile;
     }
 
+    public List<EnterpriseEstablishment> getEnterpriseEstablishments() {
+        return enterpriseEstablishments;
+    }
+
+    public void setEnterpriseEstablishments(List<EnterpriseEstablishment> enterpriseEstablishments) {
+        this.enterpriseEstablishments = enterpriseEstablishments;
+    }
 }

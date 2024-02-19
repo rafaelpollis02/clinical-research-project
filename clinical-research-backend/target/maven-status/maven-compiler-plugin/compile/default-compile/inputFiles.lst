@@ -11,7 +11,6 @@ C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-bac
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\GeneralException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\InvalidLoginException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\Message.java
-C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\NotFoundException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\repository\AutenticateRepository.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\repository\AutenticateTokenRepository.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\repository\EnterpriseEstablishmentRepository.java

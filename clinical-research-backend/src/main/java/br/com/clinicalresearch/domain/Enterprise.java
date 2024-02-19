@@ -1,11 +1,8 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
-import br.com.clinicalresearch.relational.EnterpriseEstablishment;
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
-import jakarta.json.bind.annotation.JsonbTransient;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,27 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonbPropertyOrder({"id", "cnpj", "name", "status","createDate","updateDate","establishment"})
+@Table(name = "ENTERPRISE")
+@JsonPropertyOrder({"id", "name", "description", "cnpj", "status", "createDate", "updateDate"})
 public class Enterprise {
-
     @Id
     @GeneratedValue
+    @Column(name = "ID")
     private Long id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Column(name = "CNPJ")
     private String cnpj;
+    @Column(name = "STATUS")
+    private StatusObject status = StatusObject.ACTIVE;
+    @Column(name = "CREATE_DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    private LocalDateTime createDate = LocalDateTime.now();
+    @Column(name = "UPDATE_DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    private LocalDateTime updateDate = LocalDateTime.now();
 
-    StatusObject status = StatusObject.ACTIVE;
-
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
-    LocalDateTime createDate = LocalDateTime.now();
-
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
-    LocalDateTime updateDate = LocalDateTime.now();
-
-    @OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonbTransient
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
-
 
     public Long getId() {
         return id;
@@ -49,6 +49,14 @@ public class Enterprise {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCnpj() {
@@ -90,14 +98,4 @@ public class Enterprise {
     public void setEnterpriseEstablishments(List<EnterpriseEstablishment> enterpriseEstablishments) {
         this.enterpriseEstablishments = enterpriseEstablishments;
     }
-
-    @JsonbProperty("establishments")
-    public List<Establishment> getEstablishments() {
-        List<Establishment> establishments = new ArrayList<>();
-        for (EnterpriseEstablishment ee : enterpriseEstablishments) {
-            establishments.add(ee.getEstablishment());
-        }
-        return establishments;
-    }
-
 }

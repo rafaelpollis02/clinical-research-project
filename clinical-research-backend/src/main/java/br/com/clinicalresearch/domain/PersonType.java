@@ -1,18 +1,20 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
 @Entity
-@JsonbPropertyOrder({"id", "type", "status", "createDate", "updateDate"})
+@Table(name = "PERSON_TYPE")
+@JsonPropertyOrder({"id", "type", "status", "createDate", "updateDate"})
 public class PersonType {
 
     @Id
@@ -25,10 +27,10 @@ public class PersonType {
 
     private StatusObject status = StatusObject.ACTIVE;
 
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime createDate = LocalDateTime.now();
 
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime updateDate = LocalDateTime.now();
 
     public Long getId() {

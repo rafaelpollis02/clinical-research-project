@@ -1,9 +1,8 @@
 package br.com.clinicalresearch.exceptions;
 
-import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonbPropertyOrder({"type", "message"})
+@JsonPropertyOrder({"type", "message"})
 public class Message {
 
     String message;

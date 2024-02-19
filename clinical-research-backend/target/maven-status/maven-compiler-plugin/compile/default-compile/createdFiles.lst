@@ -4,7 +4,6 @@ br\com\clinicalresearch\domain\Establishment.class
 br\com\clinicalresearch\service\PersonService.class
 br\com\clinicalresearch\domain\Enterprise.class
 br\com\clinicalresearch\repository\PersonTypeRepository.class
-br\com\clinicalresearch\exceptions\NotFoundException.class
 br\com\clinicalresearch\repository\EnterpriseEstablishmentRepository.class
 br\com\clinicalresearch\service\EstablishmentService.class
 br\com\clinicalresearch\repository\AutenticateTokenRepository.class
@@ -24,8 +23,10 @@ br\com\clinicalresearch\resource\AutenticateResource.class
 br\com\clinicalresearch\service\EnterpriseService.class
 br\com\clinicalresearch\resource\EstablishmentResource.class
 br\com\clinicalresearch\service\AutenticateTokenService.class
+br\com\clinicalresearch\domain\EnterpriseEstablishment.class
 br\com\clinicalresearch\repository\AutenticateRepository.class
 br\com\clinicalresearch\domain\Autenticate.class
 br\com\clinicalresearch\repository\EnterpriseRepository.class
 br\com\clinicalresearch\service\PersonTypeService.class
+br\com\clinicalresearch\exceptions\InvalidLoginException.class
 br\com\clinicalresearch\exceptions\Message.class

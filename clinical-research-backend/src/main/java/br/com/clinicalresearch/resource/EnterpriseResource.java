@@ -3,11 +3,14 @@ package br.com.clinicalresearch.resource;
 import br.com.clinicalresearch.domain.Enterprise;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.service.EnterpriseService;
 import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -20,50 +23,54 @@ public class EnterpriseResource {
     EnterpriseService enterpriseService;
 
     @GET
-    public List<Enterprise> getAllEnterprise() {
-        return enterpriseService.getAllEnterprise();
+    public Response getAllEnterprise() {
+         List<Enterprise> existingEnterprise = enterpriseService.getAllEnterprise();
+         return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
     @GET
     @Path("/{idEnterprise}")
-    public Enterprise getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
-        return enterpriseService.getEnterpriseById(idEnterprise);
+    public Response getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) throws NotFoundException {
+        Enterprise existingEnterprise = enterpriseService.getEnterpriseById(idEnterprise);
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
     @POST
     @Transactional
-    public Enterprise saveEnterprise(Enterprise enterprise) throws BusinessException {
-        enterpriseService.saveEnterprise(enterprise);
-        return enterprise;
+    public Response createEnterprise(Enterprise enterprise) throws BusinessException {
+        enterpriseService.createEnterprise(enterprise);
+        return Response.status(Response.Status.CREATED).entity(enterprise).build();
+    }
+
+    @PUT
+    @Path("/{idEnterprise}")
+    @Transactional
+    public Response updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) throws NotFoundException {
+       Enterprise existingEnterprise = enterpriseService.updateEnterprise(idEnterprise, enterprise);
+       return Response.status(Response.Status.OK).entity(existingEnterprise).build();
+    }
+
+    @DELETE
+    @Path("/{idEnterprise}")
+    @Transactional
+    public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
+        enterpriseService.deleteEnterprise(idEnterprise);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @POST
     @Path("/{idEnterprise}/addEstablishment")
     @Transactional
-    public Enterprise addEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
-        return enterpriseService.addEstablishment(idEnterprise, establishment);
+    public Response addEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
+        Enterprise existingEnterprise = enterpriseService.addEstablishment(idEnterprise, establishment);
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
     @DELETE
     @Path("/{idEnterprise}/removeEstablishment")
-    @Transactional
-    public Enterprise removeEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
-        return enterpriseService.removeEstablishment(idEnterprise, establishment);
-    }
-
-
-    @PUT
-    @Path("/{idEnterprise}")
-    @Transactional
-    public Enterprise updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) throws BusinessException {
-        return enterpriseService.updateEnterprise(idEnterprise, enterprise);
-    }
-
-    @DELETE
-    @Path("/{idEnterprise}")
-    @Transactional
-    public void deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
-        enterpriseService.deleteEnterprise(idEnterprise);
+    public Response removeEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
+        Enterprise existingEnterprise = enterpriseService.removeEstablishment(idEnterprise, establishment);
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
 }

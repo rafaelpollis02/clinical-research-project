@@ -1,16 +1,16 @@
 package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
-import jakarta.json.bind.annotation.JsonbDateFormat;
-import jakarta.json.bind.annotation.JsonbPropertyOrder;
-import jakarta.json.bind.annotation.JsonbTransient;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@JsonbPropertyOrder({"id", "cpf", "email", "password", "status", "createDate", "updateDate"})
+@Table(name = "AUTENTICATE")
+@JsonPropertyOrder({"id", "cpf", "email", "password", "status", "createDate", "updateDate"})
 public class Autenticate {
 
     @Id
@@ -18,14 +18,13 @@ public class Autenticate {
     private Long id;
     private String cpf;
     private String email;
-
     private String password;
     private boolean firstAcess = true;
 
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime createDate = LocalDateTime.now();
 
-    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 
     private StatusObject status = StatusObject.ACTIVE;
@@ -108,7 +107,6 @@ public class Autenticate {
         this.autenticateTokens = autenticateTokens;
     }
 
-    @JsonbTransient
     public Person getPerson() {
         return person;
     }
