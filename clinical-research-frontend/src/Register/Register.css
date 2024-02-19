@@ -1,0 +1,48 @@
+
+.register-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .menu-lateral {
+    width: 200px;
+    background-color: #007bff; /* Azul */
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .menu-lateral ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .menu-lateral li {
+    margin-bottom: 10px;
+  }
+  
+  .menu-lateral a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .cadastro-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Estilos para dispositivos de tela pequenos (mobile) */
+  @media (max-width: 768px) {
+    .register-container {
+      flex-direction: column;
+    }
+  
+    .menu-lateral {
+      width: 100%;
+    }
+  
+    .cadastro-content {
+      width: 100%;
+    }
+  }
+  
