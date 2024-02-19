@@ -79,9 +79,7 @@ a:hover {
 
 /* Media query para tornar o layout responsivo */
 @media (max-width: 768px) {
-  .login {
-    flex-direction: column;
-  }
+
 
   .image-container {
     height: 200px; /* Ajuste a altura conforme necessário para a versão responsiva */
@@ -103,9 +101,9 @@ a:hover {
 /* Adicione estas regras para ajustar o ícone do olho */
 .eye-icon {
   cursor: pointer;
-  margin-left: 310px;
+  margin-left: 90%; /* Ajuste a porcentagem conforme necessário */
   top: -44px; 
   position: relative;
-  width: 25px; 
-  height: 25px; 
+  width: 5%; /* Ajuste a porcentagem conforme necessário */
+  height: 5%; /* Ajuste a porcentagem conforme necessário */
 }
