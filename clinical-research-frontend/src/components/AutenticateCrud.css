@@ -87,6 +87,12 @@ a:hover {
   }
 }
 
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 100px;
+  }
+}
 .password-label {
   display: flex;
   margin-bottom: 10px;
