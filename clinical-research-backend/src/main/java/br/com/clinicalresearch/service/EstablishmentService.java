@@ -28,7 +28,7 @@ public class EstablishmentService {
         return existingEstablishment;
     }
 
-    public Establishment saveEstablishment(Establishment establishment) {
+    public Establishment createEstablishment(Establishment establishment) {
         establishmentRepository.persist(establishment);
         return establishment;
     }

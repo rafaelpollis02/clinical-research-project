@@ -8,9 +8,8 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class PersonRepository implements PanacheRepository<Person> {
-
-    public Optional<Person> findPersonByCpf(String cpf) {
-        return find("cpf", cpf).singleResultOptional();
+    public Person findPersonByCpf(String cpf) {
+        return find("cpf", cpf).firstResult();
     }
 
 }

@@ -7,6 +7,7 @@ C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-bac
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\domain\Person.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\domain\PersonType.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\dto\AutenticateRequest.java
+C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\BadRequestException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\BusinessException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\GeneralException.java
 C:\Users\4960013753\IntelliJIdea\clinical-research-project\clinical-research-backend\src\main\java\br\com\clinicalresearch\exceptions\InvalidLoginException.java

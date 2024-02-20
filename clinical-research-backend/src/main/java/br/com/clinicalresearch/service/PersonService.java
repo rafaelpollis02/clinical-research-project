@@ -1,6 +1,9 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.domain.*;
+import br.com.clinicalresearch.domain.Autenticate;
+import br.com.clinicalresearch.domain.Establishment;
+import br.com.clinicalresearch.domain.Person;
+import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import br.com.clinicalresearch.repository.PersonRepository;
@@ -10,20 +13,15 @@ import jakarta.inject.Inject;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class PersonService {
-
     @Inject
     PersonRepository personRepository;
-
     @Inject
     PersonTypeRepository personTypeRepository;
-
     @Inject
     EstablishmentRepository establishmentRepository;
-
     @Inject
     AutenticateService autenticateService;
 
@@ -40,8 +38,8 @@ public class PersonService {
     }
 
     public Person savePerson(Person person) throws BusinessException {
-        Optional<Person> existingPerson = personRepository.findPersonByCpf(person.getCpf());
-        if (existingPerson.isPresent()) {
+        Person existingPerson = personRepository.findPersonByCpf(person.getCpf());
+        if (existingPerson != null) {
             throw new BusinessException("Person duplicate by cpf " + person.getCpf());
         } else {
             personRepository.persist(person);

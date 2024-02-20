@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class AutenticateTokenRepository implements PanacheRepository<AutenticateToken> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     public AutenticateToken findTokenByAutenticateId(Long idAutenticate) {
         return find("autenticate.id = ?1 order by createDate desc", idAutenticate).firstResult();
     }

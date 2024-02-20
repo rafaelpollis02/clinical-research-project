@@ -25,6 +25,7 @@ public class AutenticateService {
     @Inject
     AutenticateTokenService autenticateTokenService;
 
+
     private final Random random = new Random();
 
     public String getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws NotFoundException {
@@ -72,14 +73,8 @@ public class AutenticateService {
         autenticate.setPassword(gerarPasswordEncoder());
         autenticateRepository.persist(autenticate);
 
-        AutenticateToken autenticateToken = new AutenticateToken();
-        autenticateToken.setToken(autenticateTokenService.gerarToken());
-        autenticateToken.setAutenticate(autenticate);
-        autenticateTokenService.saveToken(autenticateToken);
-
         return autenticate;
     }
-
 
     public Autenticate updatePasswordAutenticate(AutenticateRequest autenticateRequest) throws BadRequestException {
 
@@ -100,7 +95,7 @@ public class AutenticateService {
                 existingAutenticate.setFirstAcess(false);
                 Response.status(Response.Status.OK).build();
             } else {
-                throw new BadRequestException("Token is Incorrect or expire");
+                throw new BadRequestException("Token is Invalid");
             }
 
         } else if (validateAutenticateByEmail(user)) {
@@ -113,9 +108,8 @@ public class AutenticateService {
                 existingAutenticate.setFirstAcess(false);
                 Response.status(Response.Status.OK).build();
             } else {
-                throw new BadRequestException("Token is Incorrect or expire");
+                throw new BadRequestException("Token is Invalid");
             }
-
         }
         return null;
     }

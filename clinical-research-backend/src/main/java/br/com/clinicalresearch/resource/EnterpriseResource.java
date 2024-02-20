@@ -18,7 +18,6 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EnterpriseResource {
-
     @Inject
     EnterpriseService enterpriseService;
 

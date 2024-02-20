@@ -15,6 +15,7 @@ META-INF\panache-archive.marker
 br\com\clinicalresearch\dto\AutenticateRequest.class
 br\com\clinicalresearch\exceptions\GeneralException.class
 br\com\clinicalresearch\repository\PersonRepository.class
+br\com\clinicalresearch\exceptions\BadRequestException.class
 br\com\clinicalresearch\resource\PersonTypeResource.class
 br\com\clinicalresearch\domain\Person.class
 br\com\clinicalresearch\exceptions\BusinessException.class
@@ -24,8 +25,10 @@ br\com\clinicalresearch\resource\AutenticateResource.class
 br\com\clinicalresearch\service\EnterpriseService.class
 br\com\clinicalresearch\resource\EstablishmentResource.class
 br\com\clinicalresearch\service\AutenticateTokenService.class
+br\com\clinicalresearch\domain\EnterpriseEstablishment.class
 br\com\clinicalresearch\repository\AutenticateRepository.class
 br\com\clinicalresearch\domain\Autenticate.class
 br\com\clinicalresearch\repository\EnterpriseRepository.class
 br\com\clinicalresearch\service\PersonTypeService.class
+br\com\clinicalresearch\exceptions\InvalidLoginException.class
 br\com\clinicalresearch\exceptions\Message.class

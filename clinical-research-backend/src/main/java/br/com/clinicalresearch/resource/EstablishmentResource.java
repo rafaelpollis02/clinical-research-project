@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -16,40 +17,43 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class EstablishmentResource {
-
     @Inject
     EstablishmentService establishmentService;
 
     @GET
-    public List<Establishment> getAllEstablishment() {
-        return establishmentService.getAllEstablishment();
+    public Response getAllEstablishment() {
+        List<Establishment> existingEstablishment = establishmentService.getAllEstablishment();
+        return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
     @GET
     @Path("/{idEstablishment}")
-    public Establishment getEstablishmentById(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
-        return establishmentService.getEstablishmentById(idEstablishment);
+    public Response getEstablishmentById(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
+        Establishment existingEstablishment = establishmentService.getEstablishmentById(idEstablishment);
+        return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
     @POST
     @Transactional
-    public Establishment saveEstablishment(Establishment establishment) {
-        establishmentService.saveEstablishment(establishment);
-        return establishment;
+    public Response createEstablishment(Establishment establishment) {
+        Establishment existingEstablishment = establishmentService.createEstablishment(establishment);
+        return Response.status(Response.Status.CREATED).entity(existingEstablishment).build();
     }
 
     @PUT
     @Path("/{idEstablishment}")
     @Transactional
-    public Establishment updateEstablishment(@PathParam("idEstablishment") Long idEstablishment, Establishment establishment) throws BusinessException {
-        return establishmentService.updateEstablishment(idEstablishment, establishment);
+    public Response updateEstablishment(@PathParam("idEstablishment") Long idEstablishment, Establishment establishment) throws BusinessException {
+        Establishment existingEstablishment = establishmentService.updateEstablishment(idEstablishment, establishment);
+        return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
     @DELETE
     @Path("/{idEstablishment}")
     @Transactional
-    public void deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
+    public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
         establishmentService.deleteEstablishment(idEstablishment);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
 }

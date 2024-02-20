@@ -9,12 +9,11 @@ import java.util.Optional;
 @ApplicationScoped
 public class EnterpriseRepository implements PanacheRepository<Enterprise> {
 
-    public Optional<Enterprise> findEnterpriseByCnpj(String cnpj){
-        return find("cnpj", cnpj).singleResultOptional();
+    public Enterprise findEnterpriseByCnpj(String cnpj){
+        return find("cnpj", cnpj).firstResult();
     }
-
-    public Optional<Enterprise> findEnterpriseByName(String name) {
-        return find("name", name).singleResultOptional();
+    public Enterprise findEnterpriseByName(String name) {
+        return find("name", name).firstResult();
     }
 
 }
