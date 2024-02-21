@@ -1,18 +1,22 @@
 // PopupMessage.js
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../Autenticate/PopupMessage.css';
 
 const PopupMessage = ({ message, onClose }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userName = location.state?.user;
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      onClose();
+      if (typeof onClose === 'function') {
+        onClose();
+      }
       navigate('/home');
-    }, 2000); // 5000 milissegundos = 5 segundos
-
-    // Limpe o timeout quando o componente for desmontado
+    }, 8000);
+  
+    // Limpar o timeout quando o componente for desmontado
     return () => clearTimeout(timeoutId);
   }, [onClose, navigate]);
 
@@ -22,7 +26,7 @@ const PopupMessage = ({ message, onClose }) => {
         <span className="close-button" onClick={onClose}>
           &times;
         </span>
-        <h1>Sucesso!</h1>
+        <h1>Seja bem-vindo, {userName}!</h1>
         <p>{message}</p>
       </div>
     </div>

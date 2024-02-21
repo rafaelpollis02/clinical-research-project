@@ -26,14 +26,15 @@ const TokenInput = () => {
 
   const handleConfirm = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/autenticate/123456/validateToken?token=${token.join('')}`
-      );
+      const tokenValue = token.join(''); 
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/autenticate/${tokenValue}/validateToken`
+    );
 
       if (response.status === 200) {
         console.log('Token validado com sucesso!');
         setApiMessage('Token validado com sucesso!');
-        navigate("/");
+        navigate("/change-password");
       } 
       if (response.status === 400) {
         console.log('Token expirado');

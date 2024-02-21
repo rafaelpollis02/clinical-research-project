@@ -3,7 +3,10 @@ import axios from 'axios';
 import './PasswordRecovery.css';
 import PassInScreen from './PassInScreen';
 
+
+
 const PasswordRecovery = () => {
+  
   const [user, setUser] = useState('');
   const [Showfailure, setShowfailure] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -39,6 +42,7 @@ const PasswordRecovery = () => {
           if (tokenResponse.status === 200) {
             console.log('Token gerado com sucesso:', tokenResponse.data);
             setPassInScreen(true);
+            
           } else {
             console.error('Falha ao gerar o token.');
             
@@ -65,6 +69,7 @@ const PasswordRecovery = () => {
 
   if (isLoggedIn) {
     return <PassInScreen />;
+    
   }
 
   return (
