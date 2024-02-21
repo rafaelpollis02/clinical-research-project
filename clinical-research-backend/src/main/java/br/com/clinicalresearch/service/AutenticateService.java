@@ -142,7 +142,7 @@ public class AutenticateService {
                 AutenticateResponse autenticateResponse = new AutenticateResponse();
                 autenticateResponse.setCpf(existingAutenticateToken.getAutenticate().getCpf());
                 autenticateResponse.setEmail(existingAutenticateToken.getAutenticate().getEmail());
-                autenticateResponse.setName(existingAutenticateToken.getAutenticate().getPerson().getFullName());
+                autenticateResponse.setFullName(existingAutenticateToken.getAutenticate().getPerson().getFullName());
 
                 return autenticateResponse;
             } else {

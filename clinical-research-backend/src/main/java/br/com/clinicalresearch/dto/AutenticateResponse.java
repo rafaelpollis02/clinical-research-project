@@ -2,11 +2,11 @@ package br.com.clinicalresearch.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"name", "cpf", "email"})
+@JsonPropertyOrder({"fullName", "cpf", "email"})
 public class AutenticateResponse {
 
     String cpf;
-    String name;
+    String fullName;
     String email;
 
     public String getCpf() {
@@ -17,12 +17,12 @@ public class AutenticateResponse {
         this.cpf = cpf;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
