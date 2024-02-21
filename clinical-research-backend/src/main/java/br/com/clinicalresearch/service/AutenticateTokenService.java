@@ -5,7 +5,7 @@ import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 @ApplicationScoped
@@ -16,15 +16,16 @@ public class AutenticateTokenService {
 
     private final Random random = new Random();
 
-    public AutenticateToken findTokenByAutenticateId(Long idAutenticate){
+    public AutenticateToken findTokenByAutenticateId(Long idAutenticate) {
         return autenticateTokenRepository.findTokenByAutenticateId(idAutenticate);
     }
 
-    public AutenticateToken findTokenByToken(String token){
+    public AutenticateToken findTokenByToken(String token) {
         return autenticateTokenRepository.findTokenByToken(token);
     }
 
-    public AutenticateToken createAutenticateToken(AutenticateToken autenticateToken){
+    public AutenticateToken createAutenticateToken(AutenticateToken autenticateToken) {
+        autenticateToken.setExpireDate(LocalDateTime.now().plusMinutes(2));
         autenticateTokenRepository.persist(autenticateToken);
         return autenticateToken;
     }

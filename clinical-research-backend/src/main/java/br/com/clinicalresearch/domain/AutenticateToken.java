@@ -19,7 +19,7 @@ public class AutenticateToken {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime createDate = LocalDateTime.now();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
-    private LocalDateTime expireDate = LocalDateTime.now().plusMinutes(2);
+    private LocalDateTime expireDate;
 
     public Long getId() {
         return id;

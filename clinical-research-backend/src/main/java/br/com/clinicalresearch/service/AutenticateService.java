@@ -5,6 +5,7 @@ import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.domain.AutenticateToken;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.dto.AutenticateRequest;
+import br.com.clinicalresearch.dto.AutenticateResponse;
 import br.com.clinicalresearch.exceptions.BadRequestException;
 import br.com.clinicalresearch.exceptions.InvalidLoginException;
 import br.com.clinicalresearch.exceptions.NotFoundException;
@@ -118,17 +119,17 @@ public class AutenticateService {
 
         if (validateAutenticateByCpf(user)) {
             Autenticate autenticate = autenticateRepository.findAutenticateByCpf(user);
-            return generateTokenForAutenticate(autenticate);
+            return tokenForAutenticate(autenticate);
         }
 
         if (validateAutenticateByEmail(user)) {
             Autenticate autenticate = autenticateRepository.findAutenticateByEmail(user);
-            return generateTokenForAutenticate(autenticate);
+            return tokenForAutenticate(autenticate);
         }
         throw new NotFoundException("User not found");
     }
 
-    public void validateToken(String token) throws BadRequestException, NotFoundException {
+    public AutenticateResponse validateToken(String token) throws BadRequestException, NotFoundException {
 
         AutenticateToken existingAutenticateToken = autenticateTokenService.findTokenByToken(token);
 
@@ -137,11 +138,14 @@ public class AutenticateService {
             LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
 
             if (token.equals(tokenRecuperado) && expireDate.isAfter(LocalDateTime.now())) {
-                Response.status(Response.Status.OK).build();
-                System.out.println("passou na validação de igual de tokens e não expirado");
 
+                AutenticateResponse autenticateResponse = new AutenticateResponse();
+                autenticateResponse.setCpf(existingAutenticateToken.getAutenticate().getCpf());
+                autenticateResponse.setEmail(existingAutenticateToken.getAutenticate().getEmail());
+                autenticateResponse.setName(existingAutenticateToken.getAutenticate().getPerson().getFullName());
+
+                return autenticateResponse;
             } else {
-                System.out.println("passou no else de token diferente ou data expirada");
                 throw new BadRequestException("Token is Invalid");
             }
         } else {
@@ -186,7 +190,7 @@ public class AutenticateService {
         return new String(decodedBytes);
     }
 
-    public String generateTokenForAutenticate(Autenticate autenticate) {
+    public String tokenForAutenticate(Autenticate autenticate) {
         AutenticateToken autenticateToken = new AutenticateToken();
         autenticateToken.setToken(autenticateTokenService.gerarToken());
         autenticateToken.setAutenticate(autenticate);
