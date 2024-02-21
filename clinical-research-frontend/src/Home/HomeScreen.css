@@ -1,4 +1,6 @@
 /* HomeScreen.css */
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
 .home-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +11,7 @@
   background-color: #007bff;
   height: 70px;
   width: 100%;
-  position: relative; /* Remova 'absolute' para manter a tarja no fluxo normal */
+  position: relative; 
   text-align: center;
   color: white;
 }
@@ -22,7 +24,7 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #faf7f7;
+  background-color: #f3f1f1;
   width: 200px; /* Ajuste a largura do menu conforme necessário */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: fixed; /* Altere para 'fixed' para manter o menu fixo na tela */
@@ -32,29 +34,59 @@
 
 .menu-item {
   margin-bottom: 10px;
-  height: 5%;
+  height: 0%;
+  background-color: #f0ecec
+}
+.Cadastro, .Agenda {
+  cursor: pointer;
+  position: relative;
+  padding: 15px;
+  background-color: #007bff;
+  border: 1px solid white;
+  border-radius: 15px;
+  text-align: center;
+  font-size: large;
+  font-family: 'Times New Roman', Times, serif;
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
+.Cadastro i, .Agenda i {
+  margin-right: 10px;
+}
 .logout-button {
   background-color: #007bff;
   color: white;
-  padding: 5px 5px;
+  padding: 5px 25px; /* Ajuste o preenchimento conforme necessário */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  width: 5%; /* Ajuste a largura para ocupar todo o menu */
-  position: relative;
-  left: 550px;
-  top: -50px;
-  
+  position: fixed; /* Torna o botão fixo */
+  top: 20px; /* Ajuste a distância do topo conforme necessário */
+  right: 100px; /* Ajuste a distância da direita conforme necessário */
+  width: 5%;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 
 .content {
   padding: 70px 20px 20px;
   margin-left: 200px; /* Ajuste a margem esquerda para a largura do menu */
 }
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 100px;
+  }
+
+
+
+}
+

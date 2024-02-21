@@ -2,24 +2,30 @@
 
 body.login-page  {
   margin: 0; 
+  
 }
 
 .login {
   display: flex;
   height: 100vh;
   background-color: #f4f4f4;
+  
+  
 }
 
 .login-container {
   flex: 1;
   text-align: left;
-  padding: 50px; /* Corrigido: unidade de medida px */
+  padding: 50px; 
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   max-width: 30%; /* Ajustado para 50% da largura da tela */
   color: #381ae2;
+  
+  
+  
 }
 
 h1 {
@@ -57,9 +63,9 @@ button:hover {
 }
 
 a {
-  color: #008cff;
+  color: #2e6bee;
   text-decoration: none;
-  margin-top: -50px;
+  margin-top: -30px;
   display: block;
   text-align: right;
 }
@@ -78,7 +84,7 @@ a:hover {
 }
 
 /* Media query para tornar o layout responsivo */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 
 
   .image-container {
@@ -97,11 +103,15 @@ a:hover {
   display: flex;
   margin-bottom: 10px;
   font-weight: bold;
+  
+  
 }
 
 .password-container {
   display: flex;
   align-items: center;
+  
+  
 }
 
 /* Adicione estas regras para ajustar o ícone do olho */
