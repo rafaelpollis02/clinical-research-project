@@ -68,11 +68,9 @@ public class AutenticateService {
     }
 
     public Autenticate createAutenticate(Autenticate autenticate, Person person) {
-
         autenticate.setPerson(person);
         autenticate.setPassword(gerarPasswordEncoder());
         autenticateRepository.persist(autenticate);
-
         return autenticate;
     }
 
@@ -130,28 +128,29 @@ public class AutenticateService {
         throw new NotFoundException("User not found");
     }
 
-    public Response validateToken(AutenticateRequest autenticateRequest) throws BadRequestException {
-
-        String token = autenticateRequest.token();
+    public void validateToken(String token) throws BadRequestException, NotFoundException {
 
         AutenticateToken existingAutenticateToken = autenticateTokenService.findTokenByToken(token);
 
         if (existingAutenticateToken != null) {
+            String tokenRecuperado = String.valueOf(existingAutenticateToken.getToken());
             LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
 
-            if (token.equals(existingAutenticateToken.getToken()) && expireDate.isAfter(LocalDateTime.now())) {
-                // Token válido
-                return Response.status(Response.Status.OK).build();
+            if (token.equals(tokenRecuperado) && expireDate.isAfter(LocalDateTime.now())) {
+                Response.status(Response.Status.OK).build();
+                System.out.println("passou na validação de igual de tokens e não expirado");
+
             } else {
+                System.out.println("passou no else de token diferente ou data expirada");
                 throw new BadRequestException("Token is Invalid");
             }
         } else {
-            throw new BadRequestException("Token not found");
+            throw new NotFoundException("Token not found");
         }
+
     }
 
     public boolean validateAutenticateByCpf(String cpf) {
-
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
         if (existingAutenticate == null) {
             return false;
@@ -161,7 +160,6 @@ public class AutenticateService {
     }
 
     public boolean validateAutenticateByEmail(String email) {
-
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(email);
         if (existingAutenticate == null) {
             return false;
