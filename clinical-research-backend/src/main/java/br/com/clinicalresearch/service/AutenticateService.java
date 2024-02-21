@@ -40,7 +40,7 @@ public class AutenticateService {
         }
     }
 
-    public String getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException {
+    public String getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NotFoundException {
 
         String user = autenticateRequest.user();
         String password = autenticateRequest.password();
@@ -75,7 +75,7 @@ public class AutenticateService {
         return autenticate;
     }
 
-    public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException {
+    public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
 
         String password = autenticateRequest.password();
         String token = autenticateRequest.token();
@@ -149,19 +149,19 @@ public class AutenticateService {
         }
     }
 
-    public boolean validateAutenticateByCpf(String cpf) {
+    public boolean validateAutenticateByCpf(String cpf) throws NotFoundException {
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
         if (existingAutenticate == null) {
-            return false;
+            throw new NotFoundException("User not found");
         } else {
             return true;
         }
     }
 
-    public boolean validateAutenticateByEmail(String email) {
+    public boolean validateAutenticateByEmail(String email) throws NotFoundException {
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(email);
         if (existingAutenticate == null) {
-            return false;
+            throw new NotFoundException("User not found");
         } else {
             return true;
         }

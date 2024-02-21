@@ -25,7 +25,7 @@ public class AutenticateResource {
     }
 
     @POST
-    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException {
+    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NotFoundException {
         autenticateService.getAccessByCpfOrEmail(autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
@@ -48,7 +48,7 @@ public class AutenticateResource {
     @PUT
     @Path("/{user}")
     @Transactional
-    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException {
+    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
         autenticateService.updatePasswordAutenticate(user, autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
