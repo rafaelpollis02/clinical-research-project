@@ -1,0 +1,89 @@
+/* TokenInput.css */
+
+.token-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: min-content;
+  margin-left: 35%;
+}
+
+.token-input-wrapper {
+  display: flex;
+  gap: 3px;
+}
+
+.token-input {
+  width: 50px;
+  height: 50px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.confirm-button {
+  background-color: #37e772;
+  color: white;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 300px;
+  height: 60px;
+  margin-top: 20px;
+}
+
+.confirm-button:disabled {
+  background-color: #2844e6;
+  cursor: not-allowed;
+  width: 300px;
+  height: 60px;
+  margin-top: 20px;
+}
+
+.button-link a {
+  background-color: #3498db;
+  color: white;
+  font-size: 14px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.button-link a:hover {
+  background-color: #2980b9;
+}
+
+@media (max-width: 600px) {
+  .token-input-container {
+    margin-top: 10px;
+  }
+
+  .token-input {
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    width: 30px;
+  }
+
+  .confirm-button {
+    font-size: 12px;
+    padding: 8px 8px;
+    margin-top: 8px;
+    width: 300px;
+    height: 60px;
+  }
+
+  .button-link a {
+    margin-top: 20px;
+  }
+}
