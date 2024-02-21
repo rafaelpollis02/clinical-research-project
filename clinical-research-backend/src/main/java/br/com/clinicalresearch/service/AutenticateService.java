@@ -130,23 +130,21 @@ public class AutenticateService {
         throw new NotFoundException("User not found");
     }
 
-    public Response validateToken(AutenticateRequest autenticateRequest) throws BadRequestException {
-
-        String token = autenticateRequest.token();
+    public void validateToken(String token) throws BadRequestException {
 
         AutenticateToken existingAutenticateToken = autenticateTokenService.findTokenByToken(token);
+        String tokenRecuperado = String.valueOf(existingAutenticateToken.getToken());
+        LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
 
-        if (existingAutenticateToken != null) {
-            LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
+        System.out.println("token passado: " + tokenRecuperado);
 
-            if (token.equals(existingAutenticateToken.getToken()) && expireDate.isAfter(LocalDateTime.now())) {
-                // Token válido
-                return Response.status(Response.Status.OK).build();
-            } else {
-                throw new BadRequestException("Token is Invalid");
-            }
+        System.out.println("token recuperada: " + existingAutenticateToken.getToken());
+        System.out.println("data recuperada: " + expireDate);
+
+        if (token.equals(tokenRecuperado)) {
+            Response.status(Response.Status.OK).build();
         } else {
-            throw new BadRequestException("Token not found");
+            throw new BadRequestException("Token is Invalid");
         }
     }
 

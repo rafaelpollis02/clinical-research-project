@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import org.jboss.logging.annotations.Param;
 
 @Path("api/v1/autenticate")
 public class AutenticateResource {
@@ -38,9 +39,9 @@ public class AutenticateResource {
     }
 
     @GET
-    @Path("/validateToken")
-    public Response validateToken(AutenticateRequest autenticateRequest) throws BadRequestException {
-        autenticateService.validateToken(autenticateRequest);
+    @Path("/{token}/validateToken")
+    public Response validateToken(@PathParam("token") String token) throws BadRequestException {
+        autenticateService.validateToken(token);
         return Response.status(Response.Status.OK).build();
     }
 
