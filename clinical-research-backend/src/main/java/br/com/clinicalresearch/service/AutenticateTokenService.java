@@ -5,6 +5,7 @@ import br.com.clinicalresearch.repository.AutenticateTokenRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.Optional;
 import java.util.Random;
 
 @ApplicationScoped
@@ -17,6 +18,10 @@ public class AutenticateTokenService {
 
     public AutenticateToken findTokenByAutenticateId(Long idAutenticate){
         return autenticateTokenRepository.findTokenByAutenticateId(idAutenticate);
+    }
+
+    public AutenticateToken findTokenByToken(String token){
+        return autenticateTokenRepository.findTokenByToken(token);
     }
 
     public AutenticateToken createAutenticateToken(AutenticateToken autenticateToken){

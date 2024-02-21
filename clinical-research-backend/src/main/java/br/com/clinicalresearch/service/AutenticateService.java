@@ -28,9 +28,9 @@ public class AutenticateService {
 
     private final Random random = new Random();
 
-    public String getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws NotFoundException {
+    public String getAutenticateByCpfOrEmail(String user) throws NotFoundException {
 
-        String user = autenticateRequest.user();
+        System.out.println(user);
 
         if (validateAutenticateByCpf(user) || validateAutenticateByEmail(user)) {
             return Response.ok("Successful").build().toString();
@@ -128,6 +128,26 @@ public class AutenticateService {
             return generateTokenForAutenticate(autenticate);
         }
         throw new NotFoundException("User not found");
+    }
+
+    public Response validateToken(AutenticateRequest autenticateRequest) throws BadRequestException {
+
+        String token = autenticateRequest.token();
+
+        AutenticateToken existingAutenticateToken = autenticateTokenService.findTokenByToken(token);
+
+        if (existingAutenticateToken != null) {
+            LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
+
+            if (token.equals(existingAutenticateToken.getToken()) && expireDate.isAfter(LocalDateTime.now())) {
+                // Token válido
+                return Response.status(Response.Status.OK).build();
+            } else {
+                throw new BadRequestException("Token is Invalid");
+            }
+        } else {
+            throw new BadRequestException("Token not found");
+        }
     }
 
     public boolean validateAutenticateByCpf(String cpf) {

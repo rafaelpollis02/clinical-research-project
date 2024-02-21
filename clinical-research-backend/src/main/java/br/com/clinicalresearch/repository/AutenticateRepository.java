@@ -18,12 +18,12 @@ public class AutenticateRepository implements PanacheRepository<Autenticate> {
     }
 
     public String findPasswordByCpf(String cpf) {
-        Autenticate autenticate = find("cpf", cpf).singleResult();
+        Autenticate autenticate = find("cpf", cpf).firstResult();
         return autenticate.getPassword();
     }
 
     public String findPasswordByEmail(String email) {
-        Autenticate autenticate = find("email", email).singleResult();
+        Autenticate autenticate = find("email", email).firstResult();
         return autenticate.getPassword();
     }
 

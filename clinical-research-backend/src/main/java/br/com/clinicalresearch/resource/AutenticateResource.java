@@ -7,10 +7,7 @@ import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.service.AutenticateService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 @Path("api/v1/autenticate")
@@ -20,8 +17,9 @@ public class AutenticateResource {
     AutenticateService autenticateService;
 
     @GET
-    public Response getAutenticateByCpfOrEmail(AutenticateRequest autenticateRequest) throws NotFoundException {
-        autenticateService.getAutenticateByCpfOrEmail(autenticateRequest);
+    @Path("/{user}")
+    public Response getAutenticateByCpfOrEmail(@PathParam("user") String user) throws NotFoundException {
+        autenticateService.getAutenticateByCpfOrEmail(user);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -36,6 +34,13 @@ public class AutenticateResource {
     @Transactional
     public Response generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
         autenticateService.generateToken(autenticateRequest);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("/validateToken")
+    public Response validateToken(AutenticateRequest autenticateRequest) throws BadRequestException {
+        autenticateService.validateToken(autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
 

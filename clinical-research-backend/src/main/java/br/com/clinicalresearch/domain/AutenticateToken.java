@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "AUTENTICATE_TOKEN")
@@ -59,4 +60,5 @@ public class AutenticateToken {
     public void setAutenticate(Autenticate autenticate) {
         this.autenticate = autenticate;
     }
+
 }
