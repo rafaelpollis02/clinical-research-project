@@ -32,10 +32,16 @@ const HomeScreen = () => {
       <div className="menu-container">
         <div className="menu">
           <div className="menu-item">
-            <button className="Cadastro" onClick={handleCadastro}>Cadastro</button>
-            <br />
-            <button onClick={handlePesquisaClinica}>Pesquisa Clínica</button>
-          </div>
+          <button className="Cadastro" onClick={handleCadastro}>
+           <i className="fas fa-user-plus" style={{ verticalAlign: 'top' }}></i> Cadastro
+           </button>
+           <br />
+            <button className="Agenda" onClick={handlePesquisaClinica}>
+            <i className="fas fa-notes-medical" style={{ verticalAlign: 'top' }}></i> Agenda
+            </button>
+            </div>
+         
+         
         </div>
       </div>
     </div>
