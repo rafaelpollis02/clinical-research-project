@@ -40,7 +40,7 @@ public class AutenticateResource {
 
     @GET
     @Path("/{token}/validateToken")
-    public Response validateToken(@PathParam("token") String token) throws BadRequestException {
+    public Response validateToken(@PathParam("token") String token) throws BadRequestException, NotFoundException {
         autenticateService.validateToken(token);
         return Response.status(Response.Status.OK).build();
     }
