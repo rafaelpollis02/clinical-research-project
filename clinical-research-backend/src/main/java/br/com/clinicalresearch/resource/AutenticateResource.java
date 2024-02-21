@@ -46,9 +46,10 @@ public class AutenticateResource {
     }
 
     @PUT
+    @Path("/{user}")
     @Transactional
-    public Response updatePasswordAutenticate(AutenticateRequest autenticateRequest) throws BadRequestException {
-        autenticateService.updatePasswordAutenticate(autenticateRequest);
+    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException {
+        autenticateService.updatePasswordAutenticate(user, autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
 

@@ -19,7 +19,9 @@ public class Autenticate {
     private String cpf;
     private String email;
     private String password;
-    private boolean firstAcess = true;
+
+    @Enumerated(EnumType.STRING)
+    private StatusObject status = StatusObject.PENDING;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime createDate = LocalDateTime.now();
@@ -27,10 +29,11 @@ public class Autenticate {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 
-    private StatusObject status = StatusObject.ACTIVE;
-
     @OneToMany(mappedBy = "autenticate", cascade = CascadeType.ALL)
     private List<AutenticateToken> autenticateTokens;
+
+    @OneToMany(mappedBy = "autenticate", cascade = CascadeType.ALL)
+    private List<AutenticateEstablishment> autenticateEstablishments;
 
     @OneToOne
     private Person person;
@@ -73,14 +76,6 @@ public class Autenticate {
 
     public void setStatus(StatusObject status) {
         this.status = status;
-    }
-
-    public boolean isFirstAcess() {
-        return firstAcess;
-    }
-
-    public void setFirstAcess(boolean firstAcess) {
-        this.firstAcess = firstAcess;
     }
 
     public LocalDateTime getCreateDate() {

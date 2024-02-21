@@ -27,6 +27,7 @@ public class Establishment {
     private String logoFile;
 
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     private StatusObject status = StatusObject.ACTIVE;
 
     @Column(name = "CREATE_DATE")
@@ -40,6 +41,9 @@ public class Establishment {
     @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<AutenticateEstablishment> autenticateEstablishments = new ArrayList<>();
 
     public Long getId() {
         return id;

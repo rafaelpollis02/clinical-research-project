@@ -22,6 +22,7 @@ public class EnterpriseEstablishment {
     @JsonIgnore
     @JoinColumn(name = "enterprise_id")
     private Enterprise enterprise;
+
     @ManyToOne
     @JoinColumn(name = "establishment_id")
     private Establishment establishment;

@@ -37,7 +37,7 @@ public class PersonService {
         return existingPerson;
     }
 
-    public Person savePerson(Person person) throws BusinessException {
+    public Person createPerson(Person person) throws BusinessException {
         Person existingPerson = personRepository.findPersonByCpf(person.getCpf());
         if (existingPerson != null) {
             throw new BusinessException("Person duplicate by cpf " + person.getCpf());
@@ -85,42 +85,6 @@ public class PersonService {
         personRepository.persist(existingPerson);
         return existingPerson;
     }
-
-    public Person addEstablishment(Long idPerson, Establishment establishment) throws BusinessException {
-
-        Person existingPerson = personRepository.findById(idPerson);
-        Long idEstablishment = establishment.getId();
-        Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
-
-        if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idPerson);
-        }
-        if (existingEstablishment == null) {
-            throw new BusinessException("Establishment not registered with the ID " + idEstablishment);
-        } else {
-            existingPerson.getEstablishment().add(establishment);
-            personRepository.persist(existingPerson);
-        }
-        return existingPerson;
-    }
-
-    public Person removeEstablishment(Long idPerson, Establishment establishment) throws BusinessException {
-
-        Person existingPerson = personRepository.findById(idPerson);
-        Long idEstablishment = establishment.getId();
-
-        if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idEstablishment);
-        }
-
-        if (!existingPerson.getEstablishment().removeIf(estab -> estab.getId().equals(idEstablishment))) {
-            throw new BusinessException("Establishment with ID " + idEstablishment + " is not associated with the Person.");
-        }
-
-        personRepository.persist(existingPerson);
-        return existingPerson;
-    }
-
 
     public Person updatePerson(Long idPerson, Person person) throws BusinessException {
         Person existingPerson = personRepository.findById(idPerson);

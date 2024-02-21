@@ -39,8 +39,8 @@ public class PersonResource {
     @POST
     @Transactional
     @Operation(summary = "Salvar uma pessoa", description = "Salva uma pessoa no banco de dados")
-    public Response savePerson(@Valid Person person) throws BusinessException {
-        personService.savePerson(person);
+    public Response createPerson(@Valid Person person) throws BusinessException {
+        personService.createPerson(person);
         return Response.status(Response.Status.CREATED).entity(person).build();
     }
 
@@ -57,21 +57,6 @@ public class PersonResource {
     @Transactional
     public Person removePersonType(@PathParam("idPerson") Long idPerson, PersonType personType) throws BusinessException {
         return personService.removePersonType(idPerson, personType);
-    }
-
-    @POST
-    @Path("/{idPerson}/addEstablishment")
-    @Transactional
-    @Operation(summary = "Adicionar um estabelecimento na pessoa", description = "Adicionar um estabelecimento em uma pessoa específica")
-    public Person addEstablishment(@PathParam("idPerson") Long idPerson, Establishment establishment) throws BusinessException {
-        return personService.addEstablishment(idPerson, establishment);
-    }
-
-    @DELETE
-    @Path("/{idPerson}/removeEstablishment")
-    @Transactional
-    public Person removeEstablishment(@PathParam("idPerson") Long idPerson, Establishment establishment) throws BusinessException {
-        return personService.removeEstablishment(idPerson, establishment);
     }
 
     @PUT

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "PERSON")
-@JsonPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "establishment", "personType"})
+@JsonPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "personType"})
 public class Person {
 
     @Id
@@ -52,14 +52,6 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "person_type_id")
     )
     private List<PersonType> personType;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "person_establishment",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "establishment_id")
-    )
-    private List<Establishment> establishment;
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Autenticate autenticate;
@@ -144,14 +136,6 @@ public class Person {
         this.personType = personType;
     }
 
-    public List<Establishment> getEstablishment() {
-        return establishment;
-    }
-
-    public void setEstablishment(List<Establishment> establishment) {
-        this.establishment = establishment;
-    }
-    
     public Autenticate getAutenticate() {
         return autenticate;
     }

@@ -24,6 +24,7 @@ public class Enterprise {
     @Column(name = "CNPJ")
     private String cnpj;
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     private StatusObject status = StatusObject.ACTIVE;
     @Column(name = "CREATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")

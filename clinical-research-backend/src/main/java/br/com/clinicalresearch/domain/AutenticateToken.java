@@ -60,5 +60,4 @@ public class AutenticateToken {
     public void setAutenticate(Autenticate autenticate) {
         this.autenticate = autenticate;
     }
-
 }

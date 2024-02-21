@@ -1,5 +1,6 @@
 package br.com.clinicalresearch.service;
 
+import br.com.clinicalresearch.collection.StatusObject;
 import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.domain.AutenticateToken;
 import br.com.clinicalresearch.domain.Person;
@@ -74,9 +75,8 @@ public class AutenticateService {
         return autenticate;
     }
 
-    public Autenticate updatePasswordAutenticate(AutenticateRequest autenticateRequest) throws BadRequestException {
+    public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException {
 
-        String user = autenticateRequest.user();
         String password = autenticateRequest.password();
         String token = autenticateRequest.token();
 
@@ -90,7 +90,7 @@ public class AutenticateService {
             if (Integer.toString(existingAutenticateToken.getToken()).equals(token) && expireDate.isAfter(LocalDateTime.now())) {
                 existingAutenticate.setPassword(password);
                 existingAutenticate.setUpdateDate(LocalDateTime.now());
-                existingAutenticate.setFirstAcess(false);
+                existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
                 Response.status(Response.Status.OK).build();
             } else {
                 throw new BadRequestException("Token is Invalid");
@@ -103,7 +103,7 @@ public class AutenticateService {
             if (Integer.toString(existingAutenticateToken.getToken()).equals(token) && expireDate.isAfter(LocalDateTime.now())) {
                 existingAutenticate.setPassword(password);
                 existingAutenticate.setUpdateDate(LocalDateTime.now());
-                existingAutenticate.setFirstAcess(false);
+                existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
                 Response.status(Response.Status.OK).build();
             } else {
                 throw new BadRequestException("Token is Invalid");
@@ -147,7 +147,6 @@ public class AutenticateService {
         } else {
             throw new NotFoundException("Token not found");
         }
-
     }
 
     public boolean validateAutenticateByCpf(String cpf) {
@@ -172,7 +171,7 @@ public class AutenticateService {
         Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
         existingAutenticate.setPassword(autenticate.getPassword());
         existingAutenticate.setUpdateDate(LocalDateTime.now());
-        existingAutenticate.setFirstAcess(false);
+        existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
         autenticateRepository.persist(existingAutenticate);
         return existingAutenticate;
     }
