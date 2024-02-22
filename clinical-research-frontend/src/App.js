@@ -15,7 +15,7 @@ function App() {
         <Route path="/" element={<AutenticateForm />} />
         <Route path="/popup-message" element={<PopupMessage />} />
         <Route path="/password-recovery" element={<PasswordRecovery />} />
-        <Route path="/tokenInput" element={<TokenInput />} />
+        <Route path="/token-input" element={<TokenInput />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/register" element={<Register />} /> 

@@ -27,7 +27,7 @@ const AutenticateForm = () => {
 
       if (response.ok) {
         // Login bem-sucedido, agora obtenha o nome completo
-        const fullNameResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(user)}`);
+        const fullNameResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(user)}/cpf`);
         setFullName(fullNameResponse.data.fullName);
 
         setShowSuccessPopup(true);
@@ -35,7 +35,7 @@ const AutenticateForm = () => {
           setShowSuccessPopup(false);
         }, 3000);
 
-        navigate('/popup-message', { state: { user } });
+        navigate('/popup-message',  { state: { user, message: 'Mensagem de boas-vindas!' } });
       } else {
         console.error('Authentication failed');
         setShowSuccessPopup(false);

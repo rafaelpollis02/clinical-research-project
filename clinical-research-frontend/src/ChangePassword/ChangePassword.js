@@ -14,13 +14,14 @@ const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfir, setShowPasswordConfir] = useState(false);
   const location = useLocation();
-  const email = location.state?.email;
+  
+
+  const enteredUser = location.state?.enteredUser;
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
-    // Verifique se a senha não está vazia antes de calcular a força
     if (newPassword.trim() === '') {
       setPasswordStrength({ score: 0, feedback: '' });
     } else {
@@ -60,20 +61,32 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('enteredUser:', enteredUser);
+    console.log('password:', password);
+    console.log('confirmPassword:', confirmPassword);
 
     if (password !== confirmPassword || password.length < 8 || passwordStrength.score < 3) {
       alert('Por favor, verifique os critérios de senha.');
       return;
     }
+    console.log('Objeto enviado para a API:', {
+      newPassword: password
+    });
 
     try {
-      await axios.put('http://localhost:8080/api/v1/autenticate', {
-        email: email,
-        newPassword: password,
+      const changeResponse = await axios.put(`http://localhost:8080/api/v1/autenticate/${enteredUser}`, {
+        newPassword: password
       });
-
-      console.log('Senha atualizada com sucesso!');
-      navigate("/", { state: { email } });
+    
+      console.log('Valor de enteredUser:', enteredUser);
+    
+      if (changeResponse.status === 200) {
+    
+        console.log('Senha Alterada com sucesso', changeResponse.data);
+        navigate("/", { state: { enteredUser } });
+      } else {
+        console.log(`Resposta inesperada: ${changeResponse.status}`);
+      }
     } catch (error) {
       console.error('Erro ao atualizar a senha:', error);
     }
@@ -83,7 +96,7 @@ const ChangePassword = () => {
     <div className="create-password-container">
       <form onSubmit={handleSubmit}>
         <div className="user-email">
-          <h2>Olá, <span>{email}</span></h2>
+          <h2>Olá, <span>{enteredUser}</span></h2>
           <br />
           <br />
         </div>
@@ -121,7 +134,6 @@ const ChangePassword = () => {
         {password && password.trim() !== '' && (
           <div className="password-strength" style={{ backgroundColor: getColor() }}>
             <p>{getScoreLabel()}</p>
-          
           </div>
         )}
       </form>
