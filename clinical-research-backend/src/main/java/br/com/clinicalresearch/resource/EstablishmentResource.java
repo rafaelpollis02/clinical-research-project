@@ -2,6 +2,7 @@ package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.service.EstablishmentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -51,7 +52,7 @@ public class EstablishmentResource {
     @DELETE
     @Path("/{idEstablishment}")
     @Transactional
-    public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
+    public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws NotFoundException {
         establishmentService.deleteEstablishment(idEstablishment);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

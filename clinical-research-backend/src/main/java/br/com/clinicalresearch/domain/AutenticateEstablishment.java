@@ -3,6 +3,8 @@ package br.com.clinicalresearch.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "autenticate_establishment")
 public class AutenticateEstablishment {
@@ -43,5 +45,18 @@ public class AutenticateEstablishment {
 
     public void setEstablishment(Establishment establishment) {
         this.establishment = establishment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AutenticateEstablishment that = (AutenticateEstablishment) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

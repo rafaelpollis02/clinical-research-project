@@ -2,12 +2,14 @@ package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ENTERPRISE")
@@ -28,9 +30,11 @@ public class Enterprise {
     private StatusObject status = StatusObject.ACTIVE;
     @Column(name = "CREATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @JsonIgnore
     private LocalDateTime createDate = LocalDateTime.now();
     @Column(name = "UPDATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @JsonIgnore
     private LocalDateTime updateDate = LocalDateTime.now();
 
     @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -98,5 +102,18 @@ public class Enterprise {
 
     public void setEnterpriseEstablishments(List<EnterpriseEstablishment> enterpriseEstablishments) {
         this.enterpriseEstablishments = enterpriseEstablishments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Enterprise that = (Enterprise) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

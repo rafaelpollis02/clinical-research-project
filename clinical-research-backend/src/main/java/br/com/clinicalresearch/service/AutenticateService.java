@@ -12,6 +12,7 @@ import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.repository.AutenticateRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.core.Response;
 
 import java.time.LocalDateTime;
@@ -69,7 +70,7 @@ public class AutenticateService {
         return user;
     }
 
-    public Autenticate createAutenticate(Autenticate autenticate, Person person) {
+    public Autenticate createAutenticate(Autenticate autenticate, @Valid Person person) {
         autenticate.setPerson(person);
         autenticate.setPassword(gerarPasswordEncoder());
         autenticateRepository.persist(autenticate);

@@ -2,7 +2,6 @@ package br.com.clinicalresearch.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,6 +12,7 @@ public class AutenticateToken {
     @Id
     @GeneratedValue
     private Long id;
+
     private int token;
     @ManyToOne
     private Autenticate autenticate;
@@ -59,5 +59,18 @@ public class AutenticateToken {
 
     public void setAutenticate(Autenticate autenticate) {
         this.autenticate = autenticate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AutenticateToken that = (AutenticateToken) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ESTABLISHMENT")
@@ -32,9 +33,11 @@ public class Establishment {
 
     @Column(name = "CREATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @JsonIgnore
     private LocalDateTime createDate = LocalDateTime.now();
 
     @Column(name = "UPDATE_DATE")
+    @JsonIgnore
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime updateDate = LocalDateTime.now();
 
@@ -99,5 +102,18 @@ public class Establishment {
 
     public void setEnterpriseEstablishments(List<EnterpriseEstablishment> enterpriseEstablishments) {
         this.enterpriseEstablishments = enterpriseEstablishments;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Establishment that = (Establishment) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

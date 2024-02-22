@@ -52,24 +52,8 @@ public class EnterpriseResource {
     @DELETE
     @Path("/{idEnterprise}")
     @Transactional
-    public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws BusinessException {
+    public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws NotFoundException {
         enterpriseService.deleteEnterprise(idEnterprise);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
-
-    @POST
-    @Path("/{idEnterprise}/addEstablishment")
-    @Transactional
-    public Response addEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
-        Enterprise existingEnterprise = enterpriseService.addEstablishment(idEnterprise, establishment);
-        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
-    }
-
-    @DELETE
-    @Path("/{idEnterprise}/removeEstablishment")
-    public Response removeEstablishment(@PathParam("idEnterprise") Long idEnterprise, Establishment establishment) throws BusinessException {
-        Enterprise existingEnterprise = enterpriseService.removeEstablishment(idEnterprise, establishment);
-        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
-    }
-
 }

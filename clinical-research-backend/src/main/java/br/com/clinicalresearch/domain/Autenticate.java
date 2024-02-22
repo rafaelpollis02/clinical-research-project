@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "AUTENTICATE")
@@ -19,6 +20,7 @@ public class Autenticate {
     private String cpf;
     private String email;
     private String password;
+    private String passwordDecodificado;
 
     @Enumerated(EnumType.STRING)
     private StatusObject status = StatusObject.PENDING;
@@ -70,6 +72,22 @@ public class Autenticate {
         this.password = password;
     }
 
+    public String getPasswordDecodificado() {
+        return passwordDecodificado;
+    }
+
+    public void setPasswordDecodificado(String passwordDecodificado) {
+        this.passwordDecodificado = passwordDecodificado;
+    }
+
+    public List<AutenticateEstablishment> getAutenticateEstablishments() {
+        return autenticateEstablishments;
+    }
+
+    public void setAutenticateEstablishments(List<AutenticateEstablishment> autenticateEstablishments) {
+        this.autenticateEstablishments = autenticateEstablishments;
+    }
+
     public StatusObject getStatus() {
         return status;
     }
@@ -108,5 +126,18 @@ public class Autenticate {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Autenticate that = (Autenticate) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
