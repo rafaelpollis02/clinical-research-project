@@ -49,7 +49,8 @@ public class AutenticateService {
 
         if (validateAutenticateByCpf(user)) {
             String existingPassword = autenticateRepository.findPasswordByCpf(user);
-            if (password.equals(existingPassword)) {
+            String passwordDecoder = decodePassword(existingPassword);
+            if (password.equals(passwordDecoder)) {
                 return Response.ok("Successful").build().toString();
             } else {
                 throw new InvalidLoginException("User or Password Invalid");
@@ -72,7 +73,9 @@ public class AutenticateService {
 
     public Autenticate createAutenticate(Autenticate autenticate, @Valid Person person) {
         autenticate.setPerson(person);
-        autenticate.setPassword(gerarPasswordEncoder());
+        String passwordEncode = generatePasswordEncoder();
+        autenticate.setPassword(passwordEncode);
+        autenticate.setPasswordDecodificado(decodePassword(passwordEncode));
         autenticateRepository.persist(autenticate);
         return autenticate;
     }
@@ -83,7 +86,8 @@ public class AutenticateService {
 
         if (validateAutenticateByCpf(user)) {
             Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(user);
-            existingAutenticate.setPassword(password);
+            existingAutenticate.setPassword(encodePassword(password));
+            existingAutenticate.setPasswordDecodificado(password);
             existingAutenticate.setUpdateDate(LocalDateTime.now());
             existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
             Response.status(Response.Status.OK).build();
@@ -95,7 +99,6 @@ public class AutenticateService {
             existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
             Response.status(Response.Status.OK).build();
         }
-
         return null;
     }
 
@@ -166,13 +169,18 @@ public class AutenticateService {
         }
     }
 
-    public String gerarPasswordEncoder() {
+    public String generatePasswordEncoder() {
         int password = 100000 + random.nextInt(900000);
         return Base64.getEncoder().encodeToString(String.valueOf(password).getBytes());
     }
 
-    public String decodificarPassword(String passwordCodificada) {
-        byte[] decodedBytes = Base64.getDecoder().decode(passwordCodificada);
+    public String decodePassword(String passwordEncode) {
+        byte[] decodedBytes = Base64.getDecoder().decode(passwordEncode);
+        return new String(decodedBytes);
+    }
+
+    public String encodePassword(String passwordDecode) {
+        byte[] decodedBytes = Base64.getEncoder().encode(passwordDecode.getBytes());
         return new String(decodedBytes);
     }
 
