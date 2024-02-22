@@ -1,6 +1,7 @@
 package br.com.clinicalresearch.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -54,6 +55,7 @@ public class Person {
     private List<PersonType> personType;
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Autenticate autenticate;
 
     public Long getId() {

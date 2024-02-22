@@ -79,37 +79,22 @@ public class AutenticateService {
     public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
 
         String password = autenticateRequest.password();
-        String token = autenticateRequest.token();
-
-        Autenticate existingAutenticate = new Autenticate();
-        AutenticateToken existingAutenticateToken = new AutenticateToken();
 
         if (validateAutenticateByCpf(user)) {
-            existingAutenticate = autenticateRepository.findAutenticateByCpf(user);
-            existingAutenticateToken = autenticateTokenService.findTokenByAutenticateId(existingAutenticate.getId());
-            LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
-            if (Integer.toString(existingAutenticateToken.getToken()).equals(token) && expireDate.isAfter(LocalDateTime.now())) {
-                existingAutenticate.setPassword(password);
-                existingAutenticate.setUpdateDate(LocalDateTime.now());
-                existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
-                Response.status(Response.Status.OK).build();
-            } else {
-                throw new BadRequestException("Token is Invalid");
-            }
+            Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(user);
+            existingAutenticate.setPassword(password);
+            existingAutenticate.setUpdateDate(LocalDateTime.now());
+            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
+            Response.status(Response.Status.OK).build();
 
         } else if (validateAutenticateByEmail(user)) {
-            existingAutenticate = autenticateRepository.findAutenticateByEmail(user);
-            existingAutenticateToken = autenticateTokenService.findTokenByAutenticateId(existingAutenticate.getId());
-            LocalDateTime expireDate = existingAutenticateToken.getExpireDate();
-            if (Integer.toString(existingAutenticateToken.getToken()).equals(token) && expireDate.isAfter(LocalDateTime.now())) {
-                existingAutenticate.setPassword(password);
-                existingAutenticate.setUpdateDate(LocalDateTime.now());
-                existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
-                Response.status(Response.Status.OK).build();
-            } else {
-                throw new BadRequestException("Token is Invalid");
-            }
+            Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(user);
+            existingAutenticate.setPassword(password);
+            existingAutenticate.setUpdateDate(LocalDateTime.now());
+            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
+            Response.status(Response.Status.OK).build();
         }
+
         return null;
     }
 
@@ -153,6 +138,15 @@ public class AutenticateService {
         }
     }
 
+    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate) {
+        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+        existingAutenticate.setPassword(autenticate.getPassword());
+        existingAutenticate.setUpdateDate(LocalDateTime.now());
+        existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
+        autenticateRepository.persist(existingAutenticate);
+        return existingAutenticate;
+    }
+
     public boolean validateAutenticateByCpf(String cpf) throws NotFoundException {
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
         if (existingAutenticate == null) {
@@ -169,15 +163,6 @@ public class AutenticateService {
         } else {
             return true;
         }
-    }
-
-    public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate) {
-        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
-        existingAutenticate.setPassword(autenticate.getPassword());
-        existingAutenticate.setUpdateDate(LocalDateTime.now());
-        existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
-        autenticateRepository.persist(existingAutenticate);
-        return existingAutenticate;
     }
 
     public String gerarPasswordEncoder() {

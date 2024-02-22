@@ -5,6 +5,7 @@ import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import br.com.clinicalresearch.repository.PersonRepository;
 import br.com.clinicalresearch.repository.PersonTypeRepository;
@@ -29,10 +30,18 @@ public class PersonService {
         return personRepository.listAll();
     }
 
-    public Person getPersonById(Long idPerson) throws BusinessException {
+    public Person getPersonById(Long idPerson) throws NotFoundException {
         Person existingPerson = personRepository.findById(idPerson);
         if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idPerson);
+            throw new NotFoundException("Person not registered with the ID " + idPerson);
+        }
+        return existingPerson;
+    }
+
+    public Person getPersonByCpf(String cpf) throws NotFoundException {
+        Person existingPerson = personRepository.findPersonByCpf(cpf);
+        if (existingPerson == null) {
+            throw new NotFoundException("Person not registered with the CPF " + cpf);
         }
         return existingPerson;
     }
