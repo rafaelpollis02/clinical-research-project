@@ -19,6 +19,7 @@ br\com\clinicalresearch\repository\PersonRepository.class
 br\com\clinicalresearch\exceptions\BadRequestException.class
 br\com\clinicalresearch\resource\PersonTypeResource.class
 br\com\clinicalresearch\domain\Person.class
+br\com\clinicalresearch\dto\AutenticateResponse.class
 br\com\clinicalresearch\exceptions\BusinessException.class
 br\com\clinicalresearch\collection\StatusObject.class
 br\com\clinicalresearch\resource\EnterpriseResource.class

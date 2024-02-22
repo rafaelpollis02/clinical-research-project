@@ -1,6 +1,7 @@
 package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.dto.AutenticateRequest;
+import br.com.clinicalresearch.dto.AutenticateResponse;
 import br.com.clinicalresearch.exceptions.BadRequestException;
 import br.com.clinicalresearch.exceptions.InvalidLoginException;
 import br.com.clinicalresearch.exceptions.NotFoundException;
@@ -8,10 +9,13 @@ import br.com.clinicalresearch.service.AutenticateService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.annotations.Param;
 
 @Path("api/v1/autenticate")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AutenticateResource {
 
     @Inject
@@ -25,7 +29,7 @@ public class AutenticateResource {
     }
 
     @POST
-    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException {
+    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NotFoundException {
         autenticateService.getAccessByCpfOrEmail(autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
@@ -41,14 +45,14 @@ public class AutenticateResource {
     @GET
     @Path("/{token}/validateToken")
     public Response validateToken(@PathParam("token") String token) throws BadRequestException, NotFoundException {
-        autenticateService.validateToken(token);
-        return Response.status(Response.Status.OK).build();
+        AutenticateResponse existingAutenticate = autenticateService.validateToken(token);
+        return Response.status(Response.Status.OK).entity(existingAutenticate).build();
     }
 
     @PUT
     @Path("/{user}")
     @Transactional
-    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException {
+    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
         autenticateService.updatePasswordAutenticate(user, autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }

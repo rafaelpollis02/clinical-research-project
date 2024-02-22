@@ -4,11 +4,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const TokenInput = () => {
-  const navigate = useNavigate(); // Adicione o hook useNavigate
+  const navigate = useNavigate();
 
   const [token, setToken] = useState(Array(6).fill(''));
   const [isTokenComplete, setIsTokenComplete] = useState(false);
   const [apiMessage, setApiMessage] = useState(null);
+  const [email, setEmail] = useState('');
+  
 
   const handleTokenChange = (index, value) => {
     const newToken = [...token];
@@ -32,9 +34,12 @@ const TokenInput = () => {
     );
 
       if (response.status === 200) {
+        const emailResponse = await axios.get(`http://localhost:8080/api/v1/autenticate/${tokenValue}/validateToken${encodeURIComponent(email)}`);
+        setEmail(emailResponse.data.email);
+
         console.log('Token validado com sucesso!');
         setApiMessage('Token validado com sucesso!');
-        navigate("/change-password");
+        navigate("/change-password", { state: { email: emailResponse.data.email } });
       } 
       if (response.status === 400) {
         console.log('Token expirado');
@@ -45,10 +50,7 @@ const TokenInput = () => {
         console.log('Token não encontrado');
         setApiMessage('Token não encontrado');
       }
-      else {
-        console.error('Falha ao validar o token.');
-        setApiMessage('Falha ao validar o token.');
-      }
+    
     } catch (error) {
       console.error('Erro ao fazer a requisição:', error);
       setApiMessage('Erro ao fazer a requisição.');
