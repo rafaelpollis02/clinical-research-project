@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import LoggedInScreen from '../Autenticate/LoggedInScreen';
-import { Link } from 'react-router-dom';
-import './AutenticateCrud.css';
-import eyeOpen from './olho aberto.png';
-import eyeClosed from './olho fechado.png';
+import PopupMessage from '../Autenticate/PopupMessage';
+import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';  // Importe o módulo axios
 import './AutenticateCrud.css';
 
 const AutenticateForm = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [fullName, setFullName] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -24,15 +26,24 @@ const AutenticateForm = () => {
       });
 
       if (response.ok) {
-        setIsLoggedIn(true);
+        // Login bem-sucedido, agora obtenha o nome completo
+        const fullNameResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(user)}/cpf`);
+        setFullName(fullNameResponse.data.fullName);
+
+        setShowSuccessPopup(true);
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+        }, 3000);
+
+        navigate('/popup-message',  { state: { user, message: 'Mensagem de boas-vindas!' } });
       } else {
         console.error('Authentication failed');
-        setIsLoggedIn(false);
+        setShowSuccessPopup(false);
         setErrorMessage('Login ou senha inválido');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setIsLoggedIn(false);
+      setShowSuccessPopup(false);
     }
   };
 
@@ -45,10 +56,6 @@ const AutenticateForm = () => {
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-
-  if (isLoggedIn) {
-    return <LoggedInScreen />;
-  }
 
   return (
     <div className="login">
@@ -72,13 +79,17 @@ const AutenticateForm = () => {
             onKeyPress={handleKeyPress}
             placeholder="Senha"
           />
-          <img
-            className="eye-icon"
-            src={showPassword ? eyeOpen : eyeClosed}
-            alt={showPassword ? 'Olho aberto' : 'Olho fechado'}
-            onClick={handleTogglePassword}
-          />
+          <span className="eye-iconautentic" onClick={handleTogglePassword}>
+            {showPassword ? (
+              <FontAwesomeIcon icon={faEye} />
+            ) : (
+              <FontAwesomeIcon icon={faEyeSlash} />
+            )}
+          </span>
         </label>
+
+        <br />
+        <br />
 
         <Link to="/password-recovery">Esqueci minha senha</Link>
         <br />
@@ -91,6 +102,8 @@ const AutenticateForm = () => {
       <div className="image-container">
         <img src="Logo.png" alt="" />
       </div>
+
+      {showSuccessPopup && <PopupMessage message={`Login bem-sucedido! Bem-vindo, ${fullName}!`} onClose={() => setShowSuccessPopup(false)} />}
     </div>
   );
 };

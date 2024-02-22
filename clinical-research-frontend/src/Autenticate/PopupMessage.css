@@ -1,41 +1,41 @@
 /* PopupMessage.css */
 .popup-message {
-    position: fixed;
-    top: 5px;
-    right: 14px;
-    padding: 10px;
-    background-color: white; /* Cor de fundo verde claro */
-    color: rgb(32, 240, 32); /* Cor do texto verde escuro */
-    border-radius: 10px;
-    border: 2px solid green; /* Borda com linha verde */
-    font-size: 8px;
-    width: 225px;
-    height: 25px; /* Altura ajustada para 50px */
-    animation: fadeInOut 3s forwards; /* Adiciona um efeito de transição */
-    text-align: justify;
+  position: fixed;
+  top: 5px;
+  right: 14px;
+  padding: 15px;
+  background-color: #4caf50; /* Cor de fundo verde */
+  color: white; /* Cor do texto branco */
+  border-radius: 10px;
+  border: 2px solid #45a049; /* Borda com linha verde escuro */
+  font-size: 14px;
+  width: 250px;
+  height: auto; /* Altura ajustada automaticamente ao conteúdo */
+  animation: fadeInOut 3s forwards; /* Adiciona um efeito de transição */
+  text-align: justify;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra para dar destaque */
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Adiciona um efeito de transição para o aparecimento/desaparecimento da caixa */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
   }
-  
-  .popup-content {
-    display: flex;
-    flex-direction: column;
-    align-items: normal;
+  50% {
+    opacity: 1;
   }
-  
-  .close-button {
-    position: absolute;
-    top: 2px;
-    right: 2px; /* Ajuste a posição conforme necessário */
-    font-size: 10px; /* Ajuste o tamanho da fonte conforme necessário */
-    cursor: pointer;
-  }
-  
-  /* Adiciona um efeito de transição para o aparecimento/desaparecimento da caixa */
-  @keyframes fadeInOut {
-    0%, 100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-  
+}

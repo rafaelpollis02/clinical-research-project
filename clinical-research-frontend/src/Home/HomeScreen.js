@@ -1,8 +1,12 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './HomeScreen.css';
 
+// ... importações e código anterior
+
 const HomeScreen = () => {
+  const location = useLocation();
+  const userName = location.state?.user;
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,6 +29,7 @@ const HomeScreen = () => {
     <div className="home-container">
       <div className="top-bar">
         <h2>Healthuture</h2>
+        <p>Bem-vindo, {userName}!</p>
         <button className="logout-button" onClick={handleLogout}>
           Sair
         </button>
@@ -32,16 +37,14 @@ const HomeScreen = () => {
       <div className="menu-container">
         <div className="menu">
           <div className="menu-item">
-          <button className="Cadastro" onClick={handleCadastro}>
-           <i className="fas fa-user-plus" style={{ verticalAlign: 'top' }}></i> Cadastro
-           </button>
-           <br />
-            <button className="Agenda" onClick={handlePesquisaClinica}>
-            <i className="fas fa-notes-medical" style={{ verticalAlign: 'top' }}></i> Agenda
+            <button className="Cadastro" onClick={handleCadastro}>
+              <i className="fas fa-user-plus" style={{ verticalAlign: 'top' }}></i> Cadastro
             </button>
-            </div>
-         
-         
+            <br />
+            <button className="Agenda" onClick={handlePesquisaClinica}>
+              <i className="fas fa-notes-medical" style={{ verticalAlign: 'top' }}></i> Agenda
+            </button>
+          </div>
         </div>
       </div>
     </div>

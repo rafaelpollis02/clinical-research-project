@@ -1,4 +1,4 @@
-/* AutenticateCrud.css */
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 body.login-page  {
   margin: 0; 
@@ -8,7 +8,7 @@ body.login-page  {
 .login {
   display: flex;
   height: 100vh;
-  background-color: #f4f4f4;
+  background-color:  white;
   
   
 }
@@ -20,7 +20,7 @@ body.login-page  {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color:  white;
   max-width: 30%; /* Ajustado para 50% da largura da tela */
   color: #381ae2;
   
@@ -43,7 +43,7 @@ input {
   width: 100%; /* Ajustado para ocupar 100% da largura do container */
   padding: 8px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid white;
   border-radius: 4px;
   box-sizing: border-box;
 }
@@ -103,23 +103,39 @@ a:hover {
   display: flex;
   margin-bottom: 10px;
   font-weight: bold;
-  
-  
 }
 
 .password-container {
   display: flex;
   align-items: center;
-  
-  
 }
 
-/* Adicione estas regras para ajustar o ícone do olho */
-.eye-icon {
+/* Ajuste o ícone do olho */
+.eye-iconautentic {
   cursor: pointer;
-  margin-left: 90%; /* Ajuste a porcentagem conforme necessário */
-  top: -44px; 
+  margin-left: -30px; /* Ajuste a margem conforme necessário */
   position: relative;
-  width: 5%; /* Ajuste a porcentagem conforme necessário */
-  height: 5%; /* Ajuste a porcentagem conforme necessário */
+  width: 20px; /* Ajuste a largura conforme necessário */
+  height: 20px; /* Ajuste a altura conforme necessário */
+}
+
+/* Ajuste o ícone do olho para a versão responsiva */
+@media (max-width: 600px) {
+  .eye-icon {
+    margin-left: -15px; /* Ajuste a margem conforme necessário na versão responsiva */
+  }
+}
+
+/* Media query para tornar o layout responsivo */
+@media (max-width: 600px) {
+  .image-container {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    padding: 100px;
+  }
 }
