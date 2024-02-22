@@ -25,7 +25,7 @@ public class AutenticateTokenService {
     }
 
     public AutenticateToken createAutenticateToken(AutenticateToken autenticateToken) {
-        autenticateToken.setExpireDate(LocalDateTime.now().plusMinutes(2));
+        autenticateToken.setExpireDate(LocalDateTime.now().plusMinutes(30));
         autenticateTokenRepository.persist(autenticateToken);
         return autenticateToken;
     }

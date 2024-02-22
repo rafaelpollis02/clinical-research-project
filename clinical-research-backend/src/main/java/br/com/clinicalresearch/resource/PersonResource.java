@@ -4,6 +4,7 @@ import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.service.PersonService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -30,10 +31,17 @@ public class PersonResource {
     }
 
     @GET
-    @Path("/{idPerson}")
+    @Path("/{idPerson}/id")
     @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma pessoa específica passando o ID")
-    public Person getPersonById(@PathParam("idPerson") Long idPerson) throws BusinessException {
+    public Person getPersonById(@PathParam("idPerson") Long idPerson) throws NotFoundException {
         return personService.getPersonById(idPerson);
+    }
+
+    @GET
+    @Path("/{cpf}/cpf")
+    @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma pessoa específica passando o CPF")
+    public Person getPersonByCpf(@PathParam("cpf") String cpf) throws NotFoundException {
+        return personService.getPersonByCpf(cpf);
     }
 
     @POST
