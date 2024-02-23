@@ -9,6 +9,7 @@ import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.repository.EnterpriseEstablishmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -37,10 +38,23 @@ public class EnterpriseEstablishmentService {
         return existingEnterpriseEstablishment;
     }
 
+    public EnterpriseEstablishment updateEnterpriseEstablishment(Long idEnterpriseEstablishment, EnterpriseEstablishment enterpriseEstablishment) throws NotFoundException {
+        EnterpriseEstablishment existingEnterpriseEstablishment = enterpriseEstablishmentRepository.findById(idEnterpriseEstablishment);
+
+        if (existingEnterpriseEstablishment == null) {
+            throw new NotFoundException("Enterprise Establishment not registered with the ID " + idEnterpriseEstablishment);
+        } else {
+            existingEnterpriseEstablishment.setStatus(enterpriseEstablishment.getStatus());
+            enterpriseEstablishmentRepository.persist(existingEnterpriseEstablishment);
+        }
+    return existingEnterpriseEstablishment;
+    }
+
+
     public EnterpriseEstablishment addEnterpriseEstablishment(EnterpriseEstablishmentRequest enterpriseEstablishmentRequest) throws NotFoundException, BusinessException {
 
-        Long idEnterprise = enterpriseEstablishmentRequest.getIdEnterprise();
-        Long idEstablishment = enterpriseEstablishmentRequest.getIdEstablishment();
+        Long idEnterprise = enterpriseEstablishmentRequest.idEnterprise();
+        Long idEstablishment = enterpriseEstablishmentRequest.idEstablishment();
 
         Enterprise enterprise = enterpriseService.getEnterpriseById(idEnterprise);
         if (enterprise == null) {
@@ -64,6 +78,7 @@ public class EnterpriseEstablishmentService {
         }
     }
 
+    @Transactional
     public void removeEnterpriseEstablishment(Long idEnterpriseEstablishment) throws NotFoundException {
 
         EnterpriseEstablishment existingEnterpriseEstablishment = enterpriseEstablishmentRepository.findById(idEnterpriseEstablishment);

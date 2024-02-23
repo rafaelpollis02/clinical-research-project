@@ -36,6 +36,14 @@ public class EnterpriseEstablishmentResource {
         return Response.status(Response.Status.OK).entity(existingEnterpriseEstablishment).build();
     }
 
+    @PUT
+    @Path("/{idEnterpriseEstablishment}")
+    @Transactional
+    public Response updateEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment, EnterpriseEstablishment enterpriseEstablishment) throws NotFoundException {
+        enterpriseEstablishmentService.updateEnterpriseEstablishment(idEnterpriseEstablishment, enterpriseEstablishment);
+        return Response.status(Response.Status.OK).build();
+    }
+
     @POST
     @Transactional
     public Response addEnterpriseEstablishment(EnterpriseEstablishmentRequest enterpriseEstablishmentRequest) throws BusinessException, NotFoundException {

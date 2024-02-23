@@ -1,17 +1,34 @@
 package br.com.clinicalresearch.domain;
 
+import br.com.clinicalresearch.collection.StatusObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "autenticate_establishment")
+@Table(name = "AUTENTICATE_ESTABLISHMENT")
 public class AutenticateEstablishment {
 
     @Id
     @GeneratedValue
-    Long id;
+    @Column(name = "ID")
+    private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @Column(name = "CREATE_DATE")
+    private LocalDateTime createDate = LocalDateTime.now();
+
+    @Column(name = "UPDATE_DATE")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @JsonIgnore
+    private LocalDateTime updateDate = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private StatusObject status = StatusObject.ACTIVE;
 
     @ManyToOne
     @JsonIgnore
@@ -29,6 +46,30 @@ public class AutenticateEstablishment {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public StatusObject getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusObject status) {
+        this.status = status;
     }
 
     public Autenticate getAutenticate() {

@@ -20,32 +20,31 @@ public class Establishment {
     @GeneratedValue
     @Column(name = "ID")
     private Long id;
-
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "LOGO_FILE")
     private String logoFile;
-
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private StatusObject status = StatusObject.ACTIVE;
 
-    @Column(name = "CREATE_DATE")
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     @JsonIgnore
+    @Column(name = "CREATE_DATE")
     private LocalDateTime createDate = LocalDateTime.now();
 
-    @Column(name = "UPDATE_DATE")
+
     @JsonIgnore
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+    @Column(name = "UPDATE_DATE")
     private LocalDateTime updateDate = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "establishment", fetch = FetchType.EAGER)
     private List<AutenticateEstablishment> autenticateEstablishments = new ArrayList<>();
 
     public Long getId() {

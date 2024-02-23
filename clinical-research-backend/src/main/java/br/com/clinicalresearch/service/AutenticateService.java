@@ -33,9 +33,8 @@ public class AutenticateService {
 
     public String getAutenticateByCpfOrEmail(String user) throws NotFoundException {
 
-        System.out.println(user);
-
         if (validateAutenticateByCpf(user) || validateAutenticateByEmail(user)) {
+
             return Response.ok("Successful").build().toString();
         } else {
             throw new NotFoundException("User not found");
@@ -71,6 +70,11 @@ public class AutenticateService {
         return user;
     }
 
+    public Autenticate getAutenticateById(Long idAutenticate) {
+        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+        return existingAutenticate;
+    }
+
     public Autenticate createAutenticate(Autenticate autenticate, @Valid Person person) {
         autenticate.setPerson(person);
         String passwordEncode = generatePasswordEncoder();
@@ -78,6 +82,18 @@ public class AutenticateService {
         autenticate.setPasswordDecodificado(decodePassword(passwordEncode));
         autenticateRepository.persist(autenticate);
         return autenticate;
+    }
+
+    public Autenticate updateAutenticate(Long idAutenticate, Autenticate autenticate) throws NotFoundException {
+        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+
+        if (existingAutenticate == null) {
+            throw new NotFoundException("Autenticate not found with the ID " + idAutenticate);
+        } else {
+            existingAutenticate.setStatus(autenticate.getStatus());
+            autenticateRepository.persist(existingAutenticate);
+        }
+        return existingAutenticate;
     }
 
     public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
@@ -103,7 +119,6 @@ public class AutenticateService {
     }
 
     public String generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
-
         String user = autenticateRequest.user();
 
         if (validateAutenticateByCpf(user)) {

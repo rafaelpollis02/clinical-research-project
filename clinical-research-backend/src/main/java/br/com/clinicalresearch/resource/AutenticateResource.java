@@ -1,5 +1,6 @@
 package br.com.clinicalresearch.resource;
 
+import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.dto.AutenticateRequest;
 import br.com.clinicalresearch.dto.AutenticateResponse;
 import br.com.clinicalresearch.exceptions.BadRequestException;
@@ -50,10 +51,18 @@ public class AutenticateResource {
     }
 
     @PUT
-    @Path("/{user}")
+    @Path("/{user}/updatePassword")
     @Transactional
     public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
         autenticateService.updatePasswordAutenticate(user, autenticateRequest);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Path("/{idAutenticate}")
+    @Transactional
+    public Response updateAutenticate(@PathParam("idAutenticate") Long idAutenticate, Autenticate autenticate) throws NotFoundException {
+        autenticateService.updateAutenticate(idAutenticate, autenticate);
         return Response.status(Response.Status.OK).build();
     }
 

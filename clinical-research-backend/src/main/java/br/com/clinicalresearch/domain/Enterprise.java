@@ -37,7 +37,7 @@ public class Enterprise {
     @JsonIgnore
     private LocalDateTime updateDate = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER)
     private List<EnterpriseEstablishment> enterpriseEstablishments = new ArrayList<>();
 
     public Long getId() {

@@ -16,18 +16,27 @@ public class Autenticate {
 
     @Id
     @GeneratedValue
+    @Column(name = "ID")
     private Long id;
+    @Column(name = "CPF")
     private String cpf;
+    @Column(name = "EMAIL")
     private String email;
+    @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "PASSWORD_DECODER")
     private String passwordDecodificado;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
     private StatusObject status = StatusObject.PENDING;
 
+    @Column(name = "CREATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime createDate = LocalDateTime.now();
 
+    @Column(name = "UPDATE_DATE")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 

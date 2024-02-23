@@ -1,5 +1,7 @@
 package br.com.clinicalresearch.service;
 
+import br.com.clinicalresearch.collection.StatusObject;
+import br.com.clinicalresearch.domain.Enterprise;
 import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.exceptions.NotFoundException;
@@ -50,6 +52,7 @@ public class EstablishmentService {
         }
         return existingEstablishment;
     }
+
     public void deleteEstablishment(Long idEstablishment) throws NotFoundException {
         Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 

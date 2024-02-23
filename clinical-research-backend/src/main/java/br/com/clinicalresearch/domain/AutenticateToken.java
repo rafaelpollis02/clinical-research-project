@@ -11,8 +11,10 @@ public class AutenticateToken {
 
     @Id
     @GeneratedValue
+    @Column(name = "ID")
     private Long id;
 
+    @Column(name = "TOKEN")
     private int token;
     @ManyToOne
     private Autenticate autenticate;

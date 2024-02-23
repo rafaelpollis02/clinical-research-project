@@ -1,6 +1,8 @@
 package br.com.clinicalresearch.service;
 
+import br.com.clinicalresearch.collection.StatusObject;
 import br.com.clinicalresearch.domain.Enterprise;
+import br.com.clinicalresearch.domain.EnterpriseEstablishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.exceptions.NotFoundException;
 import br.com.clinicalresearch.repository.EnterpriseRepository;
