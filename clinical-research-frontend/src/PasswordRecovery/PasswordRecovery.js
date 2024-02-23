@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './PasswordRecovery.css';
 
 const PasswordRecovery = () => {
@@ -81,7 +81,7 @@ const PasswordRecovery = () => {
       {showInvalid && <p style={{ color: 'red' }}>Formato de e-mail ou CPF inválido.</p>}
       {showSuccessMessage && <p style={{ color: 'green' }}>Enviaremos um e-mail com as novas instruções</p>}
       {showErrorMessage && <p style={{ color: 'red' }}>Dados não localizados em nossa base!</p>}
-      <div className='button-link'> <Link to="/token-input"><i className="fas fa-arrow-right"></i>Ir para TokenInput</Link></div>
+
       <a href="/">Voltar para o Login</a>
     </div>
   );
