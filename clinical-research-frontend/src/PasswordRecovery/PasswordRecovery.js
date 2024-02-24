@@ -5,6 +5,7 @@ import './PasswordRecovery.css';
 
 const PasswordRecovery = () => {
   const [user, setUser] = useState('');
+
   const [enteredUser, setEnteredUser] = useState('');
   const [showFailure, setShowFailure] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -29,12 +30,14 @@ const PasswordRecovery = () => {
 
     try {
       if (isEmail(user) || isCPF(user)) {
-        const response = await axios.get(`http://localhost:8080/api/v1/autenticate/${encodeURIComponent(user)}`);
+        const authResponse = await axios.get(`http://localhost:8080/api/v1/autenticate/${encodeURIComponent(user)}`);
 
-        if (response.status === 200) {
+        if (authResponse.status === 200) {
           setShowSuccessMessage(true);
           setShowErrorMessage(false);
           setEnteredUser(user);
+
+        
 
           const tokenResponse = await axios.post('http://localhost:8080/api/v1/autenticate/generateToken', {
             user: user,
@@ -42,12 +45,12 @@ const PasswordRecovery = () => {
 
           if (tokenResponse.status === 200) {
             console.log('Token gerado com sucesso:', tokenResponse.data);
-            navigate('/change-password', { state: { enteredUser: user } });
+            navigate('/token-input', { state: { enteredUser: user } });
           } else {
             console.error('Falha ao gerar o token.');
           }
         } else {
-          console.error('Authentication failed');
+          console.error('Falha na autenticação');
           setShowSuccessMessage(false);
           setShowErrorMessage(true);
         }
@@ -57,12 +60,20 @@ const PasswordRecovery = () => {
       }
     } catch (error) {
       console.error('Erro ao fazer a requisição:', error);
-      setShowFailure(true);
+
+      if (error.response && error.response.status === 404) {
+        setShowFailure(true);
+      } else {
+        // Tratamento para outros erros
+        console.error('Erro inesperado:', error);
+        setShowFailure(true);
+      }
     }
   };
 
   return (
     <div className="password-recovery-container">
+      <h2>Olá, </h2>
       <h3>Informe seu e-mail ou CPF para redefinir a senha.</h3>
       <form onSubmit={handlePasswordRecovery}>
         <input
@@ -80,7 +91,7 @@ const PasswordRecovery = () => {
       {showFailure && <p style={{ color: 'red' }}>Dados não localizados em nossa base!</p>}
       {showInvalid && <p style={{ color: 'red' }}>Formato de e-mail ou CPF inválido.</p>}
       {showSuccessMessage && <p style={{ color: 'green' }}>Enviaremos um e-mail com as novas instruções</p>}
-      {showErrorMessage && <p style={{ color: 'red' }}>Dados não localizados em nossa base!</p>}
+      {showErrorMessage && <p style={{ color: 'red' }}>Falha na autenticação. Dados não localizados em nossa base!</p>}
 
       <a href="/">Voltar para o Login</a>
     </div>

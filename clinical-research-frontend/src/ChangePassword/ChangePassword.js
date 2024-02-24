@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import zxcvbn from 'zxcvbn';
 import './ChangePassword.css';
@@ -9,14 +9,34 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const ChangePassword = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState({ score: 0, feedback: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfir, setShowPasswordConfir] = useState(false);
   const location = useLocation();
-  
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
 
   const enteredUser = location.state?.enteredUser;
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+
+  useEffect(() => {
+    // Use a requisição para obter o nome do usuário
+    const fetchFullname = async () => {
+      try {
+        const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
+        const retrievedFullname = personResponse.data.fullName; // Ajuste aqui
+  
+        // Ajuste para trazer apenas o campo 'fullName'
+        setFullname(retrievedFullname);
+      } catch (error) {
+        console.error('Erro ao obter o nome do usuário:', error);
+      }
+    };
+  
+    fetchFullname();
+  }, [enteredUser]);
 
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
@@ -32,6 +52,7 @@ const ChangePassword = () => {
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
+    
   };
 
   const handleTogglePassword = () => {
@@ -61,34 +82,27 @@ const ChangePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('enteredUser:', enteredUser);
-    console.log('password:', password);
-    console.log('confirmPassword:', confirmPassword);
 
-    if (password !== confirmPassword || password.length < 8 || passwordStrength.score < 3) {
-      alert('Por favor, verifique os critérios de senha.');
-      return;
-    }
-    console.log('Objeto enviado para a API:', {
-      newPassword: password
-    });
+  const password = passwordRef.current;
+  const confirmPassword = confirmPasswordRef.current;
 
-    try {
-      const changeResponse = await axios.put(`http://localhost:8080/api/v1/autenticate/${enteredUser}`, {
-        newPassword: password
-      });
-    
-      console.log('Valor de enteredUser:', enteredUser);
-    
-      if (changeResponse.status === 200) {
-    
-        console.log('Senha Alterada com sucesso', changeResponse.data);
-        navigate("/", { state: { enteredUser } });
-      } else {
-        console.log(`Resposta inesperada: ${changeResponse.status}`);
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar a senha:', error);
+  // Verifica se password e confirmPassword são null ou undefined antes de acessar 'trim()'
+  if (!password || !confirmPassword || password.trim() !== confirmPassword.trim() || password.length < 8 || passwordStrength.score < 3) {
+    setPasswordMismatch(true);
+    return;
+  }
+
+    const changeResponse = await axios.put(
+      `http://localhost:8080/api/v1/autenticate/${enteredUser}/updatePassword`, 
+      JSON.stringify({ password: password }),
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    if (changeResponse.status === 200) {
+      console.log('Senha Alterada com sucesso', changeResponse.data);
+      navigate("/", { state: { enteredUser } });
+    } else {
+      console.log(`Resposta inesperada: ${changeResponse.status}`);
     }
   };
 
@@ -96,7 +110,7 @@ const ChangePassword = () => {
     <div className="create-password-container">
       <form onSubmit={handleSubmit}>
         <div className="user-email">
-          <h2>Olá, <span>{enteredUser}</span></h2>
+        <h2>Olá, <span>{fullname}</span></h2>
           <br />
           <br />
         </div>
@@ -127,13 +141,20 @@ const ChangePassword = () => {
             />
           </div>
         </div>
-        <button type="submit" disabled={password !== confirmPassword || password.length < 8 || passwordStrength.score < 3}>
+
+        <button type="submit" disabled={passwordMismatch || password.length < 8 || passwordStrength.score < 3}>
           Criar Senha
         </button>
         <br />
         {password && password.trim() !== '' && (
           <div className="password-strength" style={{ backgroundColor: getColor() }}>
             <p>{getScoreLabel()}</p>
+          </div>
+        )}
+        
+        {passwordMismatch && (
+          <div className="password-mismatch-error">
+            <p>As senhas não coincidem. Por favor, verifique.</p>
           </div>
         )}
       </form>

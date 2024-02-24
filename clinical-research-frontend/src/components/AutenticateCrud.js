@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PopupMessage from '../Autenticate/PopupMessage';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +11,7 @@ const AutenticateForm = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
   const [fullName, setFullName] = useState('');
 
   const handleLogin = async () => {
@@ -28,22 +27,19 @@ const AutenticateForm = () => {
       if (response.ok) {
         // Login bem-sucedido, agora obtenha o nome completo
         const fullNameResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(user)}/cpf`);
-        setFullName(fullNameResponse.data.fullName);
+        const retrievedFullname = fullNameResponse.data.fullName;
+        setFullName(retrievedFullname);
 
-        setShowSuccessPopup(true);
-        setTimeout(() => {
-          setShowSuccessPopup(false);
-        }, 3000);
-
-        navigate('/popup-message',  { state: { user, message: 'Mensagem de boas-vindas!' } });
+      
+        navigate('/home',  { state: { fullName, message: 'Mensagem de boas-vindas!' } });
       } else {
         console.error('Authentication failed');
-        setShowSuccessPopup(false);
+        
         setErrorMessage('Login ou senha inválido');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setShowSuccessPopup(false);
+      
     }
   };
 
@@ -103,7 +99,7 @@ const AutenticateForm = () => {
         <img src="Logo.png" alt="" />
       </div>
 
-      {showSuccessPopup && <PopupMessage message={`Login bem-sucedido! Bem-vindo, ${fullName}!`} onClose={() => setShowSuccessPopup(false)} />}
+      
     </div>
   );
 };

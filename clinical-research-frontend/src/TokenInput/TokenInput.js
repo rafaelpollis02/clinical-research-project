@@ -1,34 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Tokeninput.css';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const TokenInput = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const userIdentifierRef = useRef('');
-
-  const [userIdentifier, setUserIdentifier] = useState('');
+  const [fullname, setFullname] = useState('');
   const [token, setToken] = useState(Array(6).fill(''));
   const [isTokenComplete, setIsTokenComplete] = useState(false);
   const [apiMessage, setApiMessage] = useState(null);
-  const [enteredEmail, setEnteredEmail] = useState('');
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const enteredUser = location.state?.enteredUser;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const { email, cpf } = location.state || {};
-
-    if (email) {
-      setEnteredEmail(email);
-      setUserIdentifier(email);
-      userIdentifierRef.current = email;
-    } else if (cpf) {
-      setUserIdentifier(cpf);
-      userIdentifierRef.current = cpf;
-    }
-
-    
-  }, [location.state]);
+    // Use a requisição para obter o nome do usuário
+    const fetchFullname = async () => {
+      try {
+        const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
+        const retrievedFullname = personResponse.data.fullName; // Ajuste aqui
+  
+        // Ajuste para trazer apenas o campo 'fullName'
+        setFullname(retrievedFullname);
+      } catch (error) {
+        console.error('Erro ao obter o nome do usuário:', error);
+      }
+    };
+  
+    fetchFullname();
+  }, [enteredUser]);
 
   const handleTokenChange = (index, value) => {
     const newToken = [...token];
@@ -52,7 +52,7 @@ const TokenInput = () => {
       if (response.status === 200) {
         console.log('Token validado com sucesso!');
         setApiMessage('Token validado com sucesso!');
-        navigate("/change-password", { state: { enteredUser: userIdentifier } });
+        navigate("/change-password", { state: { enteredUser } });
       } else if (response.status === 400) {
         console.log('Token expirado');
         setApiMessage('Token expirado');
@@ -74,7 +74,8 @@ const TokenInput = () => {
 
   return (
     <div className="token-input-container">
-      <h3>Digite o código enviado para {enteredEmail ? 'seu e-mail' : 'seu CPF'}:</h3>
+      <h2>Olá, <span>{fullname}</span></h2>
+      <h3>Digite o código enviado para {enteredUser ? 'seu e-mail' : 'seu CPF'}:</h3>
       <div className="token-input-wrapper">
         {token.map((digit, index) => (
           <input
