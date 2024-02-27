@@ -21,6 +21,7 @@ const ChangePassword = () => {
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
+
   useEffect(() => {
     // Use a requisição para obter o nome do usuário
     const fetchFullname = async () => {
@@ -83,14 +84,15 @@ const ChangePassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  const password = passwordRef.current;
-  const confirmPassword = confirmPasswordRef.current;
+    const passwordValue = passwordRef.current.value;
+    const confirmPasswordValue = confirmPasswordRef.current.value;
 
-  // Verifica se password e confirmPassword são null ou undefined antes de acessar 'trim()'
-  if (!password || !confirmPassword || password.trim() !== confirmPassword.trim() || password.length < 8 || passwordStrength.score < 3) {
-    setPasswordMismatch(true);
-    return;
-  }
+    // Verifica se password e confirmPassword são iguais e atendem aos critérios
+    if (passwordValue !== confirmPasswordValue || passwordValue.length < 8 || passwordStrength.score < 3) {
+      setPasswordMismatch(true);
+      return;
+    }
+  
 
     const changeResponse = await axios.put(
       `http://localhost:8080/api/v1/autenticate/${enteredUser}/updatePassword`, 
@@ -110,7 +112,7 @@ const ChangePassword = () => {
     <div className="create-password-container">
       <form onSubmit={handleSubmit}>
         <div className="user-email">
-        <h2>Olá, <span>{fullname}</span></h2>
+          <h2>Olá, <span>{fullname}</span></h2>
           <br />
           <br />
         </div>
@@ -121,6 +123,7 @@ const ChangePassword = () => {
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={handlePasswordChange}
+              ref={passwordRef} 
             />
             <span className="eye-iconchange" onClick={handleTogglePassword}>
               {showPassword ? (
@@ -138,6 +141,7 @@ const ChangePassword = () => {
               type={showPasswordConfir ? 'text' : 'password'}
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
+              ref={confirmPasswordRef} 
             />
           </div>
         </div>

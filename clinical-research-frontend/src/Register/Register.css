@@ -1,63 +1,99 @@
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
-body {
+.register-container .body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f8f8;
+  
 }
 
 .register-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  align-items: flex;
+
+  min-height: 100vh;
 }
 
-.top-bar-register {
+.register-container .top-bar-register {
   background-color: #007bff;
   height: 70px;
   width: 100%;
+  position: relative; 
   text-align: center;
   color: white;
+}
+
+.register-container .Cadastros {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.Cadastros {
-  width: 200px;
-  background-color: #007bff;
-  color: white;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  height: 100%;
-  top: 70px;
-  display: flex;
-  flex-direction: column;
+.register-container .botao {
+    width: 200px;
+  }
+  
+  .register-container .button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 200px; /* Ajuste a altura conforme necessário */
+    text-align: center;
+    border-radius: 50%;
+  }
+  
+  .register-container .button i {
+    margin-bottom: 0.5rem;
+  }
+  
+  .register-container .button span {
+    font-size: 1rem; /* Ajuste o tamanho do texto conforme necessário */
+  }
+  
+  /* Ajustes para dispositivos menores */
+  @media only screen and (max-width: 600px) {
+    .register-container .botao {
+      width: 100%;
+    }
+  }
+  
+
+  .register-container .voltar{
+    background-color: #007bff;
+    color: white;
+    padding: 5px 25px; /* Ajuste o preenchimento conforme necessário */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    position: fixed; /* Torna o botão fixo */
+    top: 20px; /* Ajuste a distância do topo conforme necessário */
+    right: 100px; /* Ajuste a distância da direita conforme necessário */
+    width: 5%;
+    height: 10px;
 }
 
-.Cadastros p {
-  margin-bottom: 20px;
-  font-weight: bold;
-}
+.register-container .button i {
+    margin-bottom: 0.5rem;
+    font-size: 2rem; /* Ajuste o tamanho do ícone conforme necessário */
+  }
+  
 
-.Cadastros ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.Cadastros li {
-  margin-bottom: 10px;
-}
-
-.button-link {
-  display: flex;
-  align-items: center;
-  color: white;
-  text-decoration: none;
-}
-
-.button-link i {
-  margin-right: 10px;
+/* Ajustes para dispositivos menores */
+@media only screen and (max-width: 600px) {
+  .register-container .botao {
+    width: 100%;
+  }
 }

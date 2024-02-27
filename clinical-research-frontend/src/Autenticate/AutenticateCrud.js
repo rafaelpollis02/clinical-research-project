@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';  // Importe o módulo axios
 import './AutenticateCrud.css';
 
 const AutenticateForm = () => {
@@ -11,8 +10,6 @@ const AutenticateForm = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const [fullName, setFullName] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -25,21 +22,14 @@ const AutenticateForm = () => {
       });
 
       if (response.ok) {
-        // Login bem-sucedido, agora obtenha o nome completo
-        const fullNameResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(user)}/cpf`);
-        const retrievedFullname = fullNameResponse.data.fullName;
-        setFullName(retrievedFullname);
-
-      
-        navigate('/home',  { state: { fullName, message: 'Mensagem de boas-vindas!' } });
+        // Login bem-sucedido
+        navigate('/home', { state: { user, message: 'Mensagem de boas-vindas!' } });
       } else {
         console.error('Authentication failed');
-        
         setErrorMessage('Login ou senha inválido');
       }
     } catch (error) {
       console.error('Error during login:', error);
-      
     }
   };
 
@@ -98,8 +88,6 @@ const AutenticateForm = () => {
       <div className="image-container">
         <img src="Logo.png" alt="" />
       </div>
-
-      
     </div>
   );
 };

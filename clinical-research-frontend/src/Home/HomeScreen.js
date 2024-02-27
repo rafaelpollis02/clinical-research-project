@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './HomeScreen.css';
-
-// ... importações e código anterior
+import axios from 'axios';
 
 const HomeScreen = () => {
   const location = useLocation();
   const userName = location.state?.user;
   const navigate = useNavigate();
+  const [fullname, setFullname] = useState('');
+
+  const fetchFullname = useCallback(async () => {
+    try {
+      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(userName)}/cpf`);
+      const retrievedFullname = personResponse.data.fullName;
+      setFullname(retrievedFullname);
+    } catch (error) {
+      console.error('Erro ao obter o nome do usuário:', error);
+    }
+  }, [userName]);
+
+  useEffect(() => {
+    fetchFullname();
+  }, [fetchFullname, userName]);
 
   const handleLogout = () => {
-    // Lógica de logout aqui, por exemplo, limpar o token de autenticação
-    // Após o logout, redirecionar para a tela de autenticação
     navigate('/');
   };
 
   const handleCadastro = () => {
-    // Adicione a lógica para navegar para a tela de cadastro
     navigate('/register');
   };
 
   const handlePesquisaClinica = () => {
-    // Adicione a lógica para navegar de volta para a tela de home
     navigate('/home');
   };
 
@@ -29,7 +39,7 @@ const HomeScreen = () => {
     <div className="home-container">
       <div className="top-bar">
         <h2>Healthuture</h2>
-        <p>Bem-vindo, {userName}!</p>
+        <div className='usuario-home'>Bem-vindo, {fullname}</div>
         <button className="logout-button" onClick={handleLogout}>
           Sair
         </button>
