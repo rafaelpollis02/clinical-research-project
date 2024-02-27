@@ -28,13 +28,11 @@ public class AutenticateService {
     @Inject
     AutenticateTokenService autenticateTokenService;
 
-
     private final Random random = new Random();
 
     public String getAutenticateByCpfOrEmail(String user) throws NotFoundException {
 
         if (validateAutenticateByCpf(user) || validateAutenticateByEmail(user)) {
-
             return Response.ok("Successful").build().toString();
         } else {
             throw new NotFoundException("User not found");
@@ -54,10 +52,10 @@ public class AutenticateService {
             } else {
                 throw new InvalidLoginException("User or Password Invalid");
             }
-
         } else if (validateAutenticateByEmail(user)) {
             String existingPassword = autenticateRepository.findPasswordByEmail(user);
-            if (password.equals(existingPassword)) {
+            String passwordDecoder = decodePassword(existingPassword);
+            if (password.equals(passwordDecoder)) {
                 return Response.ok("Successful").build().toString();
             } else {
                 throw new InvalidLoginException("User or Password Invalid");
@@ -166,19 +164,19 @@ public class AutenticateService {
         return existingAutenticate;
     }
 
-    public boolean validateAutenticateByCpf(String cpf) throws NotFoundException {
+    public boolean validateAutenticateByCpf(String cpf) {
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
         if (existingAutenticate == null) {
-            throw new NotFoundException("User not found");
+            return false;
         } else {
             return true;
         }
     }
 
-    public boolean validateAutenticateByEmail(String email) throws NotFoundException {
+    public boolean validateAutenticateByEmail(String email) {
         Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(email);
         if (existingAutenticate == null) {
-            throw new NotFoundException("User not found");
+            return false;
         } else {
             return true;
         }

@@ -1,6 +1,5 @@
 package br.com.clinicalresearch.resource;
 
-import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
@@ -38,10 +37,31 @@ public class PersonResource {
     }
 
     @GET
+    @Path("/{fullName}/fullName")
+    @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma lista de pessoas por nome")
+    public List<Person> getPersonByfullName(@QueryParam("fullName") String fullName) throws NotFoundException {
+        return personService.getPersonByfullName(fullName);
+    }
+
+    @GET
+    @Path("/{cpfOrEmail}/cpfOrEmail")
+    @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma pessoa específica passando o Email ou CPF")
+    public Person getPersonByCpfOrEmail(@PathParam("cpfOrEmail") String cpfOrEmail) throws NotFoundException {
+        return personService.getPersonByCpfOrEmail(cpfOrEmail);
+    }
+
+    @GET
     @Path("/{cpf}/cpf")
     @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma pessoa específica passando o CPF")
     public Person getPersonByCpf(@PathParam("cpf") String cpf) throws NotFoundException {
         return personService.getPersonByCpf(cpf);
+    }
+
+    @GET
+    @Path("/{email}/email")
+    @Operation(summary = "Obter uma pessoa específica", description = "Retorna uma pessoa específica passando o CPF")
+    public Person getPersonByEmail(@PathParam("email") String email) throws NotFoundException {
+        return personService.getPersonByEmail(email);
     }
 
     @POST

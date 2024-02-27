@@ -1,7 +1,6 @@
 package br.com.clinicalresearch.service;
 
 import br.com.clinicalresearch.domain.Autenticate;
-import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
@@ -13,6 +12,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
@@ -38,10 +38,43 @@ public class PersonService {
         return existingPerson;
     }
 
+    public List<Person> getPersonByfullName(String fullName) throws NotFoundException {
+        List<Person> existingPerson = Collections.singletonList(personRepository.findPersonByFullName(fullName));
+
+        if (existingPerson == null){
+            throw new NotFoundException("Person not registered with ");
+        }else{
+            return existingPerson;
+        }
+    }
+
+    public Person getPersonByCpfOrEmail(String cpfOrEmail) throws NotFoundException {
+        Person existingPersonCpf = personRepository.findPersonByCpf(cpfOrEmail);
+        Person existingPersonEmail = personRepository.findPersonByEmail(cpfOrEmail);
+
+        if (existingPersonCpf != null) {
+            return existingPersonCpf;
+        } else if (existingPersonEmail != null) {
+            return existingPersonEmail;
+        } else {
+            throw new NotFoundException("Person not registered with the CPF or Email");
+        }
+    }
+
     public Person getPersonByCpf(String cpf) throws NotFoundException {
         Person existingPerson = personRepository.findPersonByCpf(cpf);
+
         if (existingPerson == null) {
             throw new NotFoundException("Person not registered with the CPF " + cpf);
+        }
+        return existingPerson;
+    }
+
+    public Person getPersonByEmail(String email) throws NotFoundException {
+        Person existingPerson = personRepository.findPersonByEmail(email);
+
+        if (existingPerson == null) {
+            throw new NotFoundException("Person not registered with the Email " + email);
         }
         return existingPerson;
     }
