@@ -1,8 +1,5 @@
 package br.com.clinicalresearch.collection;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
 public enum StatusObject {
 
     ACTIVE("A"),

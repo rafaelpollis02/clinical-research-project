@@ -3,7 +3,7 @@ package br.com.clinicalresearch.resource;
 import br.com.clinicalresearch.domain.EnterpriseEstablishment;
 import br.com.clinicalresearch.dto.EnterpriseEstablishmentRequest;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.EnterpriseEstablishmentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -24,14 +24,14 @@ public class EnterpriseEstablishmentResource {
     EnterpriseEstablishmentService enterpriseEstablishmentService;
 
     @GET
-    public Response getAllEnterpriseEstablishment() {
+    public Response getAllEnterpriseEstablishment() throws NoContentException {
         List<EnterpriseEstablishment> existingEnterpriseEstablishment = enterpriseEstablishmentService.getAllEnterpriseEstablishment();
         return Response.status(Response.Status.OK).entity(existingEnterpriseEstablishment).build();
     }
 
     @GET
-    @Path("/{idEnterpriseEstablishment}")
-    public Response getEstablishmentById(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws BusinessException {
+    @Path("/{idEnterpriseEstablishment}/id")
+    public Response getEstablishmentById(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NoContentException {
         EnterpriseEstablishment existingEnterpriseEstablishment = enterpriseEstablishmentService.getEnterpriseEstablishmentById(idEnterpriseEstablishment);
         return Response.status(Response.Status.OK).entity(existingEnterpriseEstablishment).build();
     }
@@ -39,14 +39,14 @@ public class EnterpriseEstablishmentResource {
     @PUT
     @Path("/{idEnterpriseEstablishment}")
     @Transactional
-    public Response updateEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment, EnterpriseEstablishment enterpriseEstablishment) throws NotFoundException {
+    public Response updateEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment, EnterpriseEstablishment enterpriseEstablishment) throws NoContentException {
         enterpriseEstablishmentService.updateEnterpriseEstablishment(idEnterpriseEstablishment, enterpriseEstablishment);
         return Response.status(Response.Status.OK).build();
     }
 
     @POST
     @Transactional
-    public Response addEnterpriseEstablishment(EnterpriseEstablishmentRequest enterpriseEstablishmentRequest) throws BusinessException, NotFoundException {
+    public Response addEnterpriseEstablishment(EnterpriseEstablishmentRequest enterpriseEstablishmentRequest) throws BusinessException, NoContentException {
         EnterpriseEstablishment existingEnterpriseEstablishment = enterpriseEstablishmentService.addEnterpriseEstablishment(enterpriseEstablishmentRequest);
         return Response.status(Response.Status.CREATED).entity(existingEnterpriseEstablishment).build();
     }
@@ -54,7 +54,7 @@ public class EnterpriseEstablishmentResource {
     @DELETE
     @Path("/{idEnterpriseEstablishment}")
     @Transactional
-    public Response removeEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NotFoundException {
+    public Response removeEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NoContentException {
         enterpriseEstablishmentService.removeEnterpriseEstablishment(idEnterpriseEstablishment);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

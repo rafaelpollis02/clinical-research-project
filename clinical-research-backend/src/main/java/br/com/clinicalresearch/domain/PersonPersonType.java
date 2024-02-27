@@ -6,19 +6,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
-@Table(name = "AUTENTICATE_ESTABLISHMENT")
-public class AutenticateEstablishment {
+@Table(name = "PERSON_PESONTYPE")
+public class PersonPersonType {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
     private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
-    @Column(name = "CREATE_DATE")
     private LocalDateTime createDate = LocalDateTime.now();
 
     @Column(name = "UPDATE_DATE")
@@ -27,18 +24,18 @@ public class AutenticateEstablishment {
     private LocalDateTime updateDate = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS")
     private StatusObject status = StatusObject.ACTIVE;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "AUTENTICATE_ID")
-    private Autenticate autenticate;
+    @JoinColumn(name = "PERSON_ID")
+    private Person person;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "ESTABLISHMENT_ID")
-    private Establishment establishment;
+    @JoinColumn(name = "PERSONTYPE_ID")
+    private PersonType personType;
+
 
     public Long getId() {
         return id;
@@ -72,32 +69,19 @@ public class AutenticateEstablishment {
         this.status = status;
     }
 
-    public Autenticate getAutenticate() {
-        return autenticate;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setAutenticate(Autenticate autenticate) {
-        this.autenticate = autenticate;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public Establishment getEstablishment() {
-        return establishment;
+    public PersonType getPersonType() {
+        return personType;
     }
 
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AutenticateEstablishment that = (AutenticateEstablishment) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
     }
 }

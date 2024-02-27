@@ -15,23 +15,12 @@ public class GeneralException implements ExceptionMapper<Exception> {
         Message message = new Message();
 
         if (e instanceof InvalidLoginException) {
-            message.setMessage(e.getMessage());
-            message.setType("Alert");
-            return Response.status(Response.Status.UNAUTHORIZED).entity(message).build();
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        if (e instanceof NotFoundException) {
-            message.setMessage(e.getMessage());
-            message.setType("Alert");
-            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
-        }
-        if (e instanceof BadRequestException) {
-            message.setMessage(e.getMessage());
-            message.setType("Alert");
-            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
+        if (e instanceof NoContentException) {
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         if (e instanceof BusinessException) {
-            message.setMessage(e.getMessage());
-            message.setType("Alert");
             return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
         } else {
             message.setMessage("Unavailable service: " + e.getMessage());

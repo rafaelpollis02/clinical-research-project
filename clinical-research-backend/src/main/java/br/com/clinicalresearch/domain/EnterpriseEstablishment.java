@@ -30,11 +30,11 @@ public class EnterpriseEstablishment {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "enterprise_id")
+    @JoinColumn(name = "ENTERPRISE_ID")
     private Enterprise enterprise;
 
     @ManyToOne
-    @JoinColumn(name = "establishment_id")
+    @JoinColumn(name = "ESTABLISHMENT_ID")
     private Establishment establishment;
 
     public Long getId() {

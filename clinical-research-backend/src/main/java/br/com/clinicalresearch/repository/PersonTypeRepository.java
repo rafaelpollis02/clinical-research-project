@@ -9,8 +9,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class PersonTypeRepository implements PanacheRepository<PersonType> {
 
-    public Optional<PersonType> findPersonTypeByType(String type) {
-        return find("type", type).singleResultOptional();
+    public PersonType findByType(String type) {
+        return find("type", type).firstResult();
     }
 
 }

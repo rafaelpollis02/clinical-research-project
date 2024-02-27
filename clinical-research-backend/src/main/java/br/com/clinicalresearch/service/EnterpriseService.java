@@ -1,10 +1,8 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.collection.StatusObject;
 import br.com.clinicalresearch.domain.Enterprise;
-import br.com.clinicalresearch.domain.EnterpriseEstablishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.repository.EnterpriseRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,21 +16,36 @@ public class EnterpriseService {
     @Inject
     EnterpriseRepository enterpriseRepository;
 
-    public List<Enterprise> getAllEnterprise() {
-        return enterpriseRepository.listAll();
+    public List<Enterprise> getAllEnterprise() throws NoContentException {
+        List<Enterprise> existingEnterprise = enterpriseRepository.listAll();
+
+        if (existingEnterprise.isEmpty()){
+            throw new NoContentException();
+        }else{
+            return existingEnterprise;
+        }
     }
 
-    public Enterprise getEnterpriseById(Long idEnterprise) throws NotFoundException {
+    public Enterprise getEnterpriseById(Long idEnterprise) throws NoContentException {
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
 
         if (existingEnterprise == null) {
-            throw new NotFoundException("Enterprise not registered with the ID " + idEnterprise);
+            throw new NoContentException();
+        }
+        return existingEnterprise;
+    }
+
+    public List<Enterprise> getEnterpriseByName(String name) throws NoContentException {
+        List<Enterprise> existingEnterprise = enterpriseRepository.findByName(name);
+
+        if (existingEnterprise.isEmpty()) {
+            throw new NoContentException();
         }
         return existingEnterprise;
     }
 
     public Enterprise createEnterprise(Enterprise enterprise) throws BusinessException {
-        Enterprise existingEnterprise = enterpriseRepository.findEnterpriseByCnpj(enterprise.getCnpj());
+        Enterprise existingEnterprise = enterpriseRepository.findByCnpj(enterprise.getCnpj());
         if (existingEnterprise != null) {
             throw new BusinessException("Enterprise duplicate by cnpj " + enterprise.getCnpj());
         } else {
@@ -41,11 +54,11 @@ public class EnterpriseService {
         return enterprise;
     }
 
-    public Enterprise updateEnterprise(Long idEnterprise, Enterprise enterprise) throws NotFoundException {
+    public Enterprise updateEnterprise(Long idEnterprise, Enterprise enterprise) throws NoContentException {
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
 
         if (existingEnterprise == null) {
-            throw new NotFoundException("Enterprise not registered with the ID " + idEnterprise);
+            throw new NoContentException();
         } else {
             existingEnterprise.setCnpj(enterprise.getCnpj());
             existingEnterprise.setName(enterprise.getName());
@@ -56,11 +69,11 @@ public class EnterpriseService {
         return existingEnterprise;
     }
 
-    public void deleteEnterprise(Long idEnterprise) throws NotFoundException {
+    public void deleteEnterprise(Long idEnterprise) throws NoContentException {
         Enterprise existingEnterprise = enterpriseRepository.findById(idEnterprise);
 
         if (existingEnterprise == null) {
-            throw new NotFoundException("Enterprise not registered with the ID " + idEnterprise);
+            throw new NoContentException();
         } else {
             enterpriseRepository.delete(existingEnterprise);
         }

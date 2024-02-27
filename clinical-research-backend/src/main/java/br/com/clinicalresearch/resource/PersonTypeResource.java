@@ -2,6 +2,7 @@ package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.PersonTypeService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,28 +18,27 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonTypeResource {
-
     @Inject
     PersonTypeService personTypeService;
 
     @GET
     @Operation(summary = "Obter todos os tipos de pessoa", description = "Retorna uma lista com todos os tipos de pessoa")
-    public List<PersonType> getAllPersonType() {
+    public List<PersonType> getAllPersonType() throws NoContentException {
         return personTypeService.getAllPersonType();
     }
 
     @GET
-    @Path("/{idPersonType}")
+    @Path("/{idPersonType}/id")
     @Operation(summary = "Obter tipo de pessoa específica", description = "Retorna um tipo de pessoa específico passando o ID")
-    public PersonType getPersonTypeById(@PathParam("idPersonType") Long idPersonType) throws BusinessException {
-       return personTypeService.getPersonTypeById(idPersonType);
+    public PersonType getPersonTypeById(@PathParam("idPersonType") Long idPersonType) throws NoContentException {
+        return personTypeService.getPersonTypeById(idPersonType);
     }
 
     @POST
     @Transactional
     @Operation(summary = "Salvar um tipo de pessoa", description = "Salva um tipo de pessoa no banco de dados")
     public Response savePersonType(@Valid PersonType personType) throws BusinessException {
-        personTypeService.savePersonType(personType);
+        personTypeService.createPersonType(personType);
         return Response.status(Response.Status.CREATED).entity(personType).build();
     }
 

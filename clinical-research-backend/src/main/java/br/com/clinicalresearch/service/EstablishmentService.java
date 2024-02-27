@@ -1,10 +1,7 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.collection.StatusObject;
-import br.com.clinicalresearch.domain.Enterprise;
 import br.com.clinicalresearch.domain.Establishment;
-import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.repository.EstablishmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -19,15 +16,30 @@ public class EstablishmentService {
     @Inject
     EstablishmentRepository establishmentRepository;
 
-    public List<Establishment> getAllEstablishment() {
-        return establishmentRepository.listAll();
+    public List<Establishment> getAllEstablishment() throws NoContentException {
+        List<Establishment> existingEstablishmento = establishmentRepository.listAll();
+
+        if(existingEstablishmento.isEmpty()){
+            throw new NoContentException();
+        }else{
+            return existingEstablishmento;
+        }
     }
 
-    public Establishment getEstablishmentById(Long idEstablishment) throws BusinessException {
+    public Establishment getEstablishmentById(Long idEstablishment) throws NoContentException {
         Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
         if (existingEstablishment == null) {
-            throw new BusinessException("Establishment not registered with the ID " + idEstablishment);
+            throw new NoContentException();
+        }
+        return existingEstablishment;
+    }
+
+    public List<Establishment> getEstablishmentByName(String name) throws NoContentException {
+        List<Establishment> existingEstablishment = establishmentRepository.findByName(name);
+
+        if (existingEstablishment.isEmpty()) {
+            throw new NoContentException();
         }
         return existingEstablishment;
     }
@@ -37,12 +49,12 @@ public class EstablishmentService {
         return establishment;
     }
 
-    public Establishment updateEstablishment(Long idEstablishment, Establishment establishment) throws BusinessException {
+    public Establishment updateEstablishment(Long idEstablishment, Establishment establishment) throws NoContentException {
 
         Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
         if (existingEstablishment == null) {
-            throw new BusinessException("Establishment not registered with the ID " + idEstablishment);
+            throw new NoContentException();
         } else {
             existingEstablishment.setName(establishment.getName());
             existingEstablishment.setLogoFile(establishment.getLogoFile());
@@ -53,11 +65,11 @@ public class EstablishmentService {
         return existingEstablishment;
     }
 
-    public void deleteEstablishment(Long idEstablishment) throws NotFoundException {
+    public void deleteEstablishment(Long idEstablishment) throws NoContentException {
         Establishment existingEstablishment = establishmentRepository.findById(idEstablishment);
 
         if (existingEstablishment == null) {
-            throw new NotFoundException("Establishment not registered with the ID " + idEstablishment);
+            throw new NoContentException();
         } else {
             establishmentRepository.delete(existingEstablishment);
         }

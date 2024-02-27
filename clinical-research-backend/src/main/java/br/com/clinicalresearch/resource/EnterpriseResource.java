@@ -1,12 +1,10 @@
 package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.Enterprise;
-import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.EnterpriseService;
 import jakarta.inject.Inject;
-import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -22,14 +20,14 @@ public class EnterpriseResource {
     EnterpriseService enterpriseService;
 
     @GET
-    public Response getAllEnterprise() {
-         List<Enterprise> existingEnterprise = enterpriseService.getAllEnterprise();
-         return Response.status(Response.Status.OK).entity(existingEnterprise).build();
+    public Response getAllEnterprise() throws NoContentException {
+        List<Enterprise> existingEnterprise = enterpriseService.getAllEnterprise();
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
     @GET
-    @Path("/{idEnterprise}")
-    public Response getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) throws NotFoundException {
+    @Path("/{idEnterprise}/id")
+    public Response getEnterpriseById(@PathParam("idEnterprise") Long idEnterprise) throws NoContentException {
         Enterprise existingEnterprise = enterpriseService.getEnterpriseById(idEnterprise);
         return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
@@ -42,17 +40,24 @@ public class EnterpriseResource {
     }
 
     @PUT
-    @Path("/{idEnterprise}")
+    @Path("/{idEnterprise}/id")
     @Transactional
-    public Response updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) throws NotFoundException {
-       Enterprise existingEnterprise = enterpriseService.updateEnterprise(idEnterprise, enterprise);
-       return Response.status(Response.Status.OK).entity(existingEnterprise).build();
+    public Response updateEnterprise(@PathParam("idEnterprise") Long idEnterprise, Enterprise enterprise) throws NoContentException {
+        Enterprise existingEnterprise = enterpriseService.updateEnterprise(idEnterprise, enterprise);
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
+    }
+
+    @GET
+    @Path("/{name}/name")
+    public Response getEnterpriseByName(@PathParam("name") String name) throws NoContentException {
+        List<Enterprise> existingEnterprise = enterpriseService.getEnterpriseByName(name);
+        return Response.status(Response.Status.OK).entity(existingEnterprise).build();
     }
 
     @DELETE
     @Path("/{idEnterprise}")
     @Transactional
-    public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws NotFoundException {
+    public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws NoContentException {
         enterpriseService.deleteEnterprise(idEnterprise);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

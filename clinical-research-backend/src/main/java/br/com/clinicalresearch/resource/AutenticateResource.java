@@ -3,16 +3,13 @@ package br.com.clinicalresearch.resource;
 import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.dto.AutenticateRequest;
 import br.com.clinicalresearch.dto.AutenticateResponse;
-import br.com.clinicalresearch.exceptions.BadRequestException;
-import br.com.clinicalresearch.exceptions.InvalidLoginException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.*;
 import br.com.clinicalresearch.service.AutenticateService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.jboss.logging.annotations.Param;
 
 @Path("api/v1/autenticate")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,13 +21,13 @@ public class AutenticateResource {
 
     @GET
     @Path("/{user}")
-    public Response getAutenticateByCpfOrEmail(@PathParam("user") String user) throws NotFoundException {
+    public Response getAutenticateByCpfOrEmail(@PathParam("user") String user) throws NoContentException {
         autenticateService.getAutenticateByCpfOrEmail(user);
         return Response.status(Response.Status.OK).build();
     }
 
     @POST
-    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NotFoundException {
+    public Response getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NoContentException {
         autenticateService.getAccessByCpfOrEmail(autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
@@ -38,14 +35,14 @@ public class AutenticateResource {
     @POST
     @Path("/generateToken")
     @Transactional
-    public Response generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
+    public Response generateToken(AutenticateRequest autenticateRequest) throws NoContentException {
         autenticateService.generateToken(autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
 
     @GET
     @Path("/{token}/validateToken")
-    public Response validateToken(@PathParam("token") String token) throws BadRequestException, NotFoundException {
+    public Response validateToken(@PathParam("token") String token) throws BusinessException, NoContentException {
         AutenticateResponse existingAutenticate = autenticateService.validateToken(token);
         return Response.status(Response.Status.OK).entity(existingAutenticate).build();
     }
@@ -53,7 +50,7 @@ public class AutenticateResource {
     @PUT
     @Path("/{user}/updatePassword")
     @Transactional
-    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
+    public Response updatePasswordAutenticate(@PathParam("user") String user, AutenticateRequest autenticateRequest) throws BadRequestException, NoContentException {
         autenticateService.updatePasswordAutenticate(user, autenticateRequest);
         return Response.status(Response.Status.OK).build();
     }
@@ -61,7 +58,7 @@ public class AutenticateResource {
     @PUT
     @Path("/{idAutenticate}")
     @Transactional
-    public Response updateAutenticate(@PathParam("idAutenticate") Long idAutenticate, Autenticate autenticate) throws NotFoundException {
+    public Response updateAutenticate(@PathParam("idAutenticate") Long idAutenticate, Autenticate autenticate) throws NoContentException {
         autenticateService.updateAutenticate(idAutenticate, autenticate);
         return Response.status(Response.Status.OK).build();
     }
