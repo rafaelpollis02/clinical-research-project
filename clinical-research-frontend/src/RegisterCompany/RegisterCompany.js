@@ -1,6 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegisterCompany.css';
+
+const ConfirmPopup = ({ message, onConfirm, onCancel }) => (
+  <div className="confirm-popup">
+    <p>{message}</p>
+    <button onClick={onConfirm}>Sim</button>
+    <button onClick={onCancel}>Não</button>
+  </div>
+);
 
 const Company = () => {
   const navigate = useNavigate();
@@ -13,9 +21,20 @@ const Company = () => {
     descricao: '',
   });
   const [popupMessage, setPopupMessage] = useState('');
+  const [localizarClicked, setLocalizarClicked] = useState(false);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [companyIdToDelete, setCompanyIdToDelete] = useState(null);
 
   const handleSwitchView = (newView) => {
     setView(newView);
+    if (newView === 'list') {
+      setLocalizarClicked(false);
+    }
+  };
+
+  const handleLocalizarClick = () => {
+    setLocalizarClicked(true);
+    fetchCompanies();
   };
 
   const handleGoBack = () => {
@@ -72,51 +91,53 @@ const Company = () => {
     }
   };
 
-  const fetchCompanies = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/v1/enterprise');
-
-      if (response.ok) {
-        const data = await response.json();
-        setCompanies(data);
-      } else {
-        setPopupMessage(`Falha ao obter a lista de empresas. Status: ${response.status}`);
-      }
-    } catch (error) {
-      setPopupMessage(`Erro: ${error.message}`);
-    }
-  };
-
   const handleEdit = (company) => {
-    setFormData({
-      id: company.id,
-      cnpj: company.cnpj,
-      nome: company.nome,
-      descricao: company.descricao,
-    });
-    handleSwitchView('form');
+    // Implemente a lógica para edição
+    console.log(`Editando empresa com ID: ${company.id}`, company);
   };
 
-  const handleDelete = async (companyId) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/v1/enterprise/${companyId}`, {
-        method: 'DELETE',
-      });
+  const handleDelete = (companyId) => {
+    // Define o ID da empresa a ser excluída
+    setCompanyIdToDelete(companyId);
+    // Exibe o pop-up de confirmação
+    setShowConfirmPopup(true);
+  };
 
-      if (response.ok) {
-        setPopupMessage(`Empresa com ID ${companyId} excluída com sucesso!`);
-        fetchCompanies();
-      } else {
-        setPopupMessage(`Falha ao excluir empresa com ID ${companyId}. Status: ${response.status}`);
+  const handleConfirmDelete = () => {
+    // Implemente a lógica para exclusão
+    console.log(`Excluindo empresa com ID: ${companyIdToDelete}`);
+    // ... sua lógica de exclusão aqui
+
+    // Fecha o pop-up
+    setShowConfirmPopup(false);
+  };
+
+  const handleCancelDelete = () => {
+    // Cancela a exclusão
+    setShowConfirmPopup(false);
+  };
+
+  const fetchCompanies = useCallback(async () => {
+    try {
+      if (localizarClicked) {
+        const response = await fetch('http://localhost:8080/api/v1/enterprise');
+
+        if (response.ok) {
+          const data = await response.json();
+          setCompanies(data);
+        } else {
+          setPopupMessage(`Falha ao obter a lista de empresas. Status: ${response.status}`);
+        }
       }
     } catch (error) {
       setPopupMessage(`Erro: ${error.message}`);
     }
-  };
+  }, [localizarClicked]);
 
   useEffect(() => {
     fetchCompanies();
-  }, []);
+  }, [fetchCompanies, localizarClicked]);
+
 
   return (
     <div className="register-company-container">
@@ -132,28 +153,22 @@ const Company = () => {
           {view === 'list' && (
             <div>
               <h3>Lista de Empresas</h3>
-              <ul>
-                {companies.map((company) => (
-                  <li key={company.id}>
-                    {company.nome} - {company.descricao}
-                    <div className="button-group">
-                      <button onClick={() => handleEdit(company)}>
-                        Editar
-                      </button>
-                      <button onClick={() => handleDelete(company.id)}>
-                        Excluir
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {localizarClicked && (
+                <ul>
+                  {companies.map((company) => (
+                    <li key={company.id}>
+                       {company.name} - {company.description} -  {company.cnpj} 
+                      <div className="button-group">
+                        <button onClick={() => handleEdit(company)}>Editar</button>
+                        <button onClick={() => handleDelete(company.id)}>Excluir</button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
               <div className="button-group">
-                <button onClick={() => handleSwitchView('form')}>
-                  Adicionar
-                </button>
-                <button onClick={() => handleSwitchView('list')}>
-                  Localizar
-                </button>
+                <button onClick={() => handleSwitchView('form')}>Adicionar</button>
+                <button onClick={handleLocalizarClick}>Localizar</button>
               </div>
             </div>
           )}
@@ -207,11 +222,20 @@ const Company = () => {
           )}
         </div>
       </div>
+
       {popupMessage && (
         <div className="popup">
           <span className="close-popup" onClick={() => setPopupMessage('')}>X</span>
           {popupMessage}
         </div>
+      )}
+
+      {showConfirmPopup && (
+        <ConfirmPopup
+          message="Tem certeza que deseja excluir esta empresa?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
       )}
     </div>
   );
