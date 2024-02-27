@@ -4,8 +4,6 @@ import br.com.clinicalresearch.domain.Autenticate;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Optional;
-
 @ApplicationScoped
 public class AutenticateRepository implements PanacheRepository<Autenticate> {
 
