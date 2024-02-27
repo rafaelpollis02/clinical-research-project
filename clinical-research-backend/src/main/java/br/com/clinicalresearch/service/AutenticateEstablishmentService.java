@@ -25,8 +25,14 @@ public class AutenticateEstablishmentService {
     @Inject
     EstablishmentService establishmentService;
 
-    public List<AutenticateEstablishment> getAllAutenticateEstablishment() {
-        return autenticateEstablishmentRepository.listAll();
+    public List<AutenticateEstablishment> getAllAutenticateEstablishment() throws NoContentException {
+        List<AutenticateEstablishment> existingAutenticateEstablishment = autenticateEstablishmentRepository.listAll();
+
+        if (existingAutenticateEstablishment.isEmpty()) {
+            throw new NoContentException();
+        } else {
+            return existingAutenticateEstablishment;
+        }
     }
 
     public AutenticateEstablishment getAutenticateEstablishmentById(Long idAutenticateEstablishment) throws NoContentException {
@@ -68,7 +74,7 @@ public class AutenticateEstablishmentService {
 
         AutenticateEstablishment existingRelationship = autenticateEstablishmentRepository.findByIdAutenticateAndIdEstablishmento(idAutenticate, idEstablishment);
         if (existingRelationship != null) {
-            throw new BusinessException("There is already a relationship between this autenticate and establishment");
+            throw new BusinessException("Já existe uma relação entre este autenticate e o estabelecimento");
         } else {
             AutenticateEstablishment autenticateEstablishment = new AutenticateEstablishment();
             autenticateEstablishment.setAutenticate(autenticate);

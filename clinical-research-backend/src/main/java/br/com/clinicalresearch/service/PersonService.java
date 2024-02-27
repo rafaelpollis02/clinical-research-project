@@ -89,7 +89,7 @@ public class PersonService {
     public Person createPerson(Person person) throws BusinessException {
         Person existingPerson = personRepository.findByCpf(person.getCpf());
         if (existingPerson != null) {
-            throw new BusinessException("Person duplicate by cpf " + person.getCpf());
+            throw new BusinessException("Já existe uma pessoa com este cpf " + person.getCpf());
         } else {
 
             if (person.getZipCode() != null || person.getZipCode() != "") {

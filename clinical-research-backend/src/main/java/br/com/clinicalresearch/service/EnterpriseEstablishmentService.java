@@ -74,7 +74,7 @@ public class EnterpriseEstablishmentService {
 
         EnterpriseEstablishment existingRelationship = enterpriseEstablishmentRepository.findByIdEnterpriseAndIdEstabelecimento(idEnterprise, idEstablishment);
         if (existingRelationship != null) {
-            throw new BusinessException("There is already a relationship between this enterprise and establishment");
+            throw new BusinessException("Já existe uma relação entre esta empresa e o estabelecimento");
         } else {
             EnterpriseEstablishment enterpriseEstablishment = new EnterpriseEstablishment();
             enterpriseEstablishment.setEnterprise(enterprise);

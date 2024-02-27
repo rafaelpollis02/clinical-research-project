@@ -24,7 +24,7 @@ public class AutenticateEstablishmentResource {
     AutenticateEstablishmentService autenticateEstablishmentService;
 
     @GET
-    public Response getAllAutenticateEstablishment() {
+    public Response getAllAutenticateEstablishment() throws NoContentException {
         List<AutenticateEstablishment> existingAutenticateEstablishment = autenticateEstablishmentService.getAllAutenticateEstablishment();
         return Response.status(Response.Status.OK).entity(existingAutenticateEstablishment).build();
     }

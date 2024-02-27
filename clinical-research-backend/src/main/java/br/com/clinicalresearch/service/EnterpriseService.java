@@ -47,7 +47,7 @@ public class EnterpriseService {
     public Enterprise createEnterprise(Enterprise enterprise) throws BusinessException {
         Enterprise existingEnterprise = enterpriseRepository.findByCnpj(enterprise.getCnpj());
         if (existingEnterprise != null) {
-            throw new BusinessException("Enterprise duplicate by cnpj " + enterprise.getCnpj());
+            throw new BusinessException("Já existe uma empresa com este CNPJ " + enterprise.getCnpj());
         } else {
             enterpriseRepository.persist(enterprise);
         }

@@ -17,14 +17,17 @@ public class GeneralException implements ExceptionMapper<Exception> {
         if (e instanceof InvalidLoginException) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        if (e instanceof BusinessException) {
+            message.setType("Alerta");
+            message.setMessage(e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
+        }
         if (e instanceof NoContentException) {
             return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        if (e instanceof BusinessException) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
+
         } else {
-            message.setMessage("Unavailable service: " + e.getMessage());
-            message.setType("Error");
+            message.setMessage("Serviço indisponível: " + e.getMessage());
+            message.setType("Erro");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
         }
     }

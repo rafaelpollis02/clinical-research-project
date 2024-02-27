@@ -39,7 +39,7 @@ public class PersonTypeService {
     public PersonType createPersonType(PersonType personType) throws BusinessException {
         PersonType existingPersonType = personTypeRepository.findByType(personType.getType());
         if (existingPersonType != null) {
-            throw new BusinessException("PersonType duplicate by type " + personType.getType());
+            throw new BusinessException("Já existe um persontype com este tipo " + personType.getType());
         } else {
             personTypeRepository.persist(personType);
         }

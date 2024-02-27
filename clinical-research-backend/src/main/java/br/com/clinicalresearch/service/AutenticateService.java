@@ -146,9 +146,11 @@ public class AutenticateService {
 
                 return autenticateResponse;
             } else {
-                throw new BusinessException("Token is Invalid");
+                System.out.println(">>>>>>>>>>>>>>>>> ENTREI NO TOKEN INVALIDO");
+                throw new BusinessException("O token é inválido");
             }
         } else {
+            System.out.println(">>>>>>>>>>>>>>>>> ENTREI NO TOKEN NO CONTENT");
             throw new NoContentException();
         }
     }
