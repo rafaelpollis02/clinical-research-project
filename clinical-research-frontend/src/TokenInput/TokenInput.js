@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Tokeninput.css';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -8,41 +8,27 @@ const TokenInput = () => {
   const [token, setToken] = useState(Array(6).fill(''));
   const [isTokenComplete, setIsTokenComplete] = useState(false);
   const [apiMessage, setApiMessage] = useState(null);
-  
+  const [countdown, setCountdown] = useState(120); // Tempo em segundos
   const navigate = useNavigate();
   const location = useLocation();
   const enteredUser = location.state?.enteredUser;
 
-  useEffect(() => {
-    // Use a requisição para obter o nome do usuário
-    const fetchFullname = async () => {
-      try {
-        const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
-        const retrievedFullname = personResponse.data.fullName; // Ajuste aqui
-  
-        // Ajuste para trazer apenas o campo 'fullName'
-        setFullname(retrievedFullname);
-      } catch (error) {
-        console.error('Erro ao obter o nome do usuário:', error);
-      }
-    };
-  
-    fetchFullname();
+  const fetchFullname = useCallback(async () => {
+    try {
+      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
+      const retrievedFullname = personResponse.data.fullName;
+      setFullname(retrievedFullname);
+    } catch (error) {
+      console.error('Erro ao obter o nome do usuário:', error);
+    }
   }, [enteredUser]);
 
-  const handleTokenChange = (index, value) => {
-    const newToken = [...token];
-    newToken[index] = value.replace(/\D/g, '').charAt(0);
-    setToken(newToken);
-
-    if (index < 5 && value !== '' && /\d/.test(value)) {
-      document.getElementById(`token-input-${index + 1}`).focus();
+  const handleConfirm = useCallback(async () => {
+    if (!isTokenComplete) {
+      // Se o token não estiver completo, não realizar a validação
+      console.log('Token incompleto. Aguarde a inserção completa do token.');
+      return;
     }
-
-    setIsTokenComplete(newToken.every((digit) => digit !== ''));
-  };
-
-  const handleConfirm = async () => {
     try {
       const tokenValue = token.join('');
       const response = await axios.get(
@@ -62,8 +48,46 @@ const TokenInput = () => {
       }
     } catch (error) {
       console.error('Erro ao fazer a requisição:', error);
-      setApiMessage('Erro ao fazer a requisição.');
+      setApiMessage('Token não encontrado.');
     }
+  }, [token, navigate, isTokenComplete, enteredUser]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        console.log('Contagem: ', prevCountdown);
+        if (prevCountdown === 0) {
+          clearInterval(intervalId);
+          console.log('Temporizador atingiu 0, chamando handleConfirm...');
+          handleConfirm();
+          return 0;
+        }
+        return prevCountdown - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [countdown, handleConfirm]);
+
+  useEffect(() => {
+    fetchFullname();
+  }, [fetchFullname]);
+
+  const handleTokenChange = (index, value) => {
+    const newToken = [...token];
+    newToken[index] = value.replace(/\D/g, '').charAt(0);
+    setToken(newToken);
+
+    if (index < 5 && value !== '' && /\d/.test(value)) {
+      document.getElementById(`token-input-${index + 1}`).focus();
+    }
+
+    setIsTokenComplete(newToken.every((digit) => digit !== ''));
+
+    // Reiniciar o contador a cada mudança no token
+    // Resetar o contador para 120 segundos (2 minutos)
   };
 
   const handleKeyPress = (index, event) => {
@@ -93,6 +117,10 @@ const TokenInput = () => {
       <button className="confirm-button" onClick={handleConfirm} disabled={!isTokenComplete}>
         Confirmar
       </button>
+
+      {countdown > 0 && (
+        <p style={{ color: 'blue' }}>Tempo restante: {countdown} segundos</p>
+      )}
 
       {apiMessage && <p style={{ color: 'green' }}>{apiMessage}</p>}
       <div className='button-link'> <a href="/password-recovery"><i className="fas fa-arrow-left"></i>Voltar</a></div>

@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AutenticateForm from './components/AutenticateCrud';
+
+import AutenticateForm from './Autenticate/AutenticateCrud';
 import PasswordRecovery from './PasswordRecovery/PasswordRecovery';
 import HomeScreen from './Home/HomeScreen';
 import Register from './Register/Register';
 import TokenInput from './TokenInput/TokenInput'; 
 import ChangePassword from './ChangePassword/ChangePassword'; 
+import Company from './RegisterCompany/RegisterCompany';
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/register" element={<Register />} /> 
+        <Route path="/register-company" element={<Company />} /> 
       </Routes>
     </Router>
   );
