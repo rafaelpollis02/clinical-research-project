@@ -55,7 +55,7 @@ public class EnterpriseResource {
     }
 
     @DELETE
-    @Path("/{idEnterprise}")
+    @Path("/{idEnterprise}/id")
     @Transactional
     public Response deleteEnterprise(@PathParam("idEnterprise") Long idEnterprise) throws NoContentException {
         enterpriseService.deleteEnterprise(idEnterprise);

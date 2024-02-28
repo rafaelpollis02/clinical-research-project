@@ -64,14 +64,14 @@ public class PersonResource {
     }
 
     @PUT
-    @Path("/{idPerson}")
+    @Path("/{idPerson}/id")
     @Transactional
     public Person updatePerson(@PathParam("idPerson") Long idPerson, @Valid Person person) throws NoContentException {
         return personService.updatePerson(idPerson, person);
     }
 
     @DELETE
-    @Path("/{idPerson}")
+    @Path("/{idPerson}/id")
     @Transactional
     public void deletePerson(@PathParam("idPerson") Long idPerson) throws NoContentException {
         personService.deletePerson(idPerson);

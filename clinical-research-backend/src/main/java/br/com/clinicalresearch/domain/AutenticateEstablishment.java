@@ -36,7 +36,6 @@ public class AutenticateEstablishment {
     private Autenticate autenticate;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "ESTABLISHMENT_ID")
     private Establishment establishment;
 

@@ -71,7 +71,7 @@ public class Person {
     @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     private List<PersonPersonType> personPersonType = new ArrayList<>();
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "person", fetch = FetchType.EAGER)
     @JsonIgnore
     private Autenticate autenticate;
 

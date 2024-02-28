@@ -37,7 +37,7 @@ public class AutenticateEstablishmentResource {
     }
 
     @PUT
-    @Path("/{idAutenticateEstablishment}")
+    @Path("/{idAutenticateEstablishment}/id")
     @Transactional
     public Response updateAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment, AutenticateEstablishment autenticateEstablishment) throws NoContentException {
         autenticateEstablishmentService.updateAutenticateEstablishment(idAutenticateEstablishment, autenticateEstablishment);
@@ -52,7 +52,7 @@ public class AutenticateEstablishmentResource {
     }
 
     @DELETE
-    @Path("/{idAutenticateEstablishment}")
+    @Path("/{idAutenticateEstablishment}/id")
     @Transactional
     public Response removeAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment) throws NoContentException {
         autenticateEstablishmentService.removeAutenticateEstablishment(idAutenticateEstablishment);

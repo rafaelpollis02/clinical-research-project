@@ -5,7 +5,6 @@ import br.com.clinicalresearch.dto.EnterpriseEstablishmentRequest;
 import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.EnterpriseEstablishmentService;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -14,7 +13,6 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@ApplicationScoped
 @Path("api/v1/enterpriseEstablishment")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,13 +29,13 @@ public class EnterpriseEstablishmentResource {
 
     @GET
     @Path("/{idEnterpriseEstablishment}/id")
-    public Response getEstablishmentById(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NoContentException {
+    public Response getEnterpriseEstablishmentById(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NoContentException {
         EnterpriseEstablishment existingEnterpriseEstablishment = enterpriseEstablishmentService.getEnterpriseEstablishmentById(idEnterpriseEstablishment);
         return Response.status(Response.Status.OK).entity(existingEnterpriseEstablishment).build();
     }
 
     @PUT
-    @Path("/{idEnterpriseEstablishment}")
+    @Path("/{idEnterpriseEstablishment}/id")
     @Transactional
     public Response updateEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment, EnterpriseEstablishment enterpriseEstablishment) throws NoContentException {
         enterpriseEstablishmentService.updateEnterpriseEstablishment(idEnterpriseEstablishment, enterpriseEstablishment);
@@ -52,7 +50,7 @@ public class EnterpriseEstablishmentResource {
     }
 
     @DELETE
-    @Path("/{idEnterpriseEstablishment}")
+    @Path("/{idEnterpriseEstablishment}/id")
     @Transactional
     public Response removeEnterpriseEstablishment(@PathParam("idEnterpriseEstablishment") Long idEnterpriseEstablishment) throws NoContentException {
         enterpriseEstablishmentService.removeEnterpriseEstablishment(idEnterpriseEstablishment);

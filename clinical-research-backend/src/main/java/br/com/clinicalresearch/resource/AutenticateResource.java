@@ -20,7 +20,7 @@ public class AutenticateResource {
     AutenticateService autenticateService;
 
     @GET
-    @Path("/{user}")
+    @Path("/{user}/user")
     public Response getAutenticateByCpfOrEmail(@PathParam("user") String user) throws NoContentException {
         autenticateService.getAutenticateByCpfOrEmail(user);
         return Response.status(Response.Status.OK).build();
@@ -56,7 +56,7 @@ public class AutenticateResource {
     }
 
     @PUT
-    @Path("/{idAutenticate}")
+    @Path("/{idAutenticate}/id")
     @Transactional
     public Response updateAutenticate(@PathParam("idAutenticate") Long idAutenticate, Autenticate autenticate) throws NoContentException {
         autenticateService.updateAutenticate(idAutenticate, autenticate);

@@ -124,11 +124,27 @@ public class PersonService {
             throw new NoContentException();
         } else {
             existingPerson.setFullName(person.getFullName());
+            existingPerson.setSocialName(person.getSocialName());
+            existingPerson.setSex(person.getSex());
+            existingPerson.setBirthDate(person.getBirthDate());
+            existingPerson.setNationality(person.getNationality());
+            existingPerson.setMaritalStatus(person.getMaritalStatus());
             existingPerson.setCpf(person.getCpf());
             existingPerson.setRg(person.getRg());
+            existingPerson.setDdi(person.getDdi());
+            existingPerson.setDdd(person.getDdd());
             existingPerson.setPhoneNumber(person.getPhoneNumber());
             existingPerson.setEmail(person.getEmail());
-            existingPerson.setBirthDate(person.getBirthDate());
+
+            getZipCodeWebService(person);
+
+            existingPerson.setZipCode(person.getZipCode());
+            existingPerson.setStreet(person.getStreet());
+            existingPerson.setNeighborhood(person.getNeighborhood());
+            existingPerson.setCity(person.getCity());
+            existingPerson.setState(person.getState());
+            existingPerson.setNumber(person.getNumber());
+            existingPerson.setComplement(person.getComplement());
             existingPerson.setUpdateDate(LocalDateTime.now());
             personRepository.persist(existingPerson);
         }

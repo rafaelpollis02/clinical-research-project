@@ -48,7 +48,7 @@ public class EstablishmentResource {
     }
 
     @PUT
-    @Path("/{idEstablishment}")
+    @Path("/{idEstablishment}/id")
     @Transactional
     public Response updateEstablishment(@PathParam("idEstablishment") Long idEstablishment, Establishment establishment) throws NoContentException {
         Establishment existingEstablishment = establishmentService.updateEstablishment(idEstablishment, establishment);
@@ -56,7 +56,7 @@ public class EstablishmentResource {
     }
 
     @DELETE
-    @Path("/{idEstablishment}")
+    @Path("/{idEstablishment}/id")
     @Transactional
     public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws NoContentException {
         establishmentService.deleteEstablishment(idEstablishment);

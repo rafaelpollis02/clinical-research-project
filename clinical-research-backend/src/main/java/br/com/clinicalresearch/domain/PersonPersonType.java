@@ -32,7 +32,6 @@ public class PersonPersonType {
     private Person person;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "PERSONTYPE_ID")
     private PersonType personType;
 
