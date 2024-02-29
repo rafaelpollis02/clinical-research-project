@@ -2,6 +2,7 @@ package br.com.clinicalresearch.service;
 
 import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.repository.PersonTypeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,23 +17,29 @@ public class PersonTypeService {
     @Inject
     PersonTypeRepository personTypeRepository;
 
-    public List<PersonType> getAllPersonType() {
-        return personTypeRepository.listAll();
-    }
+    public List<PersonType> getAllPersonType() throws NoContentException {
+        List<PersonType> existingPersonType = personTypeRepository.listAll();
 
-    public PersonType getPersonTypeById(Long idPersonType) throws BusinessException {
-        PersonType existingPersonType = personTypeRepository.findById(idPersonType);
-        if (existingPersonType == null) {
-            throw new BusinessException("PersonType not registered with the ID " + idPersonType);
+        if (existingPersonType.isEmpty()) {
+            throw new NoContentException();
         } else {
             return existingPersonType;
         }
     }
 
-    public PersonType savePersonType(PersonType personType) throws BusinessException {
-        Optional<PersonType> existingPersonType = personTypeRepository.findPersonTypeByType(personType.getType());
-        if (existingPersonType.isPresent()) {
-            throw new BusinessException("PersonType duplicate by type " + personType.getType());
+    public PersonType getPersonTypeById(Long idPersonType) throws NoContentException {
+        PersonType existingPersonType = personTypeRepository.findById(idPersonType);
+        if (existingPersonType == null) {
+            throw new NoContentException();
+        } else {
+            return existingPersonType;
+        }
+    }
+
+    public PersonType createPersonType(PersonType personType) throws BusinessException {
+        PersonType existingPersonType = personTypeRepository.findByType(personType.getType());
+        if (existingPersonType != null) {
+            throw new BusinessException("Já existe um persontype com este tipo " + personType.getType());
         } else {
             personTypeRepository.persist(personType);
         }
@@ -56,6 +63,4 @@ public class PersonTypeService {
             personTypeRepository.delete(existingPersonType);
         }
     }
-
-
 }

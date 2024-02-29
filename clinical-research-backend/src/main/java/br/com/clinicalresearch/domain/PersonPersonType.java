@@ -3,20 +3,18 @@ package br.com.clinicalresearch.domain;
 import br.com.clinicalresearch.collection.StatusObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
-@Table(name = "ENTERPRISE_ESTABLISHMENT")
-@JsonPropertyOrder({"id", "createDate", "status", "enterprise", "establishment"})
-public class EnterpriseEstablishment {
+@Table(name = "PERSON_PESONTYPE")
+public class PersonPersonType {
+
     @Id
     @GeneratedValue
     private Long id;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime createDate = LocalDateTime.now();
 
@@ -30,12 +28,13 @@ public class EnterpriseEstablishment {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "ENTERPRISE_ID")
-    private Enterprise enterprise;
+    @JoinColumn(name = "PERSON_ID")
+    private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "ESTABLISHMENT_ID")
-    private Establishment establishment;
+    @JoinColumn(name = "PERSONTYPE_ID")
+    private PersonType personType;
+
 
     public Long getId() {
         return id;
@@ -69,32 +68,19 @@ public class EnterpriseEstablishment {
         this.status = status;
     }
 
-    public Enterprise getEnterprise() {
-        return enterprise;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setEnterprise(Enterprise enterprise) {
-        this.enterprise = enterprise;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public Establishment getEstablishment() {
-        return establishment;
+    public PersonType getPersonType() {
+        return personType;
     }
 
-    public void setEstablishment(Establishment establishment) {
-        this.establishment = establishment;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EnterpriseEstablishment that = (EnterpriseEstablishment) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
     }
 }

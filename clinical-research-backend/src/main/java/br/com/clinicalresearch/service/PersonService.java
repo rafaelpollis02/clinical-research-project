@@ -2,88 +2,100 @@ package br.com.clinicalresearch.service;
 
 import br.com.clinicalresearch.domain.Autenticate;
 import br.com.clinicalresearch.domain.Person;
-import br.com.clinicalresearch.domain.PersonType;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
-import br.com.clinicalresearch.repository.EstablishmentRepository;
+import br.com.clinicalresearch.exceptions.NoContentException;
+import br.com.clinicalresearch.integration.WebServiceZipCode;
 import br.com.clinicalresearch.repository.PersonRepository;
-import br.com.clinicalresearch.repository.PersonTypeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
 public class PersonService {
     @Inject
     PersonRepository personRepository;
-    @Inject
-    PersonTypeRepository personTypeRepository;
-    @Inject
-    EstablishmentRepository establishmentRepository;
+
     @Inject
     AutenticateService autenticateService;
 
-    public List<Person> getAllPerson() {
-        return personRepository.listAll();
-    }
+    @Inject
+    @RestClient
+    WebServiceZipCode webServiceZipCode;
 
-    public Person getPersonById(Long idPerson) throws NotFoundException {
-        Person existingPerson = personRepository.findById(idPerson);
-        if (existingPerson == null) {
-            throw new NotFoundException("Person not registered with the ID " + idPerson);
-        }
-        return existingPerson;
-    }
+    public List<Person> getAllPerson() throws NoContentException {
+        List<Person> existingPerson = personRepository.listAll();
 
-    public List<Person> getPersonByfullName(String fullName) throws NotFoundException {
-        List<Person> existingPerson = Collections.singletonList(personRepository.findPersonByFullName(fullName));
-
-        if (existingPerson == null){
-            throw new NotFoundException("Person not registered with ");
-        }else{
+        if (existingPerson.isEmpty()) {
+            throw new NoContentException();
+        } else {
             return existingPerson;
         }
     }
 
-    public Person getPersonByCpfOrEmail(String cpfOrEmail) throws NotFoundException {
-        Person existingPersonCpf = personRepository.findPersonByCpf(cpfOrEmail);
-        Person existingPersonEmail = personRepository.findPersonByEmail(cpfOrEmail);
+    public Person getPersonById(Long idPerson) throws NoContentException {
+        Person existingPerson = personRepository.findById(idPerson);
+        if (existingPerson == null) {
+            throw new NoContentException();
+        }
+        return existingPerson;
+    }
+
+    public List<Person> getPersonByfullName(String fullName) throws NoContentException {
+        List<Person> existingPerson = personRepository.findByFullName(fullName);
+
+        if (existingPerson.isEmpty()) {
+            throw new NoContentException();
+        } else {
+            return existingPerson;
+        }
+    }
+
+    public Person getPersonByCpfOrEmail(String cpfOrEmail) throws NoContentException {
+        Person existingPersonCpf = personRepository.findByCpf(cpfOrEmail);
+        Person existingPersonEmail = personRepository.findByEmail(cpfOrEmail);
 
         if (existingPersonCpf != null) {
             return existingPersonCpf;
         } else if (existingPersonEmail != null) {
             return existingPersonEmail;
         } else {
-            throw new NotFoundException("Person not registered with the CPF or Email");
+            throw new NoContentException();
         }
     }
 
-    public Person getPersonByCpf(String cpf) throws NotFoundException {
-        Person existingPerson = personRepository.findPersonByCpf(cpf);
+    public Person getPersonByCpf(String cpf) throws NoContentException {
+        Person existingPerson = personRepository.findByCpf(cpf);
 
         if (existingPerson == null) {
-            throw new NotFoundException("Person not registered with the CPF " + cpf);
+            throw new NoContentException();
         }
         return existingPerson;
     }
 
-    public Person getPersonByEmail(String email) throws NotFoundException {
-        Person existingPerson = personRepository.findPersonByEmail(email);
+    public Person getPersonByEmail(String email) throws NoContentException {
+        Person existingPerson = personRepository.findByEmail(email);
 
         if (existingPerson == null) {
-            throw new NotFoundException("Person not registered with the Email " + email);
+            throw new NoContentException();
         }
         return existingPerson;
     }
 
     public Person createPerson(Person person) throws BusinessException {
-        Person existingPerson = personRepository.findPersonByCpf(person.getCpf());
+        Person existingPerson = personRepository.findByCpf(person.getCpf());
         if (existingPerson != null) {
-            throw new BusinessException("Person duplicate by cpf " + person.getCpf());
+            throw new BusinessException("Já existe uma pessoa com este cpf " + person.getCpf());
         } else {
+
+            if (person.getZipCode() != null || person.getZipCode() != "") {
+                getZipCodeWebService(person);
+            }
+
             personRepository.persist(person);
             Autenticate autenticate = new Autenticate();
             autenticate.setCpf(person.getCpf());
@@ -93,62 +105,56 @@ public class PersonService {
         return person;
     }
 
-    public Person addPersonType(Long idPerson, PersonType personType) throws BusinessException {
+    public Person getZipCodeWebService(Person person) {
 
-        Person existingPerson = personRepository.findById(idPerson);
-        Long personTypeId = personType.getId();
-        PersonType existingPersonType = personTypeRepository.findById(personTypeId);
+        Response webService = webServiceZipCode.getZipCodeByWebService(person.getZipCode());
+        JsonObject webServiceInfo = webService.readEntity(JsonObject.class);
 
-        if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + personTypeId);
-        }
-        if (existingPersonType == null) {
-            throw new BusinessException("PersonType not registered with the ID " + idPerson);
-        } else {
-            existingPerson.getPersonType().add(personType);
-            personRepository.persist(existingPerson);
-        }
-        return existingPerson;
+        person.setStreet(webServiceInfo.getString("logradouro"));
+        person.setNeighborhood(webServiceInfo.getString("bairro"));
+        person.setCity(webServiceInfo.getString("localidade"));
+        person.setState(webServiceInfo.getString("uf"));
+        return person;
     }
 
-    public Person removePersonType(Long idPerson, PersonType personType) throws BusinessException {
 
-        Person existingPerson = personRepository.findById(idPerson);
-        Long idPersonType = personType.getId();
-
-        if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idPersonType);
-        }
-
-        if (!existingPerson.getPersonType().removeIf(estab -> estab.getId().equals(idPersonType))) {
-            throw new BusinessException("PersonType with ID " + idPersonType + " is not associated with the Person.");
-        }
-
-        personRepository.persist(existingPerson);
-        return existingPerson;
-    }
-
-    public Person updatePerson(Long idPerson, Person person) throws BusinessException {
+    public Person updatePerson(Long idPerson, Person person) throws NoContentException {
         Person existingPerson = personRepository.findById(idPerson);
         if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idPerson);
+            throw new NoContentException();
         } else {
             existingPerson.setFullName(person.getFullName());
+            existingPerson.setSocialName(person.getSocialName());
+            existingPerson.setSex(person.getSex());
+            existingPerson.setBirthDate(person.getBirthDate());
+            existingPerson.setNationality(person.getNationality());
+            existingPerson.setMaritalStatus(person.getMaritalStatus());
             existingPerson.setCpf(person.getCpf());
             existingPerson.setRg(person.getRg());
+            existingPerson.setDdi(person.getDdi());
+            existingPerson.setDdd(person.getDdd());
             existingPerson.setPhoneNumber(person.getPhoneNumber());
             existingPerson.setEmail(person.getEmail());
-            existingPerson.setBirthDate(person.getBirthDate());
+
+            getZipCodeWebService(person);
+
+            existingPerson.setZipCode(person.getZipCode());
+            existingPerson.setStreet(person.getStreet());
+            existingPerson.setNeighborhood(person.getNeighborhood());
+            existingPerson.setCity(person.getCity());
+            existingPerson.setState(person.getState());
+            existingPerson.setNumber(person.getNumber());
+            existingPerson.setComplement(person.getComplement());
             existingPerson.setUpdateDate(LocalDateTime.now());
             personRepository.persist(existingPerson);
         }
         return existingPerson;
     }
 
-    public void deletePerson(Long idPerson) throws BusinessException {
+    public void deletePerson(Long idPerson) throws NoContentException {
         Person existingPerson = personRepository.findById(idPerson);
         if (existingPerson == null) {
-            throw new BusinessException("Person not registered with the ID " + idPerson);
+            throw new NoContentException();
         } else {
             personRepository.delete(existingPerson);
         }

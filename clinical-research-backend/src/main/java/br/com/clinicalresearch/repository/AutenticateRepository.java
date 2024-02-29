@@ -7,11 +7,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AutenticateRepository implements PanacheRepository<Autenticate> {
 
-    public Autenticate findAutenticateByEmail(String email) {
+    public Autenticate findByEmail(String email) {
         return find("email", email).firstResult();
     }
 
-    public Autenticate findAutenticateByCpf(String cpf) {
+    public Autenticate findByCpf(String cpf) {
         return find("cpf", cpf).firstResult();
     }
 

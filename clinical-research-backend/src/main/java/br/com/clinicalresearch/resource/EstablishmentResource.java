@@ -1,8 +1,7 @@
 package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.Establishment;
-import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.EstablishmentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -22,15 +21,22 @@ public class EstablishmentResource {
     EstablishmentService establishmentService;
 
     @GET
-    public Response getAllEstablishment() {
+    public Response getAllEstablishment() throws NoContentException {
         List<Establishment> existingEstablishment = establishmentService.getAllEstablishment();
         return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
     @GET
-    @Path("/{idEstablishment}")
-    public Response getEstablishmentById(@PathParam("idEstablishment") Long idEstablishment) throws BusinessException {
+    @Path("/{idEstablishment}/id")
+    public Response getEstablishmentById(@PathParam("idEstablishment") Long idEstablishment) throws NoContentException {
         Establishment existingEstablishment = establishmentService.getEstablishmentById(idEstablishment);
+        return Response.status(Response.Status.OK).entity(existingEstablishment).build();
+    }
+
+    @GET
+    @Path("/{name}/name")
+    public Response getEstablishmentByName(@PathParam("name") String name) throws NoContentException {
+        List<Establishment> existingEstablishment = establishmentService.getEstablishmentByName(name);
         return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
@@ -42,17 +48,17 @@ public class EstablishmentResource {
     }
 
     @PUT
-    @Path("/{idEstablishment}")
+    @Path("/{idEstablishment}/id")
     @Transactional
-    public Response updateEstablishment(@PathParam("idEstablishment") Long idEstablishment, Establishment establishment) throws BusinessException {
+    public Response updateEstablishment(@PathParam("idEstablishment") Long idEstablishment, Establishment establishment) throws NoContentException {
         Establishment existingEstablishment = establishmentService.updateEstablishment(idEstablishment, establishment);
         return Response.status(Response.Status.OK).entity(existingEstablishment).build();
     }
 
     @DELETE
-    @Path("/{idEstablishment}")
+    @Path("/{idEstablishment}/id")
     @Transactional
-    public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws NotFoundException {
+    public Response deleteEstablishment(@PathParam("idEstablishment") Long idEstablishment) throws NoContentException {
         establishmentService.deleteEstablishment(idEstablishment);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

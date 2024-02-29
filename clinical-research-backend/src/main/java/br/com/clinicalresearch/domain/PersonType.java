@@ -2,12 +2,15 @@ package br.com.clinicalresearch.domain;
 
 import br.com.clinicalresearch.collection.StatusObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -30,6 +33,11 @@ public class PersonType {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     private LocalDateTime updateDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "personType", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<PersonPersonType> personPersonType = new ArrayList<>();
+
 
     public Long getId() {
         return id;

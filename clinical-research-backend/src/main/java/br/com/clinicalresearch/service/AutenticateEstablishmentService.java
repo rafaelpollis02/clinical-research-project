@@ -1,9 +1,11 @@
 package br.com.clinicalresearch.service;
 
-import br.com.clinicalresearch.domain.*;
+import br.com.clinicalresearch.domain.Autenticate;
+import br.com.clinicalresearch.domain.AutenticateEstablishment;
+import br.com.clinicalresearch.domain.Establishment;
 import br.com.clinicalresearch.dto.AutenticateEstablishmentRequest;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.repository.AutenticateEstablishmentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,24 +25,30 @@ public class AutenticateEstablishmentService {
     @Inject
     EstablishmentService establishmentService;
 
-    public List<AutenticateEstablishment> getAllAutenticateEstablishment() {
-        return autenticateEstablishmentRepository.listAll();
+    public List<AutenticateEstablishment> getAllAutenticateEstablishment() throws NoContentException {
+        List<AutenticateEstablishment> existingAutenticateEstablishment = autenticateEstablishmentRepository.listAll();
+
+        if (existingAutenticateEstablishment.isEmpty()) {
+            throw new NoContentException();
+        } else {
+            return existingAutenticateEstablishment;
+        }
     }
 
-    public AutenticateEstablishment getAutenticateEstablishmentById(Long idAutenticateEstablishment) throws BusinessException {
+    public AutenticateEstablishment getAutenticateEstablishmentById(Long idAutenticateEstablishment) throws NoContentException {
         AutenticateEstablishment existingEnterpriseEstablishment = autenticateEstablishmentRepository.findById(idAutenticateEstablishment);
 
         if (existingEnterpriseEstablishment == null) {
-            throw new BusinessException("Autenticate Establishment not registered with the ID " + idAutenticateEstablishment);
+            throw new NoContentException();
         }
         return existingEnterpriseEstablishment;
     }
 
-    public AutenticateEstablishment updateAutenticateEstablishment(Long idAutenticateEstablishment, AutenticateEstablishment autenticateEstablishment) throws NotFoundException {
+    public AutenticateEstablishment updateAutenticateEstablishment(Long idAutenticateEstablishment, AutenticateEstablishment autenticateEstablishment) throws NoContentException {
         AutenticateEstablishment existingAutenticateEstablishment = autenticateEstablishmentRepository.findById(idAutenticateEstablishment);
 
         if (existingAutenticateEstablishment == null) {
-            throw new NotFoundException("Autenticate Establishment not registered with the ID " + idAutenticateEstablishment);
+            throw new NoContentException();
         } else {
             existingAutenticateEstablishment.setStatus(autenticateEstablishment.getStatus());
             autenticateEstablishmentRepository.persist(existingAutenticateEstablishment);
@@ -49,24 +57,24 @@ public class AutenticateEstablishmentService {
     }
 
 
-    public AutenticateEstablishment addAutenticateEstablishment(AutenticateEstablishmentRequest autenticateEstablishmentRequest) throws NotFoundException, BusinessException {
+    public AutenticateEstablishment addAutenticateEstablishment(AutenticateEstablishmentRequest autenticateEstablishmentRequest) throws NoContentException, BusinessException {
 
         Long idAutenticate = autenticateEstablishmentRequest.idAutenticate();
         Long idEstablishment = autenticateEstablishmentRequest.idEstablishment();
 
         Autenticate autenticate = autenticateService.getAutenticateById(idAutenticate);
         if (autenticate == null) {
-            throw new NotFoundException("Autenticate not found with ID: " + idAutenticate);
+            throw new NoContentException();
         }
 
         Establishment establishment = establishmentService.getEstablishmentById(idEstablishment);
         if (establishment == null) {
-            throw new NotFoundException("Establishment not found with ID: " + idEstablishment);
+            throw new NoContentException();
         }
 
         AutenticateEstablishment existingRelationship = autenticateEstablishmentRepository.findByIdAutenticateAndIdEstablishmento(idAutenticate, idEstablishment);
         if (existingRelationship != null) {
-            throw new BusinessException("There is already a relationship between this autenticate and establishment");
+            throw new BusinessException("Já existe uma relação entre este autenticate e o estabelecimento");
         } else {
             AutenticateEstablishment autenticateEstablishment = new AutenticateEstablishment();
             autenticateEstablishment.setAutenticate(autenticate);
@@ -77,16 +85,14 @@ public class AutenticateEstablishmentService {
     }
 
     @Transactional
-    public void removeAutenticateEstablishment(Long idAutenticateEstablishment) throws NotFoundException {
+    public void removeAutenticateEstablishment(Long idAutenticateEstablishment) throws NoContentException {
 
         AutenticateEstablishment existingAutenticateEstablishment = autenticateEstablishmentRepository.findById(idAutenticateEstablishment);
 
         if (existingAutenticateEstablishment == null) {
-            throw new NotFoundException("Autenticate Establishment not found with ID: " + idAutenticateEstablishment);
+            throw new NoContentException();
         } else {
             autenticateEstablishmentRepository.delete(existingAutenticateEstablishment);
         }
     }
-
-
 }

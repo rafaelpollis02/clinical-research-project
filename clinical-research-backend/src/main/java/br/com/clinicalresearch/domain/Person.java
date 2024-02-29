@@ -6,56 +6,72 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "PERSON")
-@JsonPropertyOrder({"id", "fullName", "cpf", "rg", "phoneNumber", "email", "birthDate", "createDate", "updateDate", "personType"})
+@JsonPropertyOrder({"id", "fullName", "socialName", "sex", "birthDate", "nationality", "maritalStatus", "cpf", "rg", "ddi", "ddd", "phoneNumber", "email", "zipCode", "street", "number", "complement","neighborhood", "city", "state", "createDate", "updateDate", "personType"})
 public class Person {
 
     @Id
     @GeneratedValue
-    @Schema(description = "ID da pessoa", example = "1")
     private Long id;
+
     @NotBlank
-    @Schema(description = "Nome completo da pessoa", example = "João da Silva")
     private String fullName;
+
+    private String socialName;
+
     @NotBlank
-    @Schema(description = "CPF da pessoa", example = "12345678900")
-    private String cpf;
-    @NotBlank
-    @Schema(description = "RG da pessoa", example = "45938094983")
-    private String rg;
-    @NotBlank
-    @Schema(description = "Celular da pessoa", example = "11964537847")
-    private String phoneNumber;
-    @Email
-    @NotBlank
-    @Schema(description = "Email da pessoa", example = "teste@gmail.com")
-    private String email;
+    private String sex;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    @Schema(description = "Data de Nascimento da pessoa", example = "01/01/2000")
     private LocalDate birthDate;
+
+    @NotBlank
+    private String nationality;
+
+    @NotBlank
+    private String maritalStatus;
+
+    @NotBlank
+    private String cpf;
+
+    @NotBlank
+    private String rg;
+
+    private int ddi;
+    private int ddd;
+    @NotBlank
+    private String phoneNumber;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    String zipCode;
+    private String street;
+    int number;
+    String complement;
+    String neighborhood;
+    String city;
+    String state;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime createDate = LocalDateTime.now();
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
     LocalDateTime updateDate = LocalDateTime.now();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "person_persontype",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_type_id")
-    )
-    private List<PersonType> personType;
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
+    private List<PersonPersonType> personPersonType = new ArrayList<>();
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "person", fetch = FetchType.EAGER)
     @JsonIgnore
     private Autenticate autenticate;
 
@@ -75,6 +91,38 @@ public class Person {
         this.fullName = fullName;
     }
 
+    public String getSocialName() {
+        return socialName;
+    }
+
+    public void setSocialName(String socialName) {
+        this.socialName = socialName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -91,6 +139,22 @@ public class Person {
         this.rg = rg;
     }
 
+    public int getDdi() {
+        return ddi;
+    }
+
+    public void setDdi(int ddi) {
+        this.ddi = ddi;
+    }
+
+    public int getDdd() {
+        return ddd;
+    }
+
+    public void setDdd(int ddd) {
+        this.ddd = ddd;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -105,6 +169,62 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public LocalDate getBirthDate() {
@@ -131,12 +251,12 @@ public class Person {
         this.updateDate = updateDate;
     }
 
-    public List<PersonType> getPersonType() {
-        return personType;
+    public List<PersonPersonType> getPersonPersonType() {
+        return personPersonType;
     }
 
-    public void setPersonType(List<PersonType> personType) {
-        this.personType = personType;
+    public void setPersonPersonType(List<PersonPersonType> personPersonType) {
+        this.personPersonType = personPersonType;
     }
 
     public Autenticate getAutenticate() {

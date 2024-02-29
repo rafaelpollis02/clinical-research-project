@@ -6,9 +6,9 @@ import br.com.clinicalresearch.domain.AutenticateToken;
 import br.com.clinicalresearch.domain.Person;
 import br.com.clinicalresearch.dto.AutenticateRequest;
 import br.com.clinicalresearch.dto.AutenticateResponse;
-import br.com.clinicalresearch.exceptions.BadRequestException;
+import br.com.clinicalresearch.exceptions.BusinessException;
 import br.com.clinicalresearch.exceptions.InvalidLoginException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.repository.AutenticateRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -30,16 +30,16 @@ public class AutenticateService {
 
     private final Random random = new Random();
 
-    public String getAutenticateByCpfOrEmail(String user) throws NotFoundException {
+    public String getAutenticateByCpfOrEmail(String user) throws NoContentException {
 
         if (validateAutenticateByCpf(user) || validateAutenticateByEmail(user)) {
             return Response.ok("Successful").build().toString();
         } else {
-            throw new NotFoundException("User not found");
+            throw new NoContentException();
         }
     }
 
-    public String getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException, NotFoundException {
+    public String getAccessByCpfOrEmail(AutenticateRequest autenticateRequest) throws InvalidLoginException {
 
         String user = autenticateRequest.user();
         String password = autenticateRequest.password();
@@ -50,7 +50,7 @@ public class AutenticateService {
             if (password.equals(passwordDecoder)) {
                 return Response.ok("Successful").build().toString();
             } else {
-                throw new InvalidLoginException("User or Password Invalid");
+                throw new InvalidLoginException();
             }
         } else if (validateAutenticateByEmail(user)) {
             String existingPassword = autenticateRepository.findPasswordByEmail(user);
@@ -58,12 +58,12 @@ public class AutenticateService {
             if (password.equals(passwordDecoder)) {
                 return Response.ok("Successful").build().toString();
             } else {
-                throw new InvalidLoginException("User or Password Invalid");
+                throw new InvalidLoginException();
             }
         }
 
         if (validateAutenticateByCpf(user) == false && validateAutenticateByEmail(user) == false) {
-            throw new InvalidLoginException("User or Password Invalid");
+            throw new InvalidLoginException();
         }
         return user;
     }
@@ -82,56 +82,22 @@ public class AutenticateService {
         return autenticate;
     }
 
-    public Autenticate updateAutenticate(Long idAutenticate, Autenticate autenticate) throws NotFoundException {
-        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
-
-        if (existingAutenticate == null) {
-            throw new NotFoundException("Autenticate not found with the ID " + idAutenticate);
-        } else {
-            existingAutenticate.setStatus(autenticate.getStatus());
-            autenticateRepository.persist(existingAutenticate);
-        }
-        return existingAutenticate;
-    }
-
-    public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws BadRequestException, NotFoundException {
-
-        String password = autenticateRequest.password();
-
-        if (validateAutenticateByCpf(user)) {
-            Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(user);
-            existingAutenticate.setPassword(encodePassword(password));
-            existingAutenticate.setPasswordDecodificado(password);
-            existingAutenticate.setUpdateDate(LocalDateTime.now());
-            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
-            Response.status(Response.Status.OK).build();
-
-        } else if (validateAutenticateByEmail(user)) {
-            Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(user);
-            existingAutenticate.setPassword(password);
-            existingAutenticate.setUpdateDate(LocalDateTime.now());
-            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
-            Response.status(Response.Status.OK).build();
-        }
-        return null;
-    }
-
-    public String generateToken(AutenticateRequest autenticateRequest) throws NotFoundException {
+    public String generateToken(AutenticateRequest autenticateRequest) throws NoContentException {
         String user = autenticateRequest.user();
 
         if (validateAutenticateByCpf(user)) {
-            Autenticate autenticate = autenticateRepository.findAutenticateByCpf(user);
+            Autenticate autenticate = autenticateRepository.findByCpf(user);
             return tokenForAutenticate(autenticate);
         }
 
         if (validateAutenticateByEmail(user)) {
-            Autenticate autenticate = autenticateRepository.findAutenticateByEmail(user);
+            Autenticate autenticate = autenticateRepository.findByEmail(user);
             return tokenForAutenticate(autenticate);
         }
-        throw new NotFoundException("User not found");
+        throw new NoContentException();
     }
 
-    public AutenticateResponse validateToken(String token) throws BadRequestException, NotFoundException {
+    public AutenticateResponse validateToken(String token) throws BusinessException, NoContentException {
 
         AutenticateToken existingAutenticateToken = autenticateTokenService.findTokenByToken(token);
 
@@ -148,11 +114,48 @@ public class AutenticateService {
 
                 return autenticateResponse;
             } else {
-                throw new BadRequestException("Token is Invalid");
+                throw new BusinessException("O token é inválido");
             }
         } else {
-            throw new NotFoundException("Token not found");
+            throw new NoContentException();
         }
+    }
+
+    public Autenticate updateAutenticate(Long idAutenticate, Autenticate autenticate) throws NoContentException {
+        Autenticate existingAutenticate = autenticateRepository.findById(idAutenticate);
+
+        if (existingAutenticate == null) {
+            throw new NoContentException();
+        } else {
+            existingAutenticate.setStatus(autenticate.getStatus());
+            autenticateRepository.persist(existingAutenticate);
+        }
+        return existingAutenticate;
+    }
+
+    public Autenticate updatePasswordAutenticate(String user, AutenticateRequest autenticateRequest) throws NoContentException {
+
+        String password = autenticateRequest.password();
+
+        if (validateAutenticateByCpf(user)) {
+            Autenticate existingAutenticate = autenticateRepository.findByCpf(user);
+            existingAutenticate.setPassword(encodePassword(password));
+            existingAutenticate.setPasswordDecodificado(password);
+            existingAutenticate.setUpdateDate(LocalDateTime.now());
+            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
+            Response.status(Response.Status.OK).build();
+
+        } else if (validateAutenticateByEmail(user)) {
+            Autenticate existingAutenticate = autenticateRepository.findByEmail(user);
+            existingAutenticate.setPassword(encodePassword(password));
+            existingAutenticate.setPasswordDecodificado(password);
+            existingAutenticate.setUpdateDate(LocalDateTime.now());
+            existingAutenticate.setStatus(StatusObject.valueOf("ACTIVE"));
+            Response.status(Response.Status.OK).build();
+        } else {
+            throw new NoContentException();
+        }
+        return null;
     }
 
     public Autenticate updatePasswordAutenticate(Long idAutenticate, Autenticate autenticate) {
@@ -165,7 +168,7 @@ public class AutenticateService {
     }
 
     public boolean validateAutenticateByCpf(String cpf) {
-        Autenticate existingAutenticate = autenticateRepository.findAutenticateByCpf(cpf);
+        Autenticate existingAutenticate = autenticateRepository.findByCpf(cpf);
         if (existingAutenticate == null) {
             return false;
         } else {
@@ -174,7 +177,7 @@ public class AutenticateService {
     }
 
     public boolean validateAutenticateByEmail(String email) {
-        Autenticate existingAutenticate = autenticateRepository.findAutenticateByEmail(email);
+        Autenticate existingAutenticate = autenticateRepository.findByEmail(email);
         if (existingAutenticate == null) {
             return false;
         } else {

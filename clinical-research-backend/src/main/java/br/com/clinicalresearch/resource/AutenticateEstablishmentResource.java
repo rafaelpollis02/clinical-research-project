@@ -1,13 +1,10 @@
 package br.com.clinicalresearch.resource;
 
 import br.com.clinicalresearch.domain.AutenticateEstablishment;
-import br.com.clinicalresearch.domain.EnterpriseEstablishment;
 import br.com.clinicalresearch.dto.AutenticateEstablishmentRequest;
-import br.com.clinicalresearch.dto.EnterpriseEstablishmentRequest;
 import br.com.clinicalresearch.exceptions.BusinessException;
-import br.com.clinicalresearch.exceptions.NotFoundException;
+import br.com.clinicalresearch.exceptions.NoContentException;
 import br.com.clinicalresearch.service.AutenticateEstablishmentService;
-import br.com.clinicalresearch.service.EnterpriseEstablishmentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -27,37 +24,37 @@ public class AutenticateEstablishmentResource {
     AutenticateEstablishmentService autenticateEstablishmentService;
 
     @GET
-    public Response getAllAutenticateEstablishment() {
+    public Response getAllAutenticateEstablishment() throws NoContentException {
         List<AutenticateEstablishment> existingAutenticateEstablishment = autenticateEstablishmentService.getAllAutenticateEstablishment();
         return Response.status(Response.Status.OK).entity(existingAutenticateEstablishment).build();
     }
 
     @GET
-    @Path("/{idAutenticateEstablishment}")
-    public Response getEstablishmentById(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment) throws BusinessException {
+    @Path("/{idAutenticateEstablishment}/id")
+    public Response getEstablishmentById(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment) throws NoContentException {
         AutenticateEstablishment existingAutenticateEstablishment = autenticateEstablishmentService.getAutenticateEstablishmentById(idAutenticateEstablishment);
         return Response.status(Response.Status.OK).entity(existingAutenticateEstablishment).build();
     }
 
     @PUT
-    @Path("/{idAutenticateEstablishment}")
+    @Path("/{idAutenticateEstablishment}/id")
     @Transactional
-    public Response updateAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment, AutenticateEstablishment autenticateEstablishment) throws NotFoundException {
+    public Response updateAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment, AutenticateEstablishment autenticateEstablishment) throws NoContentException {
         autenticateEstablishmentService.updateAutenticateEstablishment(idAutenticateEstablishment, autenticateEstablishment);
         return Response.status(Response.Status.OK).build();
     }
 
     @POST
     @Transactional
-    public Response addAutenticateEstablishment(AutenticateEstablishmentRequest autenticateEstablishmentRequest) throws BusinessException, NotFoundException {
+    public Response addAutenticateEstablishment(AutenticateEstablishmentRequest autenticateEstablishmentRequest) throws BusinessException, NoContentException {
         AutenticateEstablishment existingAutenticateEstablishment = autenticateEstablishmentService.addAutenticateEstablishment(autenticateEstablishmentRequest);
         return Response.status(Response.Status.CREATED).entity(existingAutenticateEstablishment).build();
     }
 
     @DELETE
-    @Path("/{idAutenticateEstablishment}")
+    @Path("/{idAutenticateEstablishment}/id")
     @Transactional
-    public Response removeAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment) throws NotFoundException {
+    public Response removeAutenticateEstablishment(@PathParam("idAutenticateEstablishment") Long idAutenticateEstablishment) throws NoContentException {
         autenticateEstablishmentService.removeAutenticateEstablishment(idAutenticateEstablishment);
         return Response.status(Response.Status.NO_CONTENT).build();
     }

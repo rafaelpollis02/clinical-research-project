@@ -32,12 +32,11 @@ public class AutenticateEstablishment {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "autenticate_id")
+    @JoinColumn(name = "AUTENTICATE_ID")
     private Autenticate autenticate;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "establishment_id")
+    @JoinColumn(name = "ESTABLISHMENT_ID")
     private Establishment establishment;
 
     public Long getId() {
