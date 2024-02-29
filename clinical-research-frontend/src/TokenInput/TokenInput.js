@@ -15,7 +15,7 @@ const TokenInput = () => {
 
   const fetchFullname = useCallback(async () => {
     try {
-      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
+      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpfOrEmail`);
       const retrievedFullname = personResponse.data.fullName;
       setFullname(retrievedFullname);
     } catch (error) {

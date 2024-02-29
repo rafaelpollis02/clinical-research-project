@@ -26,7 +26,7 @@ const ChangePassword = () => {
     // Use a requisição para obter o nome do usuário
     const fetchFullname = async () => {
       try {
-        const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpf`);
+        const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(enteredUser)}/cpfOrEmail`);
         const retrievedFullname = personResponse.data.fullName; // Ajuste aqui
   
         // Ajuste para trazer apenas o campo 'fullName'

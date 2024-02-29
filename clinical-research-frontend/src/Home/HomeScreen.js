@@ -11,7 +11,7 @@ const HomeScreen = () => {
 
   const fetchFullname = useCallback(async () => {
     try {
-      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(userName)}/cpf`);
+      const personResponse = await axios.get(`http://localhost:8080/api/v1/person/${encodeURIComponent(userName)}/cpfOrEmail`);
       const retrievedFullname = personResponse.data.fullName;
       setFullname(retrievedFullname);
     } catch (error) {

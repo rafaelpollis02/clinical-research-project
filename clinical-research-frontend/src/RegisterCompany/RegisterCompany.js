@@ -140,105 +140,113 @@ const Company = () => {
 
 
   return (
-    <div className="register-company-container">
-      <div className="company-container">
-        <div className="top-bar">
-          <h2>Healthuture</h2>
-          <button className="voltar" onClick={() => navigate('/register')}>
-            Voltar
+    
+      <div className="register-company-container">
+        <div className="menu-container">
+          <button onClick={() => handleSwitchView('form')}>
+            Adicionar <i className="fas fa-user-plus" style={{ verticalAlign: 'top' }}></i>
+          </button>
+          <br />
+          <br />
+          <button onClick={handleLocalizarClick}>
+            Localizar <i className="fas fa-notes-medical" style={{ verticalAlign: 'top' }}></i>
           </button>
         </div>
-
-        <div className="content-list">
-          {view === 'list' && (
-            <div>
-              <h3>Lista de Empresas</h3>
-              {localizarClicked && (
-                <ul>
-                  {companies.map((company) => (
-                    <li key={company.id}>
-                       {company.name} - {company.description} -  {company.cnpj} 
-                      <div className="button-group">
-                        <button onClick={() => handleEdit(company)}>Editar</button>
-                        <button onClick={() => handleDelete(company.id)}>Excluir</button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="button-group">
-                <button onClick={() => handleSwitchView('form')}>Adicionar</button>
-                <button onClick={handleLocalizarClick}>Localizar</button>
+  
+        <div className="company-container">
+          <div className="top-bar">
+            <h2>Healthuture</h2>
+            <button className="voltar" onClick={() => navigate('/register')}>
+              Voltar
+            </button>
+          </div>
+  
+          <div className="content-list">
+            {view === 'list' && (
+              <div>
+                <h3>Lista de Empresas</h3>
+                {localizarClicked && (
+                  <ul>
+                    {companies.map((company) => (
+                      <li key={company.id}>
+                         {company.name} - {company.description} -  {company.cnpj} 
+                        <div className="button-group">
+                          <button onClick={() => handleEdit(company)}>Editar</button>
+                          <button onClick={() => handleDelete(company.id)}>Excluir</button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-            </div>
-          )}
-
-          {view === 'form' && (
-            <div>
-              <h3>Cadastro de Empresa</h3>
-              <form onSubmit={handleSubmit}>
-                <label htmlFor="cnpj">
-                  CNPJ<span className="required"> *</span>:
-                </label>
-                <input
-                  type="text"
-                  id="cnpj"
-                  name="cnpj"
-                  value={formData.cnpj}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="nome">
-                  Nome<span className="required"> *</span>:
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="nome"
-                  value={formData.nome}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="descricao">
-                  Descrição<span className="required"> *</span>:
-                </label>
-                <textarea
-                  id="descricao"
-                  name="descricao"
-                  value={formData.descricao}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-                <div className="button-group">
-                  <button type="submit">
-                    {formData.id ? 'Editar' : 'Adicionar'} Empresa
-                  </button>
-                  <button onClick={handleGoBack}>
-                    Cancelar
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+            )}
+  
+            {view === 'form' && (
+              <div>
+                <h3>Cadastro de Empresa</h3>
+                <form onSubmit={handleSubmit}>
+                  <label htmlFor="cnpj">
+                    CNPJ<span className="required"> *</span>:
+                  </label>
+                  <input
+                    type="text"
+                    id="cnpj"
+                    name="cnpj"
+                    value={formData.cnpj}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label htmlFor="nome">
+                    Nome<span className="required"> *</span>:
+                  </label>
+                  <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label htmlFor="descricao">
+                    Descrição<span className="required"> *</span>:
+                  </label>
+                  <textarea
+                    id="descricao"
+                    name="descricao"
+                    value={formData.descricao}
+                    onChange={handleChange}
+                    required
+                  ></textarea>
+                  <div className="button-group">
+                    <button type="submit">
+                      {formData.id ? 'Editar' : 'Adicionar'} Empresa
+                    </button>
+                    <button onClick={handleGoBack}>
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
         </div>
+  
+        {popupMessage && (
+          <div className="popup">
+            <span className="close-popup" onClick={() => setPopupMessage('')}>X</span>
+            {popupMessage}
+          </div>
+        )}
+  
+        {showConfirmPopup && (
+          <ConfirmPopup
+            message="Tem certeza que deseja excluir esta empresa?"
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
       </div>
-
-      {popupMessage && (
-        <div className="popup">
-          <span className="close-popup" onClick={() => setPopupMessage('')}>X</span>
-          {popupMessage}
-        </div>
-      )}
-
-      {showConfirmPopup && (
-        <ConfirmPopup
-          message="Tem certeza que deseja excluir esta empresa?"
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-        />
-      )}
-    </div>
-  );
-};
-
-export default Company;
+    );
+  };
+  
+  export default Company;
