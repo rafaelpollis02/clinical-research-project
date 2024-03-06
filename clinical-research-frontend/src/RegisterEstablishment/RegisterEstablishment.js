@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RegisterCompany.css';
+import './RegisterEstablishment.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-const Company = () => {
+const Establishment = () => {
   const navigate = useNavigate();
   const [view, setView] = useState('list');
-  const [companies, setCompanies] = useState([]);
+  const [establishments, setEstablishments] = useState([]);
   const [formData, setFormData] = useState({
     id: null,
-    cnpj: '',
     nome: '',
-    descricao: '',
+    logoFile: null,
   });
   const [popupMessage, setPopupMessage] = useState('');
   const [localizarClicked, setLocalizarClicked] = useState(false);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
-  const [companyIdToDelete, setCompanyIdToDelete] = useState(null);
+  const [establishmentIdToDelete, setEstablishmentIdToDelete] = useState(null);
   const [expandedItems, setExpandedItems] = useState([]);
 
   const handleSwitchView = (newView) => {
@@ -29,15 +28,14 @@ const Company = () => {
 
   const handleLocalizarClick = () => {
     setLocalizarClicked(true);
-    fetchCompanies();
+    fetchEstablishments();
   };
 
   const handleGoBack = () => {
     setFormData({
       id: null,
-      cnpj: '',
       nome: '',
-      descricao: '',
+      logoFile: null,
     });
     handleSwitchView('list');
   };
@@ -50,48 +48,55 @@ const Company = () => {
     });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setFormData({
+        ...formData,
+        logoFile: file,
+      });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.nome);
+      formDataToSend.append('logoFile', formData.logoFile);
+
       const endpoint = formData.id
-        ? `http://localhost:8080/api/v1/enterprise/${formData.id}`
-        : 'http://localhost:8080/api/v1/enterprise';
+        ? `http://localhost:8080/api/v1/establishment/${formData.id}`
+        : 'http://localhost:8080/api/v1/establishment';
 
       const method = formData.id ? 'PUT' : 'POST';
 
-      console.log(`Enviando para API: ${method} ${endpoint}`, formData);
+      console.log(`Enviando para API: ${method} ${endpoint}`, formDataToSend);
 
       const response = await fetch(endpoint, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          cnpj: formData.cnpj,
-          name: formData.nome,
-          description: formData.descricao,
-        }),
+        body: formDataToSend,
       });
 
       if (response.ok) {
-        setPopupMessage(`Empresa ${formData.id ? 'editada' : 'adicionada'} com sucesso!`);
-        fetchCompanies();
+        setPopupMessage(`Estabelecimento ${formData.id ? 'editado' : 'adicionado'} com sucesso!`);
+        fetchEstablishments();
         handleGoBack();
       } else {
-        setPopupMessage(`Falha ao ${formData.id ? 'editar' : 'adicionar'} empresa. Status: ${response.status}`);
+        setPopupMessage(`Falha ao ${formData.id ? 'editar' : 'adicionar'} estabelecimento. Status: ${response.status}`);
       }
     } catch (error) {
       setPopupMessage(`Erro: ${error.message}`);
     }
   };
 
-  const handleEdit = (company) => {
+  const handleEdit = (establishment) => {
     setFormData({
-      id: company.id,
-      cnpj: company.cnpj,
-      nome: company.name,
-      descricao: company.description,
+      id: establishment.id,
+      nome: establishment.name,
+      logoFile: establishment.logoFile,
     });
     handleSwitchView('form');
   };
@@ -104,16 +109,16 @@ const Company = () => {
     </div>
   );
 
-  const handleDelete = (companyId) => {
-    // Define o ID da empresa a ser excluída
-    setCompanyIdToDelete(companyId);
+  const handleDelete = (establishmentId) => {
+    // Define o ID do estabelecimento a ser excluído
+    setEstablishmentIdToDelete(establishmentId);
     // Exibe o pop-up de confirmação
     setShowConfirmPopup(true);
   };
 
   const handleConfirmDelete = () => {
     // Implemente a lógica para exclusão
-    console.log(`Excluindo empresa com ID: ${companyIdToDelete}`);
+    console.log(`Excluindo estabelecimento com ID: ${establishmentIdToDelete}`);
     // ... sua lógica de exclusão aqui
 
     // Fecha o pop-up
@@ -125,16 +130,16 @@ const Company = () => {
     setShowConfirmPopup(false);
   };
 
-  const fetchCompanies = useCallback(async () => {
+  const fetchEstablishments = useCallback(async () => {
     try {
       if (localizarClicked) {
-        const response = await fetch('http://localhost:8080/api/v1/enterprise');
+        const response = await fetch('http://localhost:8080/api/v1/establishment');
 
         if (response.ok) {
           const data = await response.json();
-          setCompanies(data);
+          setEstablishments(data);
         } else {
-          setPopupMessage(`Falha ao obter a lista de empresas. Status: ${response.status}`);
+          setPopupMessage(`Falha ao obter a lista de estabelecimentos. Status: ${response.status}`);
         }
       }
     } catch (error) {
@@ -143,8 +148,8 @@ const Company = () => {
   }, [localizarClicked]);
 
   useEffect(() => {
-    fetchCompanies();
-  }, [fetchCompanies, localizarClicked]);
+    fetchEstablishments();
+  }, [fetchEstablishments, localizarClicked]);
 
   const handleToggleExpand = (id) => {
     setExpandedItems((prevExpandedItems) => {
@@ -181,15 +186,15 @@ const Company = () => {
         {showContent && (
           <div className="content-list">
             <ul>
-              {companies.map((company) => (
-                <li key={company.id}>
+              {establishments.map((establishment) => (
+                <li key={establishment.id}>
                   <div className="company-info">
                     <div>
-                      <strong>Nome:</strong> {company.name}
+                      <strong>Nome:</strong> {establishment.name}
                     </div>
                     <div className="visualizar">
-                      <button className="visualizar-button" onClick={() => handleToggleExpand(company.id)}>
-                        {expandedItems.includes(company.id) ? (
+                      <button className="visualizar-button" onClick={() => handleToggleExpand(establishment.id)}>
+                        {expandedItems.includes(establishment.id) ? (
                           <FontAwesomeIcon icon={faEye} />
                         ) : (
                           <FontAwesomeIcon icon={faEyeSlash} />
@@ -197,17 +202,14 @@ const Company = () => {
                       </button>
                     </div>
                   </div>
-                  {expandedItems.includes(company.id) && (
+                  {expandedItems.includes(establishment.id) && (
                     <>
                       <div>
-                        <strong>CNPJ:</strong> {company.cnpj}
-                      </div>
-                      <div>
-                        <strong>Descrição:</strong> {company.description}
+                        <strong>Logo:</strong> {establishment.logoFile}
                       </div>
                       <div className="button-group">
-                        <button onClick={() => handleEdit(company)}>Editar</button>
-                        <button onClick={() => handleDelete(company.id)}>Excluir</button>
+                        <button onClick={() => handleEdit(establishment)}>Editar</button>
+                        <button onClick={() => handleDelete(establishment.id)}>Excluir</button>
                       </div>
                     </>
                   )}
@@ -219,19 +221,8 @@ const Company = () => {
 
         {view === 'form' && (
           <div>
-            <h3>Cadastro de Empresa</h3>
+            <h3>Cadastro de Estabelecimento</h3>
             <form onSubmit={handleSubmit}>
-              <label htmlFor="cnpj">
-                CNPJ<span className="required"> *</span>:
-              </label>
-              <input
-                type="text"
-                id="cnpj"
-                name="cnpj"
-                value={formData.cnpj}
-                onChange={handleChange}
-                required
-              />
               <label htmlFor="nome">
                 Nome<span className="required"> *</span>:
               </label>
@@ -243,19 +234,19 @@ const Company = () => {
                 onChange={handleChange}
                 required
               />
-              <label htmlFor="descricao">
-                Descrição<span className="required"> *</span>:
+              <label htmlFor="logoFile">
+                Logo<span className="required"> *</span>:
               </label>
-              <textarea
-                id="descricao"
-                name="descricao"
-                value={formData.descricao}
-                onChange={handleChange}
+              <input
+                type="file"
+                id="logoFile"
+                name="logoFile"
+                onChange={handleFileChange}
                 required
-              ></textarea>
+              />
               <div className="button-group">
                 <button type="submit">
-                  {formData.id ? 'Salvar' : 'Salvar'} 
+                  {formData.id ? 'Salvar' : 'Adicionar'} 
                 </button>
                 <button onClick={handleGoBack}>
                   Cancelar
@@ -275,7 +266,7 @@ const Company = () => {
 
       {showConfirmPopup && (
         <ConfirmPopup
-          message="Tem certeza que deseja excluir esta empresa?"
+          message="Tem certeza que deseja excluir este estabelecimento?"
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />
@@ -284,4 +275,4 @@ const Company = () => {
   );
 };
 
-export default Company;
+export default Establishment;

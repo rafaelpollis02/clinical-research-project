@@ -24,7 +24,7 @@ const Register = () => {
           </button>
         </div>
         <div className="botao">
-          <button className="estabelecimento" onClick={() => navigate('/register')}>
+          <button className="estabelecimento" onClick={() => navigate('/register-establishment')}>
             <i className="fas fa-hospital"></i>
             <span>Estabelecimento</span>
           </button>

@@ -7,7 +7,8 @@ import HomeScreen from './Home/HomeScreen';
 import Register from './Register/Register';
 import TokenInput from './TokenInput/TokenInput'; 
 import ChangePassword from './ChangePassword/ChangePassword'; 
-import Company from './RegisterCompany/RegisterCompany';
+import Company from './RegisterCompany/RegisterCompany'; 
+import Establishment from './RegisterEstablishment/RegisterEstablishment';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/register" element={<Register />} /> 
         <Route path="/register-company" element={<Company />} /> 
+        <Route path="/register-establishment" element={<Establishment />} /> 
       </Routes>
     </Router>
   );
