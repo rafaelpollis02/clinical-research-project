@@ -109,6 +109,7 @@ const ChangePassword = () => {
   };
 
   return (
+    <div className='change-page'>
     <div className="create-password-container">
       <form onSubmit={handleSubmit}>
         <div className="user-email">
@@ -170,6 +171,7 @@ const ChangePassword = () => {
           <li>Pelo menos 1 número</li>
         </ul>
       </div>
+    </div>
     </div>
   );
 };

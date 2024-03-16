@@ -2,76 +2,25 @@
 
 .register-container .body {
   margin: 0;
+ 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f8f8;
   
 }
 
-.register-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex;
 
-  min-height: 100vh;
-}
 
 .register-container .top-bar-register {
-  background-color: #007bff;
+  background-color: #33eaf7;
   height: 70px;
   width: 100%;
-  position: relative; 
+  position: fixed; 
   text-align: center;
   color: white;
+  top: 0px;
 }
-
-.register-container .Cadastros {
-  display: flex;
-  flex-wrap: wrap;
-  
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.register-container .botao {
-    width: 200px;
-  }
-  
-  .register-container .button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    height: 200px; /* Ajuste a altura conforme necessário */
-    text-align: center;
-    border-radius: 50%;
-  }
-  
-  .register-container .button i {
-    margin-bottom: 0.5rem;
-  }
-  
-  .register-container .button span {
-    font-size: 1rem; /* Ajuste o tamanho do texto conforme necessário */
-  }
-  
-  /* Ajustes para dispositivos menores */
-  @media only screen and (max-width: 600px) {
-    .register-container .botao {
-      width: 100%;
-    }
-  }
-  
 
   .register-container .voltar{
-    background-color: #007bff;
+    background-color:  #33eaf7;
     color: white;
     padding: 5px 25px; /* Ajuste o preenchimento conforme necessário */
     border: none;
@@ -79,21 +28,102 @@
     cursor: pointer;
     font-size: 14px;
     position: fixed; /* Torna o botão fixo */
-    top: 20px; /* Ajuste a distância do topo conforme necessário */
-    right: 100px; /* Ajuste a distância da direita conforme necessário */
+    top: 0px; /* Ajuste a distância do topo conforme necessário */
+    right: 50px; /* Ajuste a distância da direita conforme necessário */
     width: 5%;
-    height: 10px;
+    height: 5%;
 }
 
-.register-container .button i {
-    margin-bottom: 0.5rem;
-    font-size: 2rem; /* Ajuste o tamanho do ícone conforme necessário */
-  }
+.register-container .voltar:hover {
+  box-shadow: none; /* Remove a cor de seleção ao passar o mouse */
+  outline: none; /* Remove a cor de seleção ao passar o mouse */
+}
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   
+  background-color: white; 
+ 
+  background-size: cover;
+  background-position: center;
+ 
+}
+
+.Cadastros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao button {
+  background-color: #f9fcff;
+  border: 2px solid  #33eaf7; /* Cor da borda azul */
+  border-radius: 75%; /* Borda circular */
+  width: 185px;
+  height: 185px;
+  margin: 1rem;
+  color:  #33eaf7; /* Cor do ícone */
+  font-size: 3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao .usuario:hover {
+  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do ícone ao passar o mouse */
+}
+.botao .empresa:hover {
+  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do ícone ao passar o mouse */
+}
+.botao .termos:hover {
+  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do ícone ao passar o mouse */
+}
+
+.botao .estabelecimento:hover {
+  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  color: #fff; /* Cor do ícone ao passar o mouse */
+}
+.botao button i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.botao button span {
+  font-size: 1rem;
+  text-align: center;
+}
+
 
 /* Ajustes para dispositivos menores */
 @media only screen and (max-width: 600px) {
   .register-container .botao {
     width: 100%;
   }
+}
+
+.register-container .titulo-cadastro {
+  background-color:  #33eaf7;
+  position: fixed;
+  min-height: 100vh;
+  width: 6%;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  color:  white;
+  left: -20px;
+  top: 50px; /* Opcional: também pode definir a distância do topo conforme necessário */
+  margin: 20px; /* Opcional: adicione margens conforme necessário */
+  padding: 10px; /* Opcional: adicione preenchimento conforme necessário */
 }

@@ -10,6 +10,9 @@ const Register = () => {
       <div className="top-bar-register">
         <h2>Healthuture</h2>
       </div>
+      <div className='titulo-cadastro'>
+      <i class="fas fa-cog"></i> <br />Cadastro
+      </div>
       <div className="Cadastros">
         <div className="botao">
           <button className="voltar" onClick={() => navigate('/home')}>
@@ -20,24 +23,28 @@ const Register = () => {
         <div className="botao">
           <button className="usuario" onClick={() => navigate('/register')}>
             <i className="fas fa-user"></i>
+            < br/>
             <span>Usuário</span>
           </button>
         </div>
         <div className="botao">
           <button className="estabelecimento" onClick={() => navigate('/register-establishment')}>
             <i className="fas fa-hospital"></i>
+            < br/>
             <span>Estabelecimento</span>
           </button>
         </div>
         <div className="botao">
           <button className="empresa" onClick={() => navigate('/register-company')}>
             <i className="fas fa-building"></i>
+            < br/>
             <span>Empresa</span>
           </button>
         </div>
         <div className="botao">
           <button className="termos" onClick={() => navigate('/register')}>
             <i className="fas fa-file-alt"></i>
+            < br/>
             <span>Termos</span>
           </button>
         </div>

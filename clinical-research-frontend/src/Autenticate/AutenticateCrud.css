@@ -1,6 +1,6 @@
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
-body.login-page  {
+.login .body.login-page  {
   margin: 0; 
   
 }
@@ -110,13 +110,15 @@ a:hover {
   align-items: center;
 }
 
-/* Ajuste o ícone do olho */
+
 .eye-iconautentic {
   cursor: pointer;
-  margin-left: -30px; /* Ajuste a margem conforme necessário */
+  margin-left: -30px; 
   position: relative;
-  width: 20px; /* Ajuste a largura conforme necessário */
-  height: 20px; /* Ajuste a altura conforme necessário */
+  width: 20px; 
+  height: 20px; 
+  color:#c2bfbf;
+  transform: translateY(-50%);
 }
 
 /* Ajuste o ícone do olho para a versão responsiva */

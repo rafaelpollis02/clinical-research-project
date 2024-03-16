@@ -42,7 +42,7 @@ const TokenInput = () => {
       } else if (response.status === 400) {
         console.log('Token expirado');
         setApiMessage('Token expirado');
-      } else if (response.status === 404) {
+      } else if (response.status === 204) {
         console.log('Token não encontrado');
         setApiMessage('Token não encontrado');
       }
@@ -97,6 +97,7 @@ const TokenInput = () => {
   };
 
   return (
+    <div className='token-page'>
     <div className="token-input-container">
       <h2>Olá, <span>{fullname}</span></h2>
       <h3>Digite o código enviado para {enteredUser ? 'seu e-mail' : 'seu CPF'}:</h3>
@@ -122,8 +123,9 @@ const TokenInput = () => {
         <p style={{ color: 'blue' }}>Tempo restante: {countdown} segundos</p>
       )}
 
-      {apiMessage && <p style={{ color: 'green' }}>{apiMessage}</p>}
-      <div className='button-link'> <a href="/password-recovery"><i className="fas fa-arrow-left"></i>Voltar</a></div>
+      {apiMessage && <p style={{ color: 'red' }}>{apiMessage}</p>}
+      <div className='button-link'> <a href="/password-recovery">Voltar</a></div>
+    </div>
     </div>
   );
 };

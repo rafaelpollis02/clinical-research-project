@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './PasswordRecovery.css';
 
+
 const PasswordRecovery = () => {
   const [user, setUser] = useState('');
 
@@ -30,7 +31,7 @@ const PasswordRecovery = () => {
 
     try {
       if (isEmail(user) || isCPF(user)) {
-        const authResponse = await axios.get(`http://localhost:8080/api/v1/autenticate/${encodeURIComponent(user)}`);
+        const authResponse = await axios.get(`http://localhost:8080/api/v1/autenticate/${encodeURIComponent(user)}/user`);
 
         if (authResponse.status === 200) {
           setShowSuccessMessage(true);
@@ -72,7 +73,9 @@ const PasswordRecovery = () => {
   };
 
   return (
+    <div class="password-recovery-page">
     <div className="password-recovery-container">
+   
       <h2>Olá, </h2>
       <h3>Informe seu e-mail ou CPF para redefinir a senha.</h3>
       <form onSubmit={handlePasswordRecovery}>
@@ -94,6 +97,10 @@ const PasswordRecovery = () => {
       {showErrorMessage && <p style={{ color: 'red' }}>Falha na autenticação. Dados não localizados em nossa base!</p>}
 
       <a href="/">Voltar para o Login</a>
+      <div className='icone'>
+    <i className="fas fa-lock"></i>
+    </div>
+    </div>
     </div>
   );
 };
