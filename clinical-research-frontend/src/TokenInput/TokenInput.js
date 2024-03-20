@@ -126,6 +126,12 @@ const TokenInput = () => {
       {apiMessage && <p style={{ color: 'red' }}>{apiMessage}</p>}
       <div className='button-link'> <a href="/password-recovery">Voltar</a></div>
     </div>
+    <div class="progress-bar">
+       <p>Etapa 2 de 3</p>
+        <div class="progress" style={{ width: '66.66%' }}> </div>
+        <div className="top-bar">
+          <h2>Healthuture</h2></div>
+    </div>
     </div>
   );
 };

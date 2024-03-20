@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AutenticateForm />} />
+        <Route path="/autenticate" element={<AutenticateForm />} />
   
         <Route path="/password-recovery" element={<PasswordRecovery />} />
         <Route path="/token-input" element={<TokenInput />} />

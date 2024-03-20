@@ -74,6 +74,13 @@ const PasswordRecovery = () => {
 
   return (
     <div class="password-recovery-page">
+      <div className="top-bar">
+          <h2>Healthuture</h2></div>
+          
+       <div class="progress-bar">
+       <p>Etapa 1 de 3</p>
+        <div class="progress" style={{ width: '33.33%' }}> </div>
+    </div>
     <div className="password-recovery-container">
    
       <h2>Olá, </h2>
@@ -89,17 +96,18 @@ const PasswordRecovery = () => {
           placeholder="E-mail ou CPF"
         />
         <br />
-        <button type="submit">Enviar E-mail de Recuperação</button>
+        <button type="submit">Enviar</button>
       </form>
       {showFailure && <p style={{ color: 'red' }}>Dados não localizados em nossa base!</p>}
       {showInvalid && <p style={{ color: 'red' }}>Formato de e-mail ou CPF inválido.</p>}
       {showSuccessMessage && <p style={{ color: 'green' }}>Enviaremos um e-mail com as novas instruções</p>}
       {showErrorMessage && <p style={{ color: 'red' }}>Falha na autenticação. Dados não localizados em nossa base!</p>}
 
-      <a href="/">Voltar para o Login</a>
-      <div className='icone'>
-    <i className="fas fa-lock"></i>
-    </div>
+      <div className='button-voltar'> <a href="/autenticate">Voltar</a></div>
+      
+      
+    
+      
     </div>
     </div>
   );

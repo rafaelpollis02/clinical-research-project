@@ -161,13 +161,18 @@ const Company = () => {
   return (
     <div className="register-company-container">
       <div className="menu-container">
+      <i class="fas fa-building"></i> <br />Cadastro de empresa
+      <br />
+      <br />
+      <br />
         <button onClick={() => handleSwitchView('form')}>
-          Adicionar <i className="fas fa-user-plus" style={{ verticalAlign: 'top' }}></i>
+          
+        <i className="fas fa-user-plus"></i><br />Adicionar 
         </button>
         <br />
         <br />
         <button onClick={handleLocalizarClick}>
-          Localizar <i className="fas fa-notes-medical" style={{ verticalAlign: 'top' }}></i>
+        <i className="fas fa-search" ></i><br />Localizar
         </button>
       </div>
 

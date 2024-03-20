@@ -1,9 +1,8 @@
 /* TokenInput.css */
-.token-page {
-  background-image: url('/public/reset-de-senha.jpg');
-  background-color: rgba(255, 255, 255, 0.45);
+.token-page{
+background-color: rgba(248, 245, 245, 0.45);
   background-size: cover;
-  background-position: center;
+  
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
@@ -13,38 +12,19 @@
   align-items: center; 
   justify-content: center; 
 }
-.token-page::before {
-  content: '';
-  background-image: url('/public/reset-de-senha.jpg');
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.45; /* Ajuste a transparência conforme necessário */
-  z-index: -1; /* Coloca o pseudo-elemento atrás de todos os outros elementos */
-}
-
 
 .token-input-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 90px;
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  width: min-content;
-  margin-left: 0%;
-  color: #10a0e7;
+  margin-top: 100px;
+  font-family: 'Quicksand', sans-serif;
+  color: black;
   text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 15px;
-  border: #10a0e7;
-  margin-top: 0;
+  
+  
+ 
 }
 
 .token-input-wrapper {
@@ -63,7 +43,7 @@
 }
 
 .confirm-button {
-  background-color: #2844e6;
+  background-color: #10a0e7;
   color: white;
   font-size: 14px;
   padding: 10px 15px;
@@ -75,7 +55,7 @@
 }
 
 .confirm-button:disabled {
-  background-color: #2844e6;
+  background-color: #10a0e7;
   cursor: not-allowed;
   width: 300px;
   height: 60px;
@@ -120,4 +100,27 @@
   .button-link a {
     margin-top: 20px;
   }
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #f0f0f0;
+  height: 5px;
+  position: fixed;
+  top: 120px; /* Ajuste para posicionar a barra abaixo do top bar */
+  left: 0;
+  z-index: 999; /* Garante que a barra de progresso está acima dos outros elementos */
+}
+
+.progress-bar p {
+  position: absolute;
+  top: -35px; /* Ajuste para posicionar o texto acima da barra */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px; /* Ajuste o tamanho do texto conforme necessário */
+}
+
+.progress {
+  background-color: black;
+  height: 100%;
 }

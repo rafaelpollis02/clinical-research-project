@@ -10,17 +10,20 @@
 
 
 .register-container .top-bar-register {
-  background-color: #33eaf7;
+  background-color: #007bff;
   height: 70px;
   width: 100%;
   position: fixed; 
   text-align: center;
   color: white;
   top: 0px;
+  padding: 5px 0;
+  left: 0;
+
 }
 
   .register-container .voltar{
-    background-color:  #33eaf7;
+    background-color:  #007bff;
     color: white;
     padding: 5px 25px; /* Ajuste o preenchimento conforme necessário */
     border: none;
@@ -79,20 +82,20 @@
 }
 
 .botao .usuario:hover {
-  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  background-color: #007bff; /* Cor de fundo ao passar o mouse */
   color: #fff; /* Cor do ícone ao passar o mouse */
 }
 .botao .empresa:hover {
-  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  background-color: #007bff; /* Cor de fundo ao passar o mouse */
   color: #fff; /* Cor do ícone ao passar o mouse */
 }
 .botao .termos:hover {
-  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  background-color: #007bff; /* Cor de fundo ao passar o mouse */
   color: #fff; /* Cor do ícone ao passar o mouse */
 }
 
 .botao .estabelecimento:hover {
-  background-color: #7fbcfd; /* Cor de fundo ao passar o mouse */
+  background-color: #007bff; /* Cor de fundo ao passar o mouse */
   color: #fff; /* Cor do ícone ao passar o mouse */
 }
 .botao button i {
@@ -114,7 +117,7 @@
 }
 
 .register-container .titulo-cadastro {
-  background-color:  #33eaf7;
+  background-color: #007bff;
   position: fixed;
   min-height: 100vh;
   width: 6%;
