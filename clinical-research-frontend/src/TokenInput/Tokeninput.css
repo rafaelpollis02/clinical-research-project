@@ -1,9 +1,8 @@
 /* TokenInput.css */
 .token-page{
-background-color: rgba(248, 245, 245, 0.45);
+  background-color: rgba(255, 255, 255, 0.753);
   background-size: cover;
-  
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-position: center;
   margin: 0;
   padding: 0;
   height: 100vh; 
@@ -17,19 +16,26 @@ background-color: rgba(248, 245, 245, 0.45);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
-  font-family: 'Quicksand', sans-serif;
-  color: black;
+  margin-top: 80px;
+  color: #10a0e7;
   text-align: center;
   font-size: 15px;
-  
-  
+  font-family: "Lato", sans-serif;
+  border-radius: 28px;
+  max-width: 100%;
+  border-width: 1px; /* Espessura da borda */
+  padding: 20px;
+  width: 40%;
+  font-size: 18px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-style: groove;
  
 }
 
 .token-input-wrapper {
   display: flex;
-  gap: 3px;
+  gap: 2px;
 }
 
 .token-input {
@@ -42,25 +48,7 @@ background-color: rgba(248, 245, 245, 0.45);
   margin: 5px;
 }
 
-.confirm-button {
-  background-color: #10a0e7;
-  color: white;
-  font-size: 14px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 300px;
-  height: 60px;
-  margin-top: 20px;
-}
 
-.confirm-button:disabled {
-  background-color: #10a0e7;
-  cursor: not-allowed;
-  width: 300px;
-  height: 60px;
-  margin-top: 20px;
-}
 
 .button-link a {
   background-color: #33eaf7;
@@ -90,11 +78,12 @@ background-color: rgba(248, 245, 245, 0.45);
   }
 
   .confirm-button {
-    font-size: 12px;
-    padding: 8px 8px;
-    margin-top: 8px;
-    width: 300px;
-    height: 60px;
+  background-color: #10a0e7;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
   }
 
   .button-link a {
@@ -102,25 +91,3 @@ background-color: rgba(248, 245, 245, 0.45);
   }
 }
 
-.progress-bar {
-  width: 100%;
-  background-color: #f0f0f0;
-  height: 5px;
-  position: fixed;
-  top: 120px; /* Ajuste para posicionar a barra abaixo do top bar */
-  left: 0;
-  z-index: 999; /* Garante que a barra de progresso está acima dos outros elementos */
-}
-
-.progress-bar p {
-  position: absolute;
-  top: -35px; /* Ajuste para posicionar o texto acima da barra */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 16px; /* Ajuste o tamanho do texto conforme necessário */
-}
-
-.progress {
-  background-color: black;
-  height: 100%;
-}

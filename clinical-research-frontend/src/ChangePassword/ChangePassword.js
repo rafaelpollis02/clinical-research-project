@@ -148,7 +148,7 @@ const ChangePassword = () => {
         </div>
 
         <button type="submit" disabled={passwordMismatch || password.length < 8 || passwordStrength.score < 3}>
-          Criar Senha
+          Confirmar
         </button>
         <br />
         {password && password.trim() !== '' && (
@@ -172,6 +172,12 @@ const ChangePassword = () => {
         </ul>
       </div>
     </div>
+    <div class="progress-bar">
+       <p>Etapa 3 de 3</p>
+        <div class="progress" style={{ width: '99.99%' }}> </div>
+        <div className="top-bar">
+          <h2>Healthuture</h2></div>
+          </div>
     </div>
   );
 };

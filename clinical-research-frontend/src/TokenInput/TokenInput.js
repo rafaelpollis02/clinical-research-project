@@ -99,8 +99,8 @@ const TokenInput = () => {
   return (
     <div className='token-page'>
     <div className="token-input-container">
-      <h2>Olá, <span>{fullname}</span></h2>
-      <h3>Digite o código enviado para {enteredUser ? 'seu e-mail' : 'seu CPF'}:</h3>
+      <h2><span>{fullname}</span></h2>
+      <h3>Digite o código enviado para seu E-mail:</h3>
       <div className="token-input-wrapper">
         {token.map((digit, index) => (
           <input
@@ -115,6 +115,8 @@ const TokenInput = () => {
           />
         ))}
       </div>
+      < br/>
+      < br/>
       <button className="confirm-button" onClick={handleConfirm} disabled={!isTokenComplete}>
         Confirmar
       </button>
